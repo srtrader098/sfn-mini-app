@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>START FARMING NOW - SFN Mining Bot</title>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Space+Grotesk:wght@500;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+* { user-select: none; -webkit-tap-highlight-color: transparent; box-sizing: border-box; }
+body { background-color: #030a06; color: #ffffff; font-family: 'Space Grotesk', sans-serif; overflow-x: hidden; }
+.pixel-font { font-family: 'Press Start 2P', monospace; }
+.glass-card { background: rgba(8, 22, 14, 0.85); border: 1px solid rgba(0, 255, 135, 0.25); backdrop-filter: blur(16px); border-radius: 24px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); }
+.emerald-glow-text { color: #00ff87; text-shadow: 0 0 16px rgba(0, 255, 135, 0.8); }
+.emerald-glow-btn { background: linear-gradient(135deg, #00ff87 0%, #059669 100%); color: #000000; box-shadow: 0 0 25px rgba(0, 255, 135, 0.5); font-weight: 800; transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
+.emerald-glow-btn:active { transform: scale(0.96); }
+.emerald-glow-btn:disabled { background: #1a382b; color: #6b7280; box-shadow: none; cursor: not-allowed; transform: none; }
+@keyframes rotateCyberRing { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+.cyber-ring { border: 2px dashed rgba(0, 255, 135, 0.5); border-radius: 50%; animation: rotateCyberRing 12s linear infinite; }
+@keyframes minerFloat3D { 0% { transform: translateY(0px) scale(1); filter: drop-shadow(0 10px 20px rgba(0, 255, 135, 0.4)); } 50% { transform: translateY(-12px) scale(1.03); filter: drop-shadow(0 25px 35px rgba(0, 255, 135, 0.85)); } 100% { transform: translateY(0px) scale(1); filter: drop-shadow(0 10px 20px rgba(0, 255, 135, 0.4)); } }
+.character-miner-anim { animation: minerFloat3D 3.8s ease-in-out infinite; }
+@keyframes fireSparkUp { 0% { transform: translateY(30px) scale(0.6); opacity: 0; } 30% { opacity: 1; } 100% { transform: translateY(-70px) scale(1.2); opacity: 0; } }
+.fire-spark { position: absolute; width: 8px; height: 8px; background: radial-gradient(circle, #ffaa00 0%, #ff3300 100%); border-radius: 50%; box-shadow: 0 0 10px #ff5500, 0 0 20px #ff2200; pointer-events: none; z-index: 25; animation: fireSparkUp 2.2s infinite ease-in-out; }
+.fs-1 { bottom: 20%; left: 30%; animation-delay: 0s; }
+.fs-2 { bottom: 15%; left: 50%; animation-delay: 0.7s; }
+.fs-3 { bottom: 25%; left: 70%; animation-delay: 1.4s; }
+.nav-active { color: #00ff87 !important; text-shadow: 0 0 12px rgba(0, 255, 135, 0.8); }
+.sub-tab-active { background: #00ff87 !important; color: #000000 !important; }
+@keyframes progress { 0% { width: 0%; } 100% { width: 100%; } }
+.animate-progress { animation: progress 5s linear forwards; }
+.wheel-container { position: relative; width: 240px; height: 240px; margin: 0 auto; }
+.wheel-pointer { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 12px solid transparent; border-right: 12px solid transparent; border-top: 22px solid #00ff87; z-index: 20; filter: drop-shadow(0 0 8px #00ff87); }
+#wheelCanvas { border-radius: 50%; transition: transform 4s cubic-bezier(0.15, 0.8, 0.15, 1); box-shadow: 0 0 25px rgba(0, 255, 135, 0.35); }
+.sfn-logo-img { mix-blend-mode: screen; border: none !important; outline: none !important; box-shadow: none !important; }
+.network-card { transition: all 0.2s; }
+.network-card.active { background: rgba(0, 255, 135, 0.1); border: 2px solid #00ff87; color: #ffffff; }
+@keyframes emeraldGlow { 0%, 100% { box-shadow: 0 0 15px rgba(16, 185, 129, 0.2); } 50% { box-shadow: 0 0 30px rgba(16, 185, 129, 0.6); } }
+.emerald-pulse { animation: emeraldGlow 2s infinite ease-in-out; }
+.nft-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.nft-card-img { width: 100%; height: auto; object-fit: contain; border-radius: 12px; display: block; }
+.nft-card-title { font-size: 13px; font-weight: 800; color: #ffffff; padding: 10px 0 4px; line-height: 1.3; letter-spacing: 0.3px; text-align: center; }
+.nft-card-details { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; font-size: 10px; padding: 8px 0 4px; font-weight: 700; }
+.nft-card-details div { padding: 5px 6px; border-radius: 6px; background: rgba(0, 255, 135, 0.08); border: 1px solid rgba(0, 255, 135, 0.2); text-align: center; }
+.nft-card-btn { width: 100%; margin-top: 6px; padding: 8px; border-radius: 10px; font-size: 10px; font-weight: 900; text-transform: uppercase; }
+</style>
+</head>
+<body class="p-4 pb-24 max-w-md mx-auto relative min-h-screen">
+
+<div id="splash-screen" class="fixed inset-0 bg-[#030a06] z-[200] flex flex-col items-center justify-center p-6 text-center transition-opacity duration-500">
+<div class="relative w-36 h-36 mb-6 flex items-center justify-center">
+<div class="absolute inset-0 bg-emerald-500/20 rounded-full blur-2xl animate-pulse"></div>
+<img src="https://www.image2url.com/r2/default/images/1791043985369-a9e2b85f-86b0-4636-b90a-a46e632a1d32.png" alt="SFN" class="w-full h-full object-contain sfn-logo-img relative z-10">
+</div>
+<h1 class="text-xl font-extrabold pixel-font emerald-glow-text mb-2 tracking-wide">START FARMING NOW</h1>
+<p class="text-xs text-emerald-200/80 font-mono tracking-widest flex items-center gap-1 mb-4">Connecting High-Speed Mining Nodes<span class="animate-pulse">...</span></p>
+<div class="w-48 bg-gray-900 rounded-full h-1.5 overflow-hidden border border-emerald-500/40 shadow-[0_0_12px_rgba(0,255,135,0.4)]">
+<div class="bg-emerald-400 h-full rounded-full animate-progress"></div>
+</div>
+</div>
+
+<div id="channel-gate" class="fixed inset-0 bg-black/95 backdrop-blur-lg z-[100] flex items-center justify-center p-4">
+<div class="glass-card p-6 text-center max-w-sm w-full border-emerald-500/40 space-y-4">
+<div class="w-16 h-16 mx-auto bg-emerald-500/10 border border-emerald-400/50 rounded-2xl flex items-center justify-center text-3xl">🔒</div>
+<h2 class="text-base font-extrabold text-white uppercase tracking-wider">Access Verification</h2>
+<p class="text-xs text-gray-300">Join our official 2 Telegram channels to unlock SFN Mining, Spin & Referral Rewards.</p>
+<div class="space-y-2.5 pt-2">
+<a href="https://t.me/SFN_Payment" target="_blank" class="flex items-center justify-between p-3 bg-black/60 rounded-xl border border-white/10 hover:border-emerald-400">
+<span class="text-xs font-bold text-gray-200">1. Payment Proof Channel</span>
+<span class="text-xs text-emerald-400 font-bold">JOIN ↗</span>
+</a>
+<a href="https://t.me/SFN_News" target="_blank" class="flex items-center justify-between p-3 bg-black/60 rounded-xl border border-white/10 hover:border-emerald-400">
+<span class="text-xs font-bold text-gray-200">2. Official News & Updates</span>
+<span class="text-xs text-emerald-400 font-bold">JOIN ↗</span>
+</a>
+</div>
+<button onclick="unlockApp()" class="w-full emerald-glow-btn py-3.5 rounded-xl text-xs font-black uppercase mt-2">I HAVE JOINED BOTH CHANNELS</button>
+</div>
+</div>
+
+<div id="network-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-[150] hidden items-center justify-center p-4">
+<div class="glass-card p-5 max-w-sm w-full border-emerald-500/50 space-y-3.5 shadow-2xl">
+<div class="flex items-center justify-between border-b border-emerald-500/30 pb-2.5">
+<h3 class="text-xs font-extrabold text-emerald-400 uppercase tracking-widest">Select Network</h3>
+<button onclick="closeNetworkModal()" class="text-gray-400 hover:text-white text-base font-bold px-2 py-0.5 rounded-lg bg-white/5">✕</button>
+</div>
+<div id="network-options-list" class="space-y-2.5 max-h-[320px] overflow-y-auto pr-1"></div>
+</div>
+</div>
+
+<div id="app-content" class="space-y-4">
+<div class="glass-card p-3.5 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl bg-emerald-500/20 border border-emerald-400/50 flex items-center justify-center font-bold text-emerald-300 text-lg">👤</div>
+<div>
+<h3 class="font-extrabold text-xs text-white" id="user-name">SFN User</h3>
+<p class="text-[10px] text-gray-400 font-mono">UID: <span class="text-emerald-400 font-bold">#<span id="user-uid">62000001</span></span></p>
+</div>
+</div>
+<div class="flex items-center gap-1.5 bg-emerald-500/10 border border-emerald-500/40 px-3 py-1 rounded-full">
+<span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+<span class="text-[9px] font-bold text-emerald-400 uppercase tracking-wider">Live Node</span>
+</div>
+</div>
+
+<div class="glass-card p-4 text-center relative overflow-hidden">
+<p class="text-[10px] tracking-widest text-gray-400 font-bold uppercase mb-1">TOTAL SFN BALANCE</p>
+<div class="flex items-center justify-center gap-2">
+<div class="w-7 h-7 rounded-full bg-emerald-400/20 border border-emerald-400/50 flex items-center justify-center text-emerald-400 text-xs">🪙</div>
+<h1 class="text-2xl font-bold pixel-font emerald-glow-text"><span id="total-balance">0.00</span> <span class="text-xs text-emerald-300">SFN</span></h1>
+</div>
+<p class="text-[10px] text-gray-400 font-mono mt-1">Est. Value: <span class="text-emerald-300 font-bold" id="usd-val">$0.00 USD</span> <span class="text-[9px] text-gray-500">(10,000 SFN = $1)</span></p>
+</div>
+
+<div id="tab-claim" class="space-y-4">
+<div class="grid grid-cols-2 gap-2 text-[11px] font-mono">
+<div class="glass-card p-2.5 flex items-center gap-2">
+<span class="text-emerald-400 text-base">⚡</span>
+<div><p class="text-[8px] text-gray-400">HASH SPEED</p><p class="text-emerald-300 font-bold" id="daily-rate">500 SFN/Day</p></div>
+</div>
+<div class="glass-card p-2.5 flex items-center gap-2">
+<span class="text-emerald-400 text-base">🛡️</span>
+<div><p class="text-[8px] text-gray-400">ACTIVE BOOST</p><p class="text-white font-bold" id="active-nft">Free Speed Tier</p></div>
+</div>
+</div>
+<div class="flex flex-col items-center justify-center py-2 relative">
+<div class="relative w-72 h-72 flex items-center justify-center">
+<div class="absolute inset-2 cyber-ring"></div>
+<div class="absolute inset-8 rounded-full bg-emerald-500/20 blur-2xl animate-pulse"></div>
+<div class="fire-spark fs-1"></div>
+<div class="fire-spark fs-2"></div>
+<div class="fire-spark fs-3"></div>
+<div class="character-miner-anim relative z-20 w-48 h-48 flex items-center justify-center">
+<img id="main-character-img" src="https://img.sanishtech.com/u/f5a572f4ec628cde14cd7a68070a873e.png" alt="SFN Miner" onerror="this.onerror=null; this.src='https://www.image2url.com/r2/default/images/1791043985369-a9e2b85f-86b0-4636-b90a-a46e632a1d32.png';" class="w-full h-full object-contain filter drop-shadow-[0_0_20px_rgba(0,255,135,0.8)]">
+</div>
+<div class="absolute bottom-1 bg-black/90 border border-emerald-400/60 px-4 py-1 rounded-full z-30 shadow-[0_0_15px_rgba(0,255,135,0.5)] flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
+<span class="text-[10px] text-emerald-300 font-mono font-extrabold tracking-wider">HARDWARE MINING LIVE</span>
+</div>
+</div>
+<div class="flex flex-col items-center gap-0.5 mt-1 bg-black/50 px-4 py-2 rounded-xl border border-emerald-500/20">
+<span class="text-[10px] text-gray-400 font-bold uppercase tracking-widest">Unclaimed Mining Reward</span>
+<span class="text-xl font-extrabold pixel-font emerald-glow-text" id="unclaimed-counter">0.0000 SFN</span>
+</div>
+</div>
+<button onclick="claimMining()" class="w-full emerald-glow-btn py-4 rounded-2xl text-xs uppercase tracking-wider flex flex-col items-center justify-center gap-0.5 font-black">
+<span>⛏ CLAIM MINING REWARDS</span>
+<span class="text-[9px] text-black/80 font-normal">Min Claim: 0.1 SFN</span>
+</button>
+</div>
+
+<div id="tab-nft" class="space-y-3 hidden">
+<div class="glass-card p-3">
+<h3 class="text-xs font-bold text-emerald-400 uppercase tracking-wider">NFT Mining Speed Passes</h3>
+<p class="text-[10px] text-gray-400 mt-0.5">Buy NFT to boost mining speed. Principal locked until expiry.</p>
+</div>
+<div class="nft-grid">
+
+<div class="glass-card p-2 border-emerald-500/50" id="nft-card-free">
+<img src="https://i.ibb.co.com/1JRwPMBL/Picsart-26-10-04-23-27-29-716.png" alt="SFN Free Miner" class="nft-card-img">
+<h4 class="nft-card-title">SFN FREE MINER</h4>
+<div class="nft-card-details">
+<div class="text-emerald-300">💰 FREE</div>
+<div class="text-emerald-300">📅 Unlimited</div>
+<div class="text-emerald-300">💵 $0.05</div>
+<div class="text-emerald-300">⚡ 500 SFN</div>
+</div>
+<button disabled class="nft-card-btn bg-emerald-500/20 border border-emerald-400 text-emerald-300">✅ ACTIVE</button>
+</div>
+
+<div class="glass-card p-2 border-blue-500/50" id="nft-card-elite">
+<img src="https://i.ibb.co.com/TBL0628c/Picsart-26-10-04-23-32-21-653.png" alt="Elite Pass" class="nft-card-img">
+<h4 class="nft-card-title">SFN ELITE PASS</h4>
+<div class="nft-card-details">
+<div class="text-blue-300">💰 $3</div>
+<div class="text-blue-300">📅 7 Days</div>
+<div class="text-blue-300">💵 $0.13</div>
+<div class="text-blue-300">⚡ 1,300</div>
+</div>
+<button onclick="buyNFT('SFN Elite Pass', 3, 7, 1300)" class="nft-card-btn emerald-glow-btn">BUY $3</button>
+</div>
+
+<div class="glass-card p-2 border-purple-500/50" id="nft-card-infinity">
+<img src="https://i.ibb.co.com/B54DpnBp/Picsart-26-10-04-23-32-49-110.png" alt="Infinity Pro" class="nft-card-img">
+<h4 class="nft-card-title">SFN INFINITY PRO</h4>
+<div class="nft-card-details">
+<div class="text-purple-300">💰 $5</div>
+<div class="text-purple-300">📅 7 Days</div>
+<div class="text-purple-300">💵 $0.22</div>
+<div class="text-purple-300">⚡ 2,200</div>
+</div>
+<button onclick="buyNFT('SFN Infinity Pro', 5, 7, 2200)" class="nft-card-btn emerald-glow-btn">BUY $5</button>
+</div>
+
+<div class="glass-card p-2 border-yellow-500/50" id="nft-card-century">
+<img src="https://i.ibb.co.com/67dZ2TwJ/Picsart-26-10-04-23-33-15-634.png" alt="Century" class="nft-card-img">
+<h4 class="nft-card-title">SFN CENTURY</h4>
+<div class="nft-card-details">
+<div class="text-yellow-300">💰 $10</div>
+<div class="text-yellow-300">📅 10 Days</div>
+<div class="text-yellow-300">💵 $0.30</div>
+<div class="text-yellow-300">⚡ 3,000</div>
+</div>
+<button onclick="buyNFT('SFN Century', 10, 10, 3000)" class="nft-card-btn emerald-glow-btn">BUY $10</button>
+</div>
+
+<div class="glass-card p-2 border-green-500/50" id="nft-card-zenith">
+<img src="https://i.ibb.co.com/rf4wwc72/Picsart-26-10-04-23-33-43-134.png" alt="Zenith" class="nft-card-img">
+<h4 class="nft-card-title">SFN ZENITH</h4>
+<div class="nft-card-details">
+<div class="text-green-300">💰 $15</div>
+<div class="text-green-300">📅 10 Days</div>
+<div class="text-green-300">💵 $0.45</div>
+<div class="text-green-300">⚡ 4,500</div>
+</div>
+<button onclick="buyNFT('SFN Zenith', 15, 10, 4500)" class="nft-card-btn emerald-glow-btn">BUY $15</button>
+</div>
+
+<div class="glass-card p-2 border-blue-500/50" id="nft-card-nova">
+<img src="https://i.ibb.co.com/Z7Q9KC3/Picsart-26-10-04-23-34-15-828.png" alt="Nova" class="nft-card-img">
+<h4 class="nft-card-title">SFN NOVA</h4>
+<div class="nft-card-details">
+<div class="text-blue-300">💰 $20</div>
+<div class="text-blue-300">📅 15 Days</div>
+<div class="text-blue-300">💵 $0.40</div>
+<div class="text-blue-300">⚡ 4,000</div>
+</div>
+<button onclick="buyNFT('SFN Nova', 20, 15, 4000)" class="nft-card-btn emerald-glow-btn">BUY $20</button>
+</div>
+
+<div class="glass-card p-2 border-orange-500/50" id="nft-card-phoenix">
+<img src="https://i.ibb.co.com/mVPcD31j/Picsart-26-10-04-23-34-44-833.png" alt="Phoenix" class="nft-card-img">
+<h4 class="nft-card-title">SFN PHOENIX 🔥</h4>
+<div class="nft-card-details">
+<div class="text-orange-300">💰 $25</div>
+<div class="text-orange-300">📅 15 Days</div>
+<div class="text-orange-300">💵 $0.50</div>
+<div class="text-orange-300">⚡ 5,000</div>
+</div>
+<button onclick="buyNFT('SFN Phoenix', 25, 15, 5000)" class="nft-card-btn emerald-glow-btn">BUY $25</button>
+</div>
+
+<div class="glass-card p-2 border-purple-500/50" id="nft-card-aurora">
+<img src="https://i.ibb.co.com/8LCXD77H/Picsart-26-10-04-23-35-17-202.png" alt="Aurora" class="nft-card-img">
+<h4 class="nft-card-title">SFN AURORA 👑</h4>
+<div class="nft-card-details">
+<div class="text-purple-300">💰 $30</div>
+<div class="text-purple-300">📅 15 Days</div>
+<div class="text-purple-300">💵 $0.60</div>
+<div class="text-purple-300">⚡ 6,000</div>
+</div>
+<button onclick="buyNFT('SFN Aurora', 30, 15, 6000)" class="nft-card-btn emerald-glow-btn">BUY $30</button>
+</div>
+
+
+</div>
+</div>
+
+<div id="tab-spin" class="glass-card p-4 text-center space-y-4 hidden">
+<div class="bg-black/60 p-3 rounded-xl border border-emerald-500/30 flex items-center justify-between">
+<div class="text-left"><h4 class="text-xs font-bold text-white">Daily Streak Bonus</h4><p class="text-[10px] text-emerald-400 font-bold">+20 SFN Every 24h</p></div>
+<button id="claimDailyBtn" onclick="claimDailyCheckin()" class="emerald-glow-btn px-3.5 py-2 rounded-xl text-[10px] font-black uppercase">CLAIM +20 SFN</button>
+</div>
+<div class="pt-2">
+<h3 class="text-xs font-bold text-emerald-400 uppercase mb-3 tracking-wider">LUCKY REWARD SPINNER</h3>
+<div class="wheel-container"><div class="wheel-pointer"></div><canvas id="wheelCanvas" width="240" height="240"></canvas></div>
+<div class="flex items-center justify-between mt-3 px-1 text-[11px] font-mono text-emerald-300">
+<span>Extra Spin: <strong id="extra-spin-badge" class="text-white">0</strong></span>
+</div>
+<button id="spinBtn" onclick="spinWheel()" class="emerald-glow-btn w-full py-3.5 rounded-xl text-xs font-black uppercase mt-2">SPIN NOW</button>
+</div>
+</div>
+
+<div id="tab-refer" class="glass-card p-4 space-y-4 hidden">
+<h3 class="text-xs font-bold text-emerald-400 uppercase">Invite Friends & Earn</h3>
+<div class="bg-black/60 p-3 rounded-xl border border-white/10 space-y-2">
+<p class="text-[10px] text-gray-300">Earn <span class="text-emerald-400 font-bold">500 SFN</span> & <span class="text-emerald-400 font-bold">1 Free Spin</span> when your friend joins <span class="text-emerald-300 font-bold">both channels</span>!</p>
+<div class="grid grid-cols-2 gap-2 pt-1 text-center font-mono">
+<div class="bg-black/40 p-2 rounded-lg border border-white/5"><p class="text-[8px] text-gray-400">TOTAL REFERS</p><p class="text-sm font-bold text-emerald-300" id="ref-count">0</p></div>
+<div class="bg-black/40 p-2 rounded-lg border border-white/5"><p class="text-[8px] text-gray-400">COMMISSIONS</p><p class="text-sm font-bold text-emerald-400" id="ref-earnings">0 SFN</p></div>
+</div>
+</div>
+<div class="bg-black/60 p-3 rounded-xl border border-emerald-500/30 space-y-1.5">
+<div class="flex justify-between text-[10px]"><span class="text-gray-300 font-bold">Instant Withdraw:</span><span class="text-emerald-400 font-bold"><span id="ref-progress-num">0</span> / 20</span></div>
+<div class="w-full bg-gray-800 rounded-full h-2"><div id="ref-progress-bar" class="bg-emerald-400 h-2 rounded-full" style="width: 0%"></div></div>
+</div>
+<div>
+<label class="text-[10px] text-gray-400 mb-1 block">Your Referral Link</label>
+<div class="flex gap-2">
+<input type="text" id="referral-link-input" readonly value="https://t.me/SFN_MiningBot?start=620001" class="w-full bg-black/70 border border-emerald-500/30 rounded-xl p-2.5 text-xs text-emerald-300 font-mono">
+<button onclick="copyReferralLink()" class="emerald-glow-btn px-3.5 rounded-xl text-xs font-black">COPY</button>
+</div>
+</div>
+</div>
+
+<div id="tab-wallet" class="glass-card p-4 hidden space-y-3">
+<div class="flex bg-black/60 p-1 rounded-xl border border-white/10">
+<button onclick="switchWallet('deposit')" id="w-btn-deposit" class="w-1/3 py-2 text-[11px] font-bold rounded-lg sub-tab-active">DEPOSIT</button>
+<button onclick="switchWallet('withdraw')" id="w-btn-withdraw" class="w-1/3 py-2 text-[11px] font-bold rounded-lg text-gray-400">WITHDRAW</button>
+<button onclick="switchWallet('history')" id="w-btn-history" class="w-1/3 py-2 text-[11px] font-bold rounded-lg text-gray-400">HISTORY</button>
+</div>
+<div id="w-sec-deposit" class="space-y-3">
+<div class="space-y-2">
+<label class="text-[10px] text-gray-400 font-semibold uppercase tracking-wider block">Select Deposit Network</label>
+<div class="grid grid-cols-3 gap-2" id="network-grid">
+<button type="button" onclick="selectDepNetwork('BEP20')" id="net-BEP20" class="network-card bg-[#2a2e35] border border-gray-700 text-gray-300 p-2 rounded-xl text-center active"><div class="text-[11px] font-black">BEP20</div><div class="text-[9px] text-emerald-400 font-medium">BSC</div></button>
+<button type="button" onclick="selectDepNetwork('TRC20')" id="net-TRC20" class="network-card bg-[#2a2e35] border border-gray-700 text-gray-300 p-2 rounded-xl text-center"><div class="text-[11px] font-black">TRC20</div><div class="text-[9px] text-gray-400 font-medium">TRON</div></button>
+<button type="button" onclick="selectDepNetwork('ERC20')" id="net-ERC20" class="network-card bg-[#2a2e35] border border-gray-700 text-gray-300 p-2 rounded-xl text-center"><div class="text-[11px] font-black">ERC20</div><div class="text-[9px] text-gray-400 font-medium">ETH</div></button>
+<button type="button" onclick="selectDepNetwork('POL')" id="net-POL" class="network-card bg-[#2a2e35] border border-gray-700 text-gray-300 p-2 rounded-xl text-center"><div class="text-[11px] font-black">POL</div><div class="text-[9px] text-gray-400 font-medium">Polygon</div></button>
+<button type="button" onclick="selectDepNetwork('SOL')" id="net-SOL" class="network-card bg-[#2a2e35] border border-gray-700 text-gray-300 p-2 rounded-xl text-center"><div class="text-[11px] font-black">SOL</div><div class="text-[9px] text-gray-400 font-medium">Solana</div></button>
+<button type="button" onclick="selectDepNetwork('TON')" id="net-TON" class="network-card bg-[#2a2e35] border border-gray-700 text-gray-300 p-2 rounded-xl text-center"><div class="text-[11px] font-black">TON</div><div class="text-[9px] text-gray-400 font-medium">TON</div></button>
+</div>
+</div>
+<div class="bg-black/40 border border-white/5 py-1.5 px-3 rounded-lg flex justify-between items-center text-[11px]">
+<span class="text-gray-400">Selected:</span><span id="network-full-name" class="font-bold text-emerald-400">BNB Smart Chain (BEP20)</span>
+</div>
+<div class="flex justify-center py-1">
+<div class="relative inline-block bg-white p-3 rounded-2xl border border-white/20">
+<img id="qr-code-img" src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=0x9dd6863ef3b2005131f78be8df916844f21c0737&ecc=H" alt="QR" class="w-40 h-40 rounded-lg">
+<div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-1 rounded-full shadow-lg">
+<img src="https://www.image2url.com/r2/default/images/1791043985369-a9e2b85f-86b0-4636-b90a-a46e632a1d32.png" alt="SFN" class="w-6 h-6 rounded-full object-contain bg-black">
+</div>
+</div>
+</div>
+<div>
+<div class="flex justify-between items-center mb-1"><span class="text-[11px] text-gray-400 font-medium">Deposit Address</span><span id="copy-status" class="text-[10px] text-emerald-400 font-semibold opacity-0">Copied!</span></div>
+<div class="flex gap-2 items-center bg-black/70 rounded-xl p-2.5 border border-emerald-500/30">
+<input type="text" id="admin-deposit-address" readonly value="0x9dd6863ef3b2005131f78be8df916844f21c0737" class="w-full bg-transparent text-xs text-emerald-400 font-mono outline-none">
+<button onclick="copyAdminAddress()" class="text-gray-400 hover:text-emerald-400 p-1">
+<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
+</button>
+</div>
+</div>
+<p class="text-[9px] text-yellow-400 text-center">⚠️ Send only USDT on the selected network. Wrong network = lost funds!</p>
+<div><label class="text-[10px] text-gray-400 block mb-1">Deposit Amount ($ USD)</label><input type="number" id="dep-amount" placeholder="Min Deposit $0.50" class="w-full bg-black/70 border border-emerald-500/30 rounded-xl p-3 text-xs text-white"></div>
+<div><label class="text-[10px] text-gray-400 block mb-1">Transaction Hash (TXID)</label><input type="text" id="dep-txid" placeholder="Paste TXID" class="w-full bg-black/70 border border-emerald-500/30 rounded-xl p-3 text-xs text-white font-mono"></div>
+<button onclick="submitDeposit()" class="w-full emerald-glow-btn py-3.5 text-black font-extrabold text-xs rounded-xl uppercase">VERIFY & SUBMIT DEPOSIT</button>
+</div>
+
+<div id="w-sec-withdraw" class="space-y-3 hidden">
+<div>
+<label class="text-[10px] text-gray-400 block mb-1">Select Withdrawal Network</label>
+<div onclick="openNetworkModal('withdraw')" class="w-full bg-black/70 border border-emerald-500/30 rounded-xl p-3 text-xs text-white flex items-center justify-between cursor-pointer"><span id="wd-network-selected">BNB Smart Chain (BEP20)</span><span class="text-emerald-400 text-xs font-bold">▼</span></div>
+</div>
+<div><label class="text-[10px] text-gray-400 block mb-1">Destination Address</label><input type="text" id="wd-address" placeholder="Enter Address" class="w-full bg-black/70 border border-emerald-500/30 rounded-xl p-3 text-xs text-white"></div>
+<div><label class="text-[10px] text-gray-400 block mb-1">Withdraw Amount ($ USD)</label><input type="number" id="wd-amount" placeholder="Min Withdraw $0.30" class="w-full bg-black/70 border border-emerald-500/30 rounded-xl p-3 text-xs text-white"></div>
+<div class="bg-emerald-500/10 border border-emerald-500/30 p-2.5 rounded-xl text-[9px] text-emerald-300"><p class="font-bold">🔒 Payout Rule:</p><p>Min withdraw $0.30. Earnings locked 1 day (20 refers = instant).</p></div>
+<button onclick="submitWithdraw()" class="w-full emerald-glow-btn py-3.5 text-black font-extrabold text-xs rounded-xl uppercase">REQUEST WITHDRAWAL</button>
+</div>
+
+<div id="w-sec-history" class="space-y-2.5 hidden">
+<h4 class="text-xs font-bold text-emerald-400 uppercase tracking-wider mb-1">Transaction Records</h4>
+<div id="transaction-history-list" class="space-y-2 max-h-[260px] overflow-y-auto pr-1"></div>
+</div>
+</div>
+
+<div id="tab-support" class="glass-card p-4 space-y-3 hidden">
+<h3 class="text-xs font-bold text-emerald-400 uppercase">24/7 Global Helpdesk</h3>
+<p class="text-[10px] text-gray-300">Need help? Contact our support team.</p>
+<a href="https://t.me/SFN_Support24_7" target="_blank" class="flex items-center gap-3 p-3 bg-black/60 rounded-xl border border-emerald-500/30">
+<span class="text-2xl">💬</span>
+<div><h4 class="text-xs font-bold text-white">Official Support</h4><p class="text-[10px] text-gray-400">@SFN_Support24_7</p></div>
+</a>
+</div>
+</div>
+
+<div class="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-[#030a06]/95 border-t border-emerald-500/30 backdrop-blur-md px-1 py-2 flex justify-between items-center z-50">
+<button onclick="navSwitch('claim')" id="nav-claim" class="flex flex-col items-center gap-1 text-gray-500 text-[8px] font-bold nav-active w-1/6"><span class="text-sm">⛏️</span> Mining</button>
+<button onclick="navSwitch('nft')" id="nav-nft" class="flex flex-col items-center gap-1 text-gray-500 text-[8px] font-bold w-1/6"><span class="text-sm">⚡</span> NFT</button>
+<button onclick="navSwitch('spin')" id="nav-spin" class="flex flex-col items-center gap-1 text-gray-500 text-[8px] font-bold w-1/6"><span class="text-sm">🎡</span> Spin</button>
+<button onclick="navSwitch('refer')" id="nav-refer" class="flex flex-col items-center gap-1 text-gray-500 text-[8px] font-bold w-1/6"><span class="text-sm">👥</span> Refer</button>
+<button onclick="navSwitch('wallet')" id="nav-wallet" class="flex flex-col items-center gap-1 text-gray-500 text-[8px] font-bold w-1/6"><span class="text-sm">💸</span> Wallet</button>
+<button onclick="navSwitch('support')" id="nav-support" class="flex flex-col items-center gap-1 text-gray-500 text-[8px] font-bold w-1/6"><span class="text-sm">💬</span> Support</button>
+</div>
+<script>
+let userUID = localStorage.getItem('sfn_user_uid');
+if (!userUID) {
+    userUID = '62' + Math.floor(100000 + Math.random() * 900000);
+    localStorage.setItem('sfn_user_uid', userUID);
+}
+document.getElementById('user-uid').innerText = userUID;
+document.getElementById('referral-link-input').value = `https://t.me/SFN_MiningBot?start=${userUID}`;
+
+let balance = parseFloat(localStorage.getItem('sfn_balance')) || 0.00;
+let unclaimedVal = parseFloat(localStorage.getItem('sfn_unclaimed')) || 0;
+let referCount = parseInt(localStorage.getItem('sfn_refer_count')) || 0;
+let extraSpins = parseInt(localStorage.getItem('sfn_extra_spins')) || 0;
+let txHistory = JSON.parse(localStorage.getItem('sfn_tx_history')) || [];
+let usedTxids = JSON.parse(localStorage.getItem('sfn_used_txids')) || [];
+
+let activeNFT = JSON.parse(localStorage.getItem('sfn_active_nft')) || {
+    name: 'SFN Free Miner', speed: 500, expiresAt: null, isFree: true
+};
+let lockedBalance = parseFloat(localStorage.getItem('sfn_locked_balance')) || 0;
+
+let currentDepNetwork = 'BEP20';
+let currentWdNetwork = "BNB Smart Chain (BEP20)";
+
+const networkData = {
+    BEP20: { badge: 'BSC', name: 'BNB Smart Chain (BEP20)', address: '0x9dd6863ef3b2005131f78be8df916844f21c0737' },
+    ERC20: { badge: 'ETH', name: 'Ethereum (ERC20)', address: '0x9dd6863ef3b2005131f78be8df916844f21c0737' },
+    POL: { badge: 'POL', name: 'Polygon Network', address: '0x9dd6863ef3b2005131f78be8df916844f21c0737' },
+    TRC20: { badge: 'TRX', name: 'TRON (TRC20)', address: 'TF89gLmZKvcRGBgUoiHTu3xjUn3uC8pyEd' },
+    SOL: { badge: 'SOL', name: 'Solana Network', address: '5oyoF1SQq6fYgZUTaaHit457hpW2CJwcjH1e76Nhs1Jp' },
+    TON: { badge: 'TON', name: 'TON Network', address: 'UQDO-DM0d14Uh-q1D_ze3SqRDj2AbBlI1YL2UQMlp2N16Tf5' }
+};
+
+const networksList = ["BNB Smart Chain (BEP20)","Solana (SOL)","Polygon (POL)","TON Network","TRON (TRC20)","Ethereum (ERC20)"];
+
+const NFT_DATA = {
+    'SFN Elite Pass': { price: 3, days: 7, speed: 1300 },
+    'SFN Infinity Pro': { price: 5, days: 7, speed: 2200 },
+    'SFN Century': { price: 10, days: 10, speed: 3000 },
+    'SFN Zenith': { price: 15, days: 10, speed: 4500 },
+    'SFN Nova': { price: 20, days: 15, speed: 4000 },
+    'SFN Phoenix': { price: 25, days: 15, speed: 5000 },
+    'SFN Aurora': { price: 30, days: 15, speed: 6000 }
+};
+
+function selectDepNetwork(key) {
+    const net = networkData[key];
+    currentDepNetwork = key;
+    ['BEP20', 'TRC20', 'ERC20', 'POL', 'SOL', 'TON'].forEach(k => {
+        const btn = document.getElementById('net-' + k);
+        if (!btn) return;
+        btn.className = 'network-card bg-[#2a2e35] border border-gray-700 text-gray-300 p-2 rounded-xl text-center';
+        const sub = btn.querySelector('div:last-child');
+        if (sub) sub.className = 'text-[9px] text-gray-400 font-medium';
+    });
+    const activeBtn = document.getElementById('net-' + key);
+    if (activeBtn) {
+        activeBtn.className = 'network-card bg-emerald-500/10 border-2 border-emerald-500 text-white p-2 rounded-xl text-center active';
+        const sub = activeBtn.querySelector('div:last-child');
+        if (sub) sub.className = 'text-[9px] text-emerald-400 font-medium';
+    }
+    document.getElementById('network-full-name').innerText = net.name;
+    document.getElementById('admin-deposit-address').value = net.address;
+    const newQr = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(net.address)}&ecc=H`;
+    document.getElementById('qr-code-img').src = newQr;
+}
+
+function copyAdminAddress() {
+    const addr = document.getElementById('admin-deposit-address').value;
+    navigator.clipboard.writeText(addr).then(() => {
+        const el = document.getElementById('copy-status');
+        el.classList.remove('opacity-0');
+        setTimeout(() => el.classList.add('opacity-0'), 2000);
+    });
+}
+
+function openNetworkModal() {
+    const listEl = document.getElementById('network-options-list');
+    let html = '';
+    networksList.forEach(net => {
+        const isSelected = net === currentWdNetwork;
+        html += `<div onclick="selectWdNetwork('${net}')" class="p-3.5 bg-black/70 rounded-xl border ${isSelected ? 'border-emerald-400 bg-emerald-500/15' : 'border-white/10'} flex items-center justify-between cursor-pointer transition">
+        <span class="text-xs font-bold ${isSelected ? 'text-emerald-300' : 'text-white'}">${net}</span>
+        <span class="w-5 h-5 rounded-full border ${isSelected ? 'border-emerald-400 bg-emerald-400 flex items-center justify-center text-[11px] text-black font-extrabold' : 'border-gray-500'}">${isSelected ? '✓' : ''}</span></div>`;
+    });
+    listEl.innerHTML = html;
+    document.getElementById('network-modal').classList.remove('hidden');
+    document.getElementById('network-modal').classList.add('flex');
+}
+
+function closeNetworkModal() {
+    document.getElementById('network-modal').classList.remove('flex');
+    document.getElementById('network-modal').classList.add('hidden');
+}
+
+function selectWdNetwork(net) {
+    currentWdNetwork = net;
+    document.getElementById('wd-network-selected').innerText = net;
+    closeNetworkModal();
+}
+
+setInterval(() => {
+    const currentSpeed = getCurrentMiningSpeed();
+    const perSecond = currentSpeed / 86400;
+    unclaimedVal += perSecond;
+    localStorage.setItem('sfn_unclaimed', unclaimedVal);
+    const el = document.getElementById('unclaimed-counter');
+    if (el) el.innerText = `${unclaimedVal.toFixed(4)} SFN`;
+}, 1000);
+
+function getCurrentMiningSpeed() {
+    if (activeNFT.expiresAt && Date.now() > activeNFT.expiresAt) {
+        lockedBalance = 0;
+        localStorage.setItem('sfn_locked_balance', 0);
+        activeNFT = { name: 'SFN Free Miner', speed: 500, expiresAt: null, isFree: true };
+        localStorage.setItem('sfn_active_nft', JSON.stringify(activeNFT));
+        updateNFTUI();
+        return 500;
+    }
+    return activeNFT.speed || 500;
+}
+
+function updateBalanceUI() {
+    document.getElementById('total-balance').innerText = balance.toFixed(2);
+    document.getElementById('usd-val').innerText = `$${(balance / 10000).toFixed(2)} USD`;
+    localStorage.setItem('sfn_balance', balance);
+    document.getElementById('ref-count').innerText = `${referCount}`;
+    document.getElementById('ref-earnings').innerText = `${referCount * 500} SFN`;
+    document.getElementById('ref-progress-num').innerText = referCount;
+    let progPercent = Math.min((referCount / 20) * 100, 100);
+    document.getElementById('ref-progress-bar').style.width = `${progPercent}%`;
+    document.getElementById('extra-spin-badge').innerText = extraSpins;
+    localStorage.setItem('sfn_refer_count', referCount);
+    localStorage.setItem('sfn_extra_spins', extraSpins);
+    renderHistoryUI();
+    updateNFTUI();
+}
+
+function updateNFTUI() {
+    const speed = getCurrentMiningSpeed();
+    const dailyRate = document.getElementById('daily-rate');
+    const activeNftEl = document.getElementById('active-nft');
+    if (dailyRate) dailyRate.innerText = `${speed.toLocaleString()} SFN/Day`;
+    if (activeNftEl) activeNftEl.innerText = activeNFT.name;
+
+    const cards = [
+        { id: 'nft-card-free', name: 'SFN Free Miner' },
+        { id: 'nft-card-elite', name: 'SFN Elite Pass' },
+        { id: 'nft-card-infinity', name: 'SFN Infinity Pro' },
+        { id: 'nft-card-century', name: 'SFN Century' },
+        { id: 'nft-card-zenith', name: 'SFN Zenith' },
+        { id: 'nft-card-nova', name: 'SFN Nova' },
+        { id: 'nft-card-phoenix', name: 'SFN Phoenix' },
+        { id: 'nft-card-aurora', name: 'SFN Aurora' }
+    ];
+
+    cards.forEach(card => {
+        const cardEl = document.getElementById(card.id);
+        if (!cardEl) return;
+        const btn = cardEl.querySelector('button');
+        if (!btn) return;
+
+        if (card.name === activeNFT.name && !activeNFT.isFree) {
+            const remaining = activeNFT.expiresAt - Date.now();
+            const days = Math.floor(remaining / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((remaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            btn.disabled = true;
+            btn.className = 'nft-card-btn bg-emerald-500/20 border border-emerald-400 text-emerald-300 cursor-not-allowed';
+            btn.innerHTML = `✅ ${days}d ${hours}h LEFT`;
+        } else if (card.name === 'SFN Free Miner' && activeNFT.isFree) {
+            btn.disabled = true;
+            btn.className = 'nft-card-btn bg-emerald-500/20 border border-emerald-400 text-emerald-300 cursor-not-allowed';
+            btn.innerHTML = '✅ ACTIVE';
+        }
+    });
+}
+
+function buyNFT(name, price, days, speed) {
+    navSwitch('wallet');
+    switchWallet('deposit');
+    setTimeout(() => {
+        const depAmount = document.getElementById('dep-amount');
+        if (depAmount) depAmount.value = price;
+        alert(`💳 To purchase ${name}, send exactly $${price} USD to the deposit address, then paste your TXID. Once approved by system, your NFT will be activated automatically!`);
+    }, 300);
+}
+
+function activateNFT(name) {
+    const data = NFT_DATA[name];
+    if (!data) return;
+    const requiredSFN = data.price * 10000;
+    if (balance < requiredSFN) {
+        alert(`⚠️ Insufficient balance. Need ${requiredSFN} SFN ($${data.price}).`);
+        return;
+    }
+    balance -= requiredSFN;
+    lockedBalance = requiredSFN;
+    localStorage.setItem('sfn_locked_balance', lockedBalance);
+    localStorage.setItem('sfn_balance', balance);
+    activeNFT = { name: name, speed: data.speed, expiresAt: Date.now() + (data.days * 24 * 60 * 60 * 1000), isFree: false };
+    localStorage.setItem('sfn_active_nft', JSON.stringify(activeNFT));
+    updateBalanceUI();
+    alert(`🎉 ${name} activated! Mining speed: ${data.speed} SFN/Day for ${data.days} days.`);
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => {
+        const splash = document.getElementById('splash-screen');
+        splash.style.opacity = '0';
+        setTimeout(() => splash.style.display = 'none', 500);
+    }, 5000);
+    drawWheel();
+    updateBalanceUI();
+    checkCooldowns();
+    updateNFTUI();
+    setInterval(checkCooldowns, 1000);
+    setInterval(updateNFTUI, 60000);
+});
+
+function unlockApp() { document.getElementById('channel-gate').classList.add('hidden'); }
+
+function navSwitch(tab) {
+    ['claim', 'nft', 'spin', 'refer', 'wallet', 'support'].forEach(t => {
+        document.getElementById(`tab-${t}`).classList.add('hidden');
+        document.getElementById(`nav-${t}`).classList.remove('nav-active');
+    });
+    document.getElementById(`tab-${tab}`).classList.remove('hidden');
+    document.getElementById(`nav-${tab}`).classList.add('nav-active');
+}
+
+function switchWallet(type) {
+    document.getElementById('w-sec-deposit').classList.add('hidden');
+    document.getElementById('w-sec-withdraw').classList.add('hidden');
+    document.getElementById('w-sec-history').classList.add('hidden');
+    document.getElementById('w-btn-deposit').className = "w-1/3 py-2 text-[11px] font-bold rounded-lg text-gray-400";
+    document.getElementById('w-btn-withdraw').className = "w-1/3 py-2 text-[11px] font-bold rounded-lg text-gray-400";
+    document.getElementById('w-btn-history').className = "w-1/3 py-2 text-[11px] font-bold rounded-lg text-gray-400";
+    if (type === 'deposit') {
+        document.getElementById('w-sec-deposit').classList.remove('hidden');
+        document.getElementById('w-btn-deposit').classList.add('sub-tab-active');
+    } else if (type === 'withdraw') {
+        document.getElementById('w-sec-withdraw').classList.remove('hidden');
+        document.getElementById('w-btn-withdraw').classList.add('sub-tab-active');
+    } else {
+        document.getElementById('w-sec-history').classList.remove('hidden');
+        document.getElementById('w-btn-history').classList.add('sub-tab-active');
+    }
+}
+
+function submitDeposit() {
+    const amount = parseFloat(document.getElementById('dep-amount').value);
+    const txid = document.getElementById('dep-txid').value.trim();
+    const net = networkData[currentDepNetwork];
+    if (!amount || isNaN(amount) || amount < 0.5) { alert("⚠️ Minimum deposit $0.50 USD."); return; }
+    if (!txid) { alert("⚠️ Enter TXID."); return; }
+    let isValidTxid = false;
+    if (['BEP20', 'ERC20', 'POL'].includes(currentDepNetwork)) isValidTxid = /^0x[a-fA-F0-9]{64}$/.test(txid);
+    else if (currentDepNetwork === 'TRC20') isValidTxid = /^[a-fA-F0-9]{64}$/.test(txid);
+    else if (currentDepNetwork === 'SOL') isValidTxid = txid.length >= 32 && txid.length <= 100;
+    else if (currentDepNetwork === 'TON') isValidTxid = txid.length >= 40 && txid.length <= 80;
+    if (!isValidTxid) { alert(`⚠️ Invalid TxID for ${net.name}.`); return; }
+    if (usedTxids.includes(txid)) { alert("⚠️ TxID already used!"); return; }
+    usedTxids.push(txid);
+    localStorage.setItem('sfn_used_txids', JSON.stringify(usedTxids));
+    const record = {
+        type: 'DEPOSIT', amount: `$${amount.toFixed(2)}`, network: net.name,
+        status: 'AI Verifying Blockchain',
+        date: new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+    };
+    txHistory.unshift(record);
+    localStorage.setItem('sfn_tx_history', JSON.stringify(txHistory));
+    document.getElementById('dep-amount').value = '';
+    document.getElementById('dep-txid').value = '';
+    showAIScanPage(amount, txid);
+    updateBalanceUI();
+}
+
+function showAIScanPage(amount, txid) {
+    const overlay = document.createElement('div');
+    overlay.id = 'ai-scan-overlay';
+    overlay.className = 'fixed inset-0 bg-black/95 backdrop-blur-lg z-[300] flex items-center justify-center p-6';
+    overlay.innerHTML = `
+        <div class="max-w-sm w-full text-center space-y-5">
+            <div class="flex justify-center my-4">
+                <div class="relative flex items-center justify-center w-28 h-28 rounded-full bg-emerald-500/10 border border-emerald-500/30 emerald-pulse">
+                    <div class="absolute inset-0 rounded-full border-2 border-dashed border-emerald-400 animate-spin"></div>
+                    <div class="absolute inset-4 rounded-full border border-emerald-400/50 animate-ping"></div>
+                    <span class="text-3xl">🤖</span>
+                </div>
+            </div>
+            <div class="space-y-2">
+                <span class="inline-block bg-emerald-500/20 text-emerald-400 text-[10px] font-bold px-3 py-1 rounded-full border border-emerald-500/30 uppercase tracking-widest">AI Scanning Active</span>
+                <h3 class="text-base font-extrabold text-white mt-2">Verifying Blockchain...</h3>
+                <p class="text-[11px] text-gray-400 leading-relaxed px-2">Our AI is scanning network confirmations.</p>
+            </div>
+            <div class="bg-[#1c1f24] p-3 rounded-xl border border-white/5 text-left space-y-1.5">
+                <div class="flex justify-between text-[10px]"><span class="text-gray-400">Amount:</span><span class="text-emerald-400 font-bold">$${amount.toFixed(2)}</span></div>
+                <div class="flex justify-between text-[10px]"><span class="text-gray-400">TxID:</span><span class="text-gray-300 font-mono">${txid.substring(0, 16)}...</span></div>
+            </div>
+            <div class="w-full bg-gray-900 rounded-full h-1.5 overflow-hidden border border-emerald-500/30"><div class="bg-emerald-400 h-full rounded-full" style="animation: progress 30s linear forwards;"></div></div>
+            <p class="text-[10px] text-emerald-300 font-mono animate-pulse">Do not close the app...</p>
+        </div>
+    `;
+    document.body.appendChild(overlay);
+    setTimeout(() => {
+        overlay.innerHTML = `
+            <div class="max-w-sm w-full text-center space-y-5">
+                <div class="flex justify-center my-4">
+                    <div class="w-24 h-24 rounded-full bg-yellow-500/20 text-yellow-400 flex items-center justify-center border border-yellow-400">
+                        <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    </div>
+                </div>
+                <div class="space-y-2">
+                    <span class="inline-block bg-yellow-500/20 text-yellow-400 text-[10px] font-bold px-3 py-1 rounded-full border border-yellow-500/30 uppercase tracking-widest">Status: Pending</span>
+                    <h3 class="text-base font-extrabold text-white mt-2">Deposit Received</h3>
+                    <p class="text-[11px] text-gray-300 leading-relaxed px-2">Blockchain verified. Your balance will update automatically.</p>
+                </div>
+                <button onclick="closeAIScanAndGoHome()" class="w-full bg-emerald-500 text-black font-bold py-3 rounded-xl text-xs">Back to Dashboard</button>
+            </div>
+        `;
+    }, 30000);
+}
+
+function closeAIScanAndGoHome() {
+    const overlay = document.getElementById('ai-scan-overlay');
+    if (overlay) overlay.remove();
+    switchWallet('history');
+}
+
+function submitWithdraw() {
+    const address = document.getElementById('wd-address').value.trim();
+    const amount = parseFloat(document.getElementById('wd-amount').value);
+    if (!amount || amount < 0.30) { alert("⚠️ Minimum withdrawal $0.30 USD."); return; }
+    if (!address) { alert("⚠️ Enter address."); return; }
+    const hasPending = txHistory.some(tx => tx.type === 'WITHDRAW' && tx.status === 'Processing');
+    if (hasPending) { alert("⚠️ You already have a pending withdrawal."); return; }
+    let sfnEquivalent = amount * 10000;
+    if (balance < sfnEquivalent) { alert("⚠️ Insufficient SFN balance."); return; }
+    balance -= sfnEquivalent;
+    const record = {
+        type: 'WITHDRAW', amount: `$${amount.toFixed(2)}`, network: currentWdNetwork,
+        status: 'Processing',
+        date: new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+    };
+    txHistory.unshift(record);
+    localStorage.setItem('sfn_tx_history', JSON.stringify(txHistory));
+    document.getElementById('wd-amount').value = '';
+    document.getElementById('wd-address').value = '';
+    showWithdrawProcessPage(amount, currentWdNetwork);
+    updateBalanceUI();
+}
+
+function showWithdrawProcessPage(amount, network) {
+    const overlay = document.createElement('div');
+    overlay.id = 'withdraw-overlay';
+    overlay.className = 'fixed inset-0 bg-black/95 backdrop-blur-lg z-[300] flex items-center justify-center p-6';
+    overlay.innerHTML = `
+        <div class="max-w-sm w-full text-center space-y-5">
+            <div class="flex justify-center my-4">
+                <div class="relative flex items-center justify-center w-28 h-28 rounded-full bg-blue-500/10 border border-blue-500/30 emerald-pulse">
+                    <div class="absolute inset-0 rounded-full border-2 border-dashed border-blue-400 animate-spin"></div>
+                    <span class="text-3xl">🔒</span>
+                </div>
+            </div>
+            <div class="space-y-2">
+                <span class="inline-block bg-blue-500/20 text-blue-400 text-[10px] font-bold px-3 py-1 rounded-full border border-blue-500/30 uppercase tracking-widest">Processing</span>
+                <h3 class="text-base font-extrabold text-white mt-2">Securing Transaction...</h3>
+                <p class="text-[11px] text-gray-400 leading-relaxed px-2">Your withdrawal is being processed on blockchain.</p>
+            </div>
+            <div class="bg-[#1c1f24] p-3 rounded-xl border border-white/5 text-left space-y-1.5">
+                <div class="flex justify-between text-[10px]"><span class="text-gray-400">Amount:</span><span class="text-emerald-400 font-bold">$${amount.toFixed(2)}</span></div>
+                <div class="flex justify-between text-[10px]"><span class="text-gray-400">Network:</span><span class="text-gray-300">${network}</span></div>
+            </div>
+            <p class="text-[10px] text-blue-300 font-mono animate-pulse">Please wait...</p>
+        </div>
+    `;
+    document.body.appendChild(overlay);
+    setTimeout(() => {
+        overlay.innerHTML = `
+            <div class="max-w-sm w-full text-center space-y-5">
+                <div class="flex justify-center my-4">
+                    <div class="w-24 h-24 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center border border-emerald-400">
+                        <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                    </div>
+                </div>
+                <div class="space-y-2">
+                    <span class="inline-block bg-emerald-500/20 text-emerald-400 text-[10px] font-bold px-3 py-1 rounded-full border border-emerald-500/30 uppercase tracking-widest">Queued</span>
+                    <h3 class="text-base font-extrabold text-white mt-2">Withdrawal Queued!</h3>
+                    <p class="text-[11px] text-gray-300 leading-relaxed px-2">Your request is being processed. Funds will arrive automatically.</p>
+                </div>
+                <button onclick="closeWithdrawAndGoHome()" class="w-full bg-emerald-500 text-black font-bold py-3 rounded-xl text-xs">Back to Dashboard</button>
+            </div>
+        `;
+    }, 10000);
+}
+
+function closeWithdrawAndGoHome() {
+    const overlay = document.getElementById('withdraw-overlay');
+    if (overlay) overlay.remove();
+    switchWallet('history');
+}
+
+function renderHistoryUI() {
+    const listEl = document.getElementById('transaction-history-list');
+    if (!listEl) return;
+    if (txHistory.length === 0) {
+        listEl.innerHTML = `<p class="text-center text-[10px] text-gray-500 py-6">No transaction records found.</p>`;
+        return;
+    }
+    let html = '';
+    txHistory.forEach(tx => {
+        const isDep = tx.type === 'DEPOSIT';
+        let statusClass = 'bg-yellow-500/20 text-yellow-400 border border-yellow-500/30';
+        if (tx.status === 'Success') statusClass = 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30';
+        if (tx.status === 'Failed' || tx.status === 'Rejected') statusClass = 'bg-red-500/20 text-red-400 border border-red-500/30';
+        if (tx.status === 'Processing') statusClass = 'bg-blue-500/20 text-blue-400 border border-blue-500/30';
+        html += `<div class="bg-black/60 p-2.5 rounded-xl border border-white/5 flex items-center justify-between text-[11px]">
+            <div><div class="flex items-center gap-1.5">
+            <span class="${isDep ? 'text-emerald-400' : 'text-amber-400'} font-bold">${tx.type}</span>
+            <span class="text-white font-bold">${tx.amount}</span></div>
+            <p class="text-[9px] text-gray-400">${tx.network} • ${tx.date}</p></div>
+            <span class="text-[9px] px-2 py-0.5 rounded font-bold ${statusClass}">${tx.status}</span></div>`;
+    });
+    listEl.innerHTML = html;
+}
+
+function claimMining() {
+    if (unclaimedVal < 0.1) { alert("⚠️ Minimum claim 0.1 SFN."); }
+    else {
+        balance += unclaimedVal;
+        unclaimedVal = 0;
+        localStorage.setItem('sfn_unclaimed', 0);
+        updateBalanceUI();
+        alert("🎉 Mining rewards added!");
+    }
+}
+
+const COOLDOWN_TIME = 24 * 60 * 60 * 1000;
+
+function checkCooldowns() {
+    const now = new Date().getTime();
+    const lastCheckin = localStorage.getItem('sfn_last_checkin');
+    const dailyBtn = document.getElementById('claimDailyBtn');
+    if (lastCheckin) {
+        const elapsed = now - parseInt(lastCheckin);
+        if (elapsed < COOLDOWN_TIME) {
+            const remaining = COOLDOWN_TIME - elapsed;
+            const h = Math.floor((remaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const m = Math.floor((remaining % (1000 * 60 * 60)) / (1000 * 60));
+            const s = Math.floor((remaining % (1000 * 60)) / 1000);
+            dailyBtn.innerText = `READY ${h}h ${m}m ${s}s`;
+            dailyBtn.disabled = true;
+        } else { dailyBtn.innerText = "CLAIM +20 SFN"; dailyBtn.disabled = false; }
+    }
+    const lastSpin = localStorage.getItem('sfn_last_spin');
+    const spinBtn = document.getElementById('spinBtn');
+    if (extraSpins > 0) { spinBtn.innerText = `SPIN (Extra: ${extraSpins})`; spinBtn.disabled = false; }
+    else if (lastSpin) {
+        const elapsedSpin = now - parseInt(lastSpin);
+        if (elapsedSpin < COOLDOWN_TIME) {
+            const remainingSpin = COOLDOWN_TIME - elapsedSpin;
+            const h = Math.floor((remainingSpin % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const m = Math.floor((remainingSpin % (1000 * 60 * 60)) / (1000 * 60));
+            const s = Math.floor((remainingSpin % (1000 * 60)) / 1000);
+            spinBtn.innerText = `NEXT SPIN ${h}h ${m}m ${s}s`;
+            spinBtn.disabled = true;
+        } else { spinBtn.innerText = "SPIN NOW"; spinBtn.disabled = false; }
+    }
+}
+
+function claimDailyCheckin() {
+    localStorage.setItem('sfn_last_checkin', new Date().getTime());
+    balance += 20;
+    updateBalanceUI();
+    checkCooldowns();
+    alert("🎉 +20 SFN added!");
+}
+
+function copyReferralLink() {
+    const linkInput = document.getElementById('referral-link-input');
+    linkInput.select();
+    navigator.clipboard.writeText(linkInput.value);
+    alert('Referral link copied!');
+}
+
+const canvas = document.getElementById('wheelCanvas');
+const ctx = canvas.getContext('2d');
+const rewards = [5, 10, 20, 35, 50, 100];
+const colors = ['#082113', '#114227', '#082113', '#114227', '#082113', '#114227'];
+
+function drawWheel() {
+    const slices = rewards.length;
+    const sliceAngle = (2 * Math.PI) / slices;
+    for (let i = 0; i < slices; i++) {
+        const angle = i * sliceAngle;
+        ctx.beginPath();
+        ctx.fillStyle = colors[i];
+        ctx.moveTo(120, 120);
+        ctx.arc(120, 120, 115, angle, angle + sliceAngle);
+        ctx.fill();
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = '#00ff87';
+        ctx.stroke();
+        ctx.save();
+        ctx.translate(120, 120);
+        ctx.rotate(angle + sliceAngle / 2);
+        ctx.textAlign = "right";
+        ctx.fillStyle = "#00ff87";
+        ctx.font = "bold 12px sans-serif";
+        ctx.fillText(rewards[i] + " SFN", 105, 4);
+        ctx.restore();
+    }
+}
+
+let rotationDescription = 0;
+let isSpinning = false;
+
+function spinWheel() {
+    if (isSpinning) return;
+    isSpinning = true;
+    document.getElementById('spinBtn').disabled = true;
+    const randomIndex = Math.floor(Math.random() * rewards.length);
+    const sliceDeg = 360 / rewards.length;
+    let targetDeg = (270 - (randomIndex + 0.5) * sliceDeg) % 360;
+    if (targetDeg < 0) targetDeg += 360;
+    let currentMod = rotationDescription % 360;
+    let diff = targetDeg - currentMod;
+    if (diff < 0) diff += 360;
+    rotationDescription += 1800 + diff;
+    canvas.style.transform = `rotate(${rotationDescription}deg)`;
+
+    setTimeout(() => {
+        const wonAmount = rewards[randomIndex];
+        balance += wonAmount;
+        if (extraSpins > 0) extraSpins -= 1;
+        else localStorage.setItem('sfn_last_spin', new Date().getTime());
+        updateBalanceUI();
+        alert(`🎉 You won +${wonAmount} SFN!`);
+        isSpinning = false;
+        checkCooldowns();
+    }, 4000);
+}
+</script>
+</body>
+</html>
