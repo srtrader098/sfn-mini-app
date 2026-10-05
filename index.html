@@ -6,6 +6,7 @@
 <title>START FARMING NOW - SFN Mining Bot</title>
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Space+Grotesk:wght@500;700;800&display=swap" rel="stylesheet">
 <script src="https://cdn.tailwindcss.com"></script>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
 <style>
 * { user-select: none; -webkit-tap-highlight-color: transparent; box-sizing: border-box; }
 body { background-color: #030a06; color: #ffffff; font-family: 'Space Grotesk', sans-serif; overflow-x: hidden; }
@@ -42,6 +43,7 @@ body { background-color: #030a06; color: #ffffff; font-family: 'Space Grotesk', 
 .nft-card-details { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; font-size: 10px; padding: 8px 0 4px; font-weight: 700; }
 .nft-card-details div { padding: 5px 6px; border-radius: 6px; background: rgba(0, 255, 135, 0.08); border: 1px solid rgba(0, 255, 135, 0.2); text-align: center; }
 .nft-card-btn { width: 100%; margin-top: 6px; padding: 8px; border-radius: 10px; font-size: 10px; font-weight: 900; text-transform: uppercase; }
+#user-photo { object-fit: cover; }
 </style>
 </head>
 <body class="p-4 pb-24 max-w-md mx-auto relative min-h-screen">
@@ -90,7 +92,7 @@ body { background-color: #030a06; color: #ffffff; font-family: 'Space Grotesk', 
 <div id="app-content" class="space-y-4">
 <div class="glass-card p-3.5 flex items-center justify-between">
 <div class="flex items-center gap-3">
-<div class="w-10 h-10 rounded-xl bg-emerald-500/20 border border-emerald-400/50 flex items-center justify-center font-bold text-emerald-300 text-lg">👤</div>
+<img id="user-photo" src="https://i.ibb.co/rnXqY75/file-00000000888c82109e188f21049ea846.png" class="w-10 h-10 rounded-xl border border-emerald-400/50" alt="Profile">
 <div>
 <h3 class="font-extrabold text-xs text-white" id="user-name">SFN User</h3>
 <p class="text-[10px] text-gray-400 font-mono">UID: <span class="text-emerald-400 font-bold">#<span id="user-uid">62000001</span></span></p>
@@ -251,7 +253,6 @@ body { background-color: #030a06; color: #ffffff; font-family: 'Space Grotesk', 
 <button onclick="buyNFT('SFN Aurora', 30, 15, 6000)" class="nft-card-btn emerald-glow-btn">BUY $30</button>
 </div>
 
-
 </div>
 </div>
 
@@ -371,15 +372,47 @@ body { background-color: #030a06; color: #ffffff; font-family: 'Space Grotesk', 
 <button onclick="navSwitch('wallet')" id="nav-wallet" class="flex flex-col items-center gap-1 text-gray-500 text-[8px] font-bold w-1/6"><span class="text-sm">💸</span> Wallet</button>
 <button onclick="navSwitch('support')" id="nav-support" class="flex flex-col items-center gap-1 text-gray-500 text-[8px] font-bold w-1/6"><span class="text-sm">💬</span> Support</button>
 </div>
+
 <script>
+// ================= TELEGRAM USER DATA =================
+const tg = window.Telegram?.WebApp;
+const tgUser = tg?.initDataUnsafe?.user;
+
 let userUID = localStorage.getItem('sfn_user_uid');
-if (!userUID) {
+let userTGID = localStorage.getItem('sfn_tg_id');
+
+if (tgUser) {
+    // Save Telegram ID permanently
+    userTGID = String(tgUser.id);
+    localStorage.setItem('sfn_tg_id', userTGID);
+    
+    // Generate permanent UID: 62 + last 7 digits of TG ID
+    const last7 = userTGID.slice(-7).padStart(7, '0');
+    userUID = '62' + last7;
+    localStorage.setItem('sfn_user_uid', userUID);
+    
+    // Update Profile Name
+    const fullName = tgUser.first_name + (tgUser.last_name ? ' ' + tgUser.last_name : '');
+    document.getElementById('user-name').innerText = fullName;
+    
+    // Update Profile Photo (if available)
+    if (tgUser.photo_url) {
+        document.getElementById('user-photo').src = tgUser.photo_url;
+    }
+    
+    // Notify Telegram ready
+    tg.ready();
+    tg.expand();
+} else if (!userUID) {
+    // Fallback if opened outside Telegram
     userUID = '62' + Math.floor(100000 + Math.random() * 900000);
     localStorage.setItem('sfn_user_uid', userUID);
 }
+
 document.getElementById('user-uid').innerText = userUID;
 document.getElementById('referral-link-input').value = `https://t.me/SFN_MiningBot?start=${userUID}`;
 
+// ================= STATE =================
 let balance = parseFloat(localStorage.getItem('sfn_balance')) || 0.00;
 let unclaimedVal = parseFloat(localStorage.getItem('sfn_unclaimed')) || 0;
 let referCount = parseInt(localStorage.getItem('sfn_refer_count')) || 0;
@@ -915,4 +948,4 @@ function spinWheel() {
 }
 </script>
 </body>
-</html>
+    </html>
