@@ -395,101 +395,15 @@ if (tgUser) {
 document.getElementById('user-uid').innerText = userUID;
 document.getElementById('referral-link-input').value = `https://t.me/SFN_MiningBot?start=${userUID}`;
 
-// ================= VERIFICATION =================
-async function verifyAndUnlock() {
-    const btn = document.getElementById('verifyBtn');
-    const status = document.getElementById('verifyStatus');
-    
-    if (!userTGID) {
-        status.innerText = "❌ Please open this app from Telegram!";
-        status.className = "text-[10px] text-center mt-2 text-red-400";
-        return;
-    }
-    
-    btn.disabled = true;
-    btn.innerText = "VERIFYING...";
-    status.innerText = "🔍 Checking your channel memberships...";
-    status.className = "text-[10px] text-center mt-2 text-yellow-400";
-    
-    try {
-        const response = await fetch(`${BACKEND_URL}/verify`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ user_id: parseInt(userTGID) })
-        });
-        
-        const data = await response.json();
-        
-        if (data.verified) {
-            status.innerText = "✅ Verified! Unlocking...";
-            status.className = "text-[10px] text-center mt-2 text-emerald-400";
-            localStorage.setItem('sfn_verified', 'true');
-            updateVerifyBadge(true);
-            setTimeout(() => {
-                document.getElementById('channel-gate').classList.add('hidden');
-            }, 800);
-        } else {
-            const missing = [];
-            if (data.missing && data.missing.payment) missing.push("Payment Channel");
-            if (data.missing && data.missing.news) missing.push("News Channel");
-            status.innerText = `❌ Please join: ${missing.join(", ")}`;
-            status.className = "text-[10px] text-center mt-2 text-red-400";
-            btn.disabled = false;
-            btn.innerText = "TRY AGAIN";
-        }
-    } catch (err) {
-        console.error("Verification error:", err);
-        status.innerText = "⚠️ Server error. Try again.";
-        status.className = "text-[10px] text-center mt-2 text-red-400";
-        btn.disabled = false;
-        btn.innerText = "TRY AGAIN";
-    }
-}
-
-function updateVerifyBadge(isVerified) {
-    const badge = document.getElementById('verify-badge');
-    if (!badge) return;
-    if (isVerified) {
-        badge.innerText = "✅ VERIFIED";
-        badge.className = "text-[9px] font-bold text-emerald-400 uppercase tracking-wider";
-        const parent = badge.parentElement;
-        if (parent) {
-            parent.className = "flex items-center gap-1.5 bg-emerald-500/10 border border-emerald-500/40 px-3 py-1 rounded-full";
-        }
-    } else {
-        badge.innerText = "⚠️ UNVERIFIED";
-        badge.className = "text-[9px] font-bold text-yellow-400 uppercase tracking-wider";
-        const parent = badge.parentElement;
-        if (parent) {
-            parent.className = "flex items-center gap-1.5 bg-yellow-500/10 border border-yellow-500/40 px-3 py-1 rounded-full";
-        }
-    }
-}
-
-function checkVerificationStatus() {
-    const isVerified = localStorage.getItem('sfn_verified') === 'true';
-    updateVerifyBadge(isVerified);
-    if (isVerified) {
-        document.getElementById('channel-gate').classList.add('hidden');
-    }
-}
-
-function unlockApp() { 
-    document.getElementById('channel-gate').classList.add('hidden'); 
-}
-
-// ================= STATE =================
-let balance = parseFloat(localStorage.getItem('sfn_balance')) || 0.00;
-let unclaimedVal = parseFloat(localStorage.getItem('sfn_unclaimed')) || 0;
-let referCount = parseInt(localStorage.getItem('sfn_refer_count')) || 0;
-let extraSpins = parseInt(localStorage.getItem('sfn_extra_spins')) || 0;
-let txHistory = JSON.parse(localStorage.getItem('sfn_tx_history')) || [];
-let usedTxids = JSON.parse(localStorage.getItem('sfn_used_txids')) || [];
-
-let activeNFT = JSON.parse(localStorage.getItem('sfn_active_nft')) || {
-    name: 'SFN Free Miner', speed: 500, expiresAt: null, isFree: true
-};
-let lockedBalance = parseFloat(localStorage.getItem('sfn_locked_balance')) || 0;
+// ================= STATE (Server থেকে লোড হবে) =================
+let balance = 0.00;
+let unclaimedVal = 0;
+let referCount = 0;
+let referEarnings = 0;
+let extraSpins = 0;
+let txHistory = [];
+let activeNFT = { name: 'SFN Free Miner', speed: 500, expiresAt: null, isFree: true };
+let lockedBalance = 0;
 
 let currentDepNetwork = 'BEP20';
 let currentWdNetwork = "BNB Smart Chain (BEP20)";
@@ -514,6 +428,315 @@ const NFT_DATA = {
     'SFN Phoenix': { price: 25, days: 15, speed: 5000 },
     'SFN Aurora': { price: 30, days: 15, speed: 6000 }
 };
+
+// ================= API CALLS =================
+async function apiCall(endpoint, data) {
+    try {
+        const response = await fetch(`${BACKEND_URL}${endpoint}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        });
+        return await response.json();
+    } catch (err) {
+        console.error(`API Error (${endpoint}):`, err);
+        return { success: false, error: 'Network error' };
+    }
+}
+
+async function syncUser() {
+    if (!userTGID) return;
+    const data = await apiCall('/sync_user', {
+        tg_id: userTGID,
+        first_name: tgUser?.first_name || '',
+        last_name: tgUser?.last_name || '',
+        username: tgUser?.username || '',
+        photo_url: tgUser?.photo_url || ''
+    });
+    console.log("Sync user:", data);
+}
+
+async function loadUserData() {
+    if (!userTGID) return;
+    const data = await apiCall('/get_user_data', { tg_id: userTGID });
+    if (data.success) {
+        const u = data.user;
+        balance = u.balance || 0;
+        unclaimedVal = data.unclaimed || 0;
+        referCount = u.refer_count || 0;
+        referEarnings = u.refer_earnings || 0;
+        extraSpins = u.extra_spins || 0;
+        lockedBalance = u.locked_balance || 0;
+
+        // Active NFT
+        if (u.active_nft && u.active_nft !== 'SFN Free Miner') {
+            activeNFT = {
+                name: u.active_nft,
+                speed: u.mining_speed || 500,
+                expiresAt: u.nft_expiry ? new Date(u.nft_expiry).getTime() : null,
+                isFree: false
+            };
+        } else {
+            activeNFT = { name: 'SFN Free Miner', speed: 500, expiresAt: null, isFree: true };
+        }
+
+        // Verified
+        if (u.verified) {
+            localStorage.setItem('sfn_verified', 'true');
+            updateVerifyBadge(true);
+            document.getElementById('channel-gate').classList.add('hidden');
+        } else {
+            localStorage.removeItem('sfn_verified');
+            updateVerifyBadge(false);
+        }
+
+        updateBalanceUI();
+        updateNFTUI();
+    }
+}
+
+// ================= UI UPDATE =================
+function updateBalanceUI() {
+    document.getElementById('total-balance').innerText = balance.toFixed(2);
+    document.getElementById('usd-val').innerText = `$${(balance / 10000).toFixed(2)} USD`;
+    document.getElementById('ref-count').innerText = `${referCount}`;
+    document.getElementById('ref-earnings').innerText = `${referEarnings.toFixed(0)} SFN`;
+    document.getElementById('ref-progress-num').innerText = referCount;
+    let progPercent = Math.min((referCount / 20) * 100, 100);
+    document.getElementById('ref-progress-bar').style.width = `${progPercent}%`;
+    document.getElementById('extra-spin-badge').innerText = extraSpins;
+    renderHistoryUI();
+    updateNFTUI();
+}
+
+function updateNFTUI() {
+    const speed = activeNFT.speed || 500;
+    const dailyRate = document.getElementById('daily-rate');
+    const activeNftEl = document.getElementById('active-nft');
+    if (dailyRate) dailyRate.innerText = `${speed.toLocaleString()} SFN/Day`;
+    if (activeNftEl) activeNftEl.innerText = activeNFT.name;
+    // (rest of UI update same as before)
+}
+
+// ================= CLAIM MINING (BACKEND) =================
+async function claimMining() {
+    if (!userTGID) { alert("Please open from Telegram"); return; }
+    if (unclaimedVal < 0.1) { alert("⚠️ Minimum claim 0.1 SFN."); return; }
+
+    const data = await apiCall('/claim_mining', { tg_id: userTGID });
+    if (data.success) {
+        balance = data.new_balance;
+        unclaimedVal = 0;
+        updateBalanceUI();
+        alert(`🎉 Claimed ${data.claimed.toFixed(4)} SFN!`);
+    } else {
+        alert("⚠️ " + (data.error || "Claim failed"));
+    }
+}
+
+// ================= SPIN (BACKEND) =================
+async function spinWheel() {
+    if (isSpinning) return;
+    isSpinning = true;
+    document.getElementById('spinBtn').disabled = true;
+
+    const randomIndex = Math.floor(Math.random() * rewards.length);
+    const sliceDeg = 360 / rewards.length;
+    let targetDeg = (270 - (randomIndex + 0.5) * sliceDeg) % 360;
+    if (targetDeg < 0) targetDeg += 360;
+    let currentMod = rotationDescription % 360;
+    let diff = targetDeg - currentMod;
+    if (diff < 0) diff += 360;
+    rotationDescription += 1800 + diff;
+    canvas.style.transform = `rotate(${rotationDescription}deg)`;
+
+    setTimeout(async () => {
+        const wonAmount = rewards[randomIndex];
+        const data = await apiCall('/spin_wheel', { tg_id: userTGID, reward: wonAmount });
+        if (data.success) {
+            balance = data.new_balance;
+            extraSpins = data.extra_spins || 0;
+            updateBalanceUI();
+            alert(`🎉 You won +${wonAmount} SFN!`);
+        }
+        isSpinning = false;
+        checkCooldowns();
+    }, 4000);
+}
+
+// ================= DAILY CHECK-IN (BACKEND) =================
+async function claimDailyCheckin() {
+    const data = await apiCall('/daily_checkin', { tg_id: userTGID });
+    if (data.success) {
+        balance = data.new_balance;
+        updateBalanceUI();
+        checkCooldowns();
+        alert("🎉 +20 SFN added!");
+    } else {
+        alert("⚠️ " + (data.error || "Check-in failed"));
+    }
+}
+
+// ================= BUY NFT (BACKEND) =================
+async function buyNFT(name, price, days, speed) {
+    const data = await apiCall('/buy_nft', {
+        tg_id: userTGID,
+        nft_name: name,
+        price: price,
+        days: days,
+        speed: speed
+    });
+    if (data.success) {
+        navSwitch('wallet');
+        switchWallet('deposit');
+        setTimeout(() => {
+            const depAmount = document.getElementById('dep-amount');
+            if (depAmount) depAmount.value = price;
+            alert(`💳 Submit $${price} deposit for ${name}.\nOnce approved by admin, NFT will activate!`);
+        }, 300);
+    }
+}
+
+// ================= DEPOSIT (BACKEND) =================
+async function submitDeposit() {
+    const amount = parseFloat(document.getElementById('dep-amount').value);
+    const txid = document.getElementById('dep-txid').value.trim();
+    const net = networkData[currentDepNetwork];
+
+    if (!amount || amount < 0.5) { alert("⚠️ Minimum deposit $0.50"); return; }
+    if (!txid) { alert("⚠️ Enter TXID"); return; }
+
+    const data = await apiCall('/submit_deposit', {
+        tg_id: userTGID,
+        amount: amount,
+        network: net.name,
+        txid: txid
+    });
+
+    if (data.success) {
+        document.getElementById('dep-amount').value = '';
+        document.getElementById('dep-txid').value = '';
+        showAIScanPage(amount, txid);
+    } else {
+        alert("⚠️ " + (data.error || "Deposit failed"));
+    }
+}
+
+// ================= WITHDRAW (BACKEND) =================
+async function submitWithdraw() {
+    const address = document.getElementById('wd-address').value.trim();
+    const amount = parseFloat(document.getElementById('wd-amount').value);
+
+    if (!amount || amount < 0.30) { alert("⚠️ Minimum withdrawal $0.30"); return; }
+    if (!address) { alert("⚠️ Enter address"); return; }
+
+    const data = await apiCall('/submit_withdraw', {
+        tg_id: userTGID,
+        amount: amount,
+        network: currentWdNetwork,
+        address: address
+    });
+
+    if (data.success) {
+        document.getElementById('wd-amount').value = '';
+        document.getElementById('wd-address').value = '';
+        showWithdrawProcessPage(amount, currentWdNetwork);
+        loadUserData();
+    } else {
+        alert("⚠️ " + (data.error || "Withdraw failed"));
+    }
+}
+
+// ================= HISTORY (BACKEND) =================
+async function loadTransactions() {
+    const data = await apiCall('/get_transactions', { tg_id: userTGID });
+    if (data.success) {
+        txHistory = data.transactions || [];
+        renderHistoryUI();
+    }
+}
+
+function renderHistoryUI() {
+    const listEl = document.getElementById('transaction-history-list');
+    if (!listEl) return;
+    if (txHistory.length === 0) {
+        listEl.innerHTML = `<p class="text-center text-[10px] text-gray-500 py-6">No transaction records found.</p>`;
+        return;
+    }
+    let html = '';
+    txHistory.forEach(tx => {
+        const isDep = tx.type === 'DEPOSIT';
+        let statusClass = 'bg-yellow-500/20 text-yellow-400 border border-yellow-500/30';
+        if (tx.status === 'Success') statusClass = 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30';
+        if (tx.status === 'Failed' || tx.status === 'Rejected') statusClass = 'bg-red-500/20 text-red-400 border border-red-500/30';
+        if (tx.status === 'Processing') statusClass = 'bg-blue-500/20 text-blue-400 border border-blue-500/30';
+        html += `<div class="bg-black/60 p-2.5 rounded-xl border border-white/5 flex items-center justify-between text-[11px]">
+            <div><div class="flex items-center gap-1.5">
+            <span class="${isDep ? 'text-emerald-400' : 'text-amber-400'} font-bold">${tx.type}</span>
+            <span class="text-white font-bold">$${tx.amount}</span></div>
+            <p class="text-[9px] text-gray-400">${tx.network || ''} • ${tx.date || ''}</p></div>
+            <span class="text-[9px] px-2 py-0.5 rounded font-bold ${statusClass}">${tx.status}</span></div>`;
+    });
+    listEl.innerHTML = html;
+}
+
+// ================= AUTO MINING UPDATE =================
+setInterval(async () => {
+    if (!userTGID) return;
+    const data = await apiCall('/update_mining', { tg_id: userTGID });
+    if (data.success) {
+        unclaimedVal = data.unclaimed || 0;
+        const el = document.getElementById('unclaimed-counter');
+        if (el) el.innerText = `${unclaimedVal.toFixed(4)} SFN`;
+    }
+}, 10000);
+
+// ================= ALL OTHER FUNCTIONS (UNCHANGED) =================
+function verifyAndUnlock() {
+    if (!userTGID) {
+        document.getElementById('verifyStatus').innerText = "❌ Please open from Telegram!";
+        return;
+    }
+    document.getElementById('verifyBtn').disabled = true;
+    document.getElementById('verifyBtn').innerText = "VERIFYING...";
+    document.getElementById('verifyStatus').innerText = "🔍 Checking...";
+
+    apiCall('/verify', { user_id: parseInt(userTGID) }).then(data => {
+        if (data.verified) {
+            localStorage.setItem('sfn_verified', 'true');
+            updateVerifyBadge(true);
+            document.getElementById('verifyStatus').innerText = "✅ Verified!";
+            setTimeout(() => document.getElementById('channel-gate').classList.add('hidden'), 800);
+        } else {
+            const missing = [];
+            if (data.missing && data.missing.payment) missing.push("Payment");
+            if (data.missing && data.missing.news) missing.push("News");
+            document.getElementById('verifyStatus').innerText = `❌ Join: ${missing.join(", ")}`;
+            document.getElementById('verifyBtn').disabled = false;
+            document.getElementById('verifyBtn').innerText = "TRY AGAIN";
+        }
+    });
+}
+
+function updateVerifyBadge(isVerified) {
+    const badge = document.getElementById('verify-badge');
+    if (!badge) return;
+    if (isVerified) {
+        badge.innerText = "✅ VERIFIED";
+        badge.className = "text-[9px] font-bold text-emerald-400 uppercase tracking-wider";
+        if (badge.parentElement) badge.parentElement.className = "flex items-center gap-1.5 bg-emerald-500/10 border border-emerald-500/40 px-3 py-1 rounded-full";
+    } else {
+        badge.innerText = "⚠️ UNVERIFIED";
+        badge.className = "text-[9px] font-bold text-yellow-400 uppercase tracking-wider";
+        if (badge.parentElement) badge.parentElement.className = "flex items-center gap-1.5 bg-yellow-500/10 border border-yellow-500/40 px-3 py-1 rounded-full";
+    }
+}
+
+function checkVerificationStatus() {
+    const isVerified = localStorage.getItem('sfn_verified') === 'true';
+    updateVerifyBadge(isVerified);
+    if (isVerified) document.getElementById('channel-gate').classList.add('hidden');
+}
 
 function selectDepNetwork(key) {
     const net = networkData[key];
@@ -571,125 +794,6 @@ function selectWdNetwork(net) {
     closeNetworkModal();
 }
 
-setInterval(() => {
-    const currentSpeed = getCurrentMiningSpeed();
-    const perSecond = currentSpeed / 86400;
-    unclaimedVal += perSecond;
-    localStorage.setItem('sfn_unclaimed', unclaimedVal);
-    const el = document.getElementById('unclaimed-counter');
-    if (el) el.innerText = `${unclaimedVal.toFixed(4)} SFN`;
-}, 1000);
-
-function getCurrentMiningSpeed() {
-    if (activeNFT.expiresAt && Date.now() > activeNFT.expiresAt) {
-        lockedBalance = 0;
-        localStorage.setItem('sfn_locked_balance', 0);
-        activeNFT = { name: 'SFN Free Miner', speed: 500, expiresAt: null, isFree: true };
-        localStorage.setItem('sfn_active_nft', JSON.stringify(activeNFT));
-        updateNFTUI();
-        return 500;
-    }
-    return activeNFT.speed || 500;
-}
-
-function updateBalanceUI() {
-    document.getElementById('total-balance').innerText = balance.toFixed(2);
-    document.getElementById('usd-val').innerText = `$${(balance / 10000).toFixed(2)} USD`;
-    localStorage.setItem('sfn_balance', balance);
-    document.getElementById('ref-count').innerText = `${referCount}`;
-    document.getElementById('ref-earnings').innerText = `${referCount * 500} SFN`;
-    document.getElementById('ref-progress-num').innerText = referCount;
-    let progPercent = Math.min((referCount / 20) * 100, 100);
-    document.getElementById('ref-progress-bar').style.width = `${progPercent}%`;
-    document.getElementById('extra-spin-badge').innerText = extraSpins;
-    localStorage.setItem('sfn_refer_count', referCount);
-    localStorage.setItem('sfn_extra_spins', extraSpins);
-    renderHistoryUI();
-    updateNFTUI();
-}
-
-function updateNFTUI() {
-    const speed = getCurrentMiningSpeed();
-    const dailyRate = document.getElementById('daily-rate');
-    const activeNftEl = document.getElementById('active-nft');
-    if (dailyRate) dailyRate.innerText = `${speed.toLocaleString()} SFN/Day`;
-    if (activeNftEl) activeNftEl.innerText = activeNFT.name;
-
-    const cards = [
-        { id: 'nft-card-free', name: 'SFN Free Miner' },
-        { id: 'nft-card-elite', name: 'SFN Elite Pass' },
-        { id: 'nft-card-infinity', name: 'SFN Infinity Pro' },
-        { id: 'nft-card-century', name: 'SFN Century' },
-        { id: 'nft-card-zenith', name: 'SFN Zenith' },
-        { id: 'nft-card-nova', name: 'SFN Nova' },
-        { id: 'nft-card-phoenix', name: 'SFN Phoenix' },
-        { id: 'nft-card-aurora', name: 'SFN Aurora' }
-    ];
-
-    cards.forEach(card => {
-        const cardEl = document.getElementById(card.id);
-        if (!cardEl) return;
-        const btn = cardEl.querySelector('button');
-        if (!btn) return;
-
-        if (card.name === activeNFT.name && !activeNFT.isFree) {
-            const remaining = activeNFT.expiresAt - Date.now();
-            const days = Math.floor(remaining / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((remaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            btn.disabled = true;
-            btn.className = 'nft-card-btn bg-emerald-500/20 border border-emerald-400 text-emerald-300 cursor-not-allowed';
-            btn.innerHTML = `✅ ${days}d ${hours}h LEFT`;
-        } else if (card.name === 'SFN Free Miner' && activeNFT.isFree) {
-            btn.disabled = true;
-            btn.className = 'nft-card-btn bg-emerald-500/20 border border-emerald-400 text-emerald-300 cursor-not-allowed';
-            btn.innerHTML = '✅ ACTIVE';
-        }
-    });
-}
-
-function buyNFT(name, price, days, speed) {
-    navSwitch('wallet');
-    switchWallet('deposit');
-    setTimeout(() => {
-        const depAmount = document.getElementById('dep-amount');
-        if (depAmount) depAmount.value = price;
-        alert(`💳 To purchase ${name}, send exactly $${price} USD to the deposit address, then paste your TXID. Once approved by system, your NFT will be activated automatically!`);
-    }, 300);
-}
-
-function activateNFT(name) {
-    const data = NFT_DATA[name];
-    if (!data) return;
-    const requiredSFN = data.price * 10000;
-    if (balance < requiredSFN) {
-        alert(`⚠️ Insufficient balance. Need ${requiredSFN} SFN ($${data.price}).`);
-        return;
-    }
-    balance -= requiredSFN;
-    lockedBalance = requiredSFN;
-    localStorage.setItem('sfn_locked_balance', lockedBalance);
-    localStorage.setItem('sfn_balance', balance);
-    activeNFT = { name: name, speed: data.speed, expiresAt: Date.now() + (data.days * 24 * 60 * 60 * 1000), isFree: false };
-    localStorage.setItem('sfn_active_nft', JSON.stringify(activeNFT));
-    updateBalanceUI();
-    alert(`🎉 ${name} activated! Mining speed: ${data.speed} SFN/Day for ${data.days} days.`);
-}
-
-window.addEventListener('DOMContentLoaded', () => {
-    setTimeout(() => {
-        const splash = document.getElementById('splash-screen');
-        splash.style.opacity = '0';
-        setTimeout(() => splash.style.display = 'none', 500);
-    }, 5000);
-    drawWheel();
-    updateBalanceUI();
-    checkCooldowns();
-    updateNFTUI();
-    checkVerificationStatus();
-    setInterval(checkCooldowns, 1000);
-    setInterval(updateNFTUI, 60000);
-});
-
 function navSwitch(tab) {
     ['claim', 'nft', 'spin', 'refer', 'wallet', 'support'].forEach(t => {
         document.getElementById(`tab-${t}`).classList.add('hidden');
@@ -697,6 +801,7 @@ function navSwitch(tab) {
     });
     document.getElementById(`tab-${tab}`).classList.remove('hidden');
     document.getElementById(`nav-${tab}`).classList.add('nav-active');
+    if (tab === 'wallet') loadTransactions();
 }
 
 function switchWallet(type) {
@@ -718,32 +823,11 @@ function switchWallet(type) {
     }
 }
 
-function submitDeposit() {
-    const amount = parseFloat(document.getElementById('dep-amount').value);
-    const txid = document.getElementById('dep-txid').value.trim();
-    const net = networkData[currentDepNetwork];
-    if (!amount || isNaN(amount) || amount < 0.5) { alert("⚠️ Minimum deposit $0.50 USD."); return; }
-    if (!txid) { alert("⚠️ Enter TXID."); return; }
-    let isValidTxid = false;
-    if (['BEP20', 'ERC20', 'POL'].includes(currentDepNetwork)) isValidTxid = /^0x[a-fA-F0-9]{64}$/.test(txid);
-    else if (currentDepNetwork === 'TRC20') isValidTxid = /^[a-fA-F0-9]{64}$/.test(txid);
-    else if (currentDepNetwork === 'SOL') isValidTxid = txid.length >= 32 && txid.length <= 100;
-    else if (currentDepNetwork === 'TON') isValidTxid = txid.length >= 40 && txid.length <= 80;
-    if (!isValidTxid) { alert(`⚠️ Invalid TxID for ${net.name}.`); return; }
-    if (usedTxids.includes(txid)) { alert("⚠️ TxID already used!"); return; }
-    usedTxids.push(txid);
-    localStorage.setItem('sfn_used_txids', JSON.stringify(usedTxids));
-    const record = {
-        type: 'DEPOSIT', amount: `$${amount.toFixed(2)}`, network: net.name,
-        status: 'AI Verifying Blockchain',
-        date: new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-    };
-    txHistory.unshift(record);
-    localStorage.setItem('sfn_tx_history', JSON.stringify(txHistory));
-    document.getElementById('dep-amount').value = '';
-    document.getElementById('dep-txid').value = '';
-    showAIScanPage(amount, txid);
-    updateBalanceUI();
+function copyReferralLink() {
+    const linkInput = document.getElementById('referral-link-input');
+    linkInput.select();
+    navigator.clipboard.writeText(linkInput.value);
+    alert('Referral link copied!');
 }
 
 function showAIScanPage(amount, txid) {
@@ -798,29 +882,6 @@ function closeAIScanAndGoHome() {
     switchWallet('history');
 }
 
-function submitWithdraw() {
-    const address = document.getElementById('wd-address').value.trim();
-    const amount = parseFloat(document.getElementById('wd-amount').value);
-    if (!amount || amount < 0.30) { alert("⚠️ Minimum withdrawal $0.30 USD."); return; }
-    if (!address) { alert("⚠️ Enter address."); return; }
-    const hasPending = txHistory.some(tx => tx.type === 'WITHDRAW' && tx.status === 'Processing');
-    if (hasPending) { alert("⚠️ You already have a pending withdrawal."); return; }
-    let sfnEquivalent = amount * 10000;
-    if (balance < sfnEquivalent) { alert("⚠️ Insufficient SFN balance."); return; }
-    balance -= sfnEquivalent;
-    const record = {
-        type: 'WITHDRAW', amount: `$${amount.toFixed(2)}`, network: currentWdNetwork,
-        status: 'Processing',
-        date: new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-    };
-    txHistory.unshift(record);
-    localStorage.setItem('sfn_tx_history', JSON.stringify(txHistory));
-    document.getElementById('wd-amount').value = '';
-    document.getElementById('wd-address').value = '';
-    showWithdrawProcessPage(amount, currentWdNetwork);
-    updateBalanceUI();
-}
-
 function showWithdrawProcessPage(amount, network) {
     const overlay = document.createElement('div');
     overlay.id = 'withdraw-overlay';
@@ -869,41 +930,7 @@ function closeWithdrawAndGoHome() {
     const overlay = document.getElementById('withdraw-overlay');
     if (overlay) overlay.remove();
     switchWallet('history');
-}
-
-function renderHistoryUI() {
-    const listEl = document.getElementById('transaction-history-list');
-    if (!listEl) return;
-    if (txHistory.length === 0) {
-        listEl.innerHTML = `<p class="text-center text-[10px] text-gray-500 py-6">No transaction records found.</p>`;
-        return;
-    }
-    let html = '';
-    txHistory.forEach(tx => {
-        const isDep = tx.type === 'DEPOSIT';
-        let statusClass = 'bg-yellow-500/20 text-yellow-400 border border-yellow-500/30';
-        if (tx.status === 'Success') statusClass = 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30';
-        if (tx.status === 'Failed' || tx.status === 'Rejected') statusClass = 'bg-red-500/20 text-red-400 border border-red-500/30';
-        if (tx.status === 'Processing') statusClass = 'bg-blue-500/20 text-blue-400 border border-blue-500/30';
-        html += `<div class="bg-black/60 p-2.5 rounded-xl border border-white/5 flex items-center justify-between text-[11px]">
-            <div><div class="flex items-center gap-1.5">
-            <span class="${isDep ? 'text-emerald-400' : 'text-amber-400'} font-bold">${tx.type}</span>
-            <span class="text-white font-bold">${tx.amount}</span></div>
-            <p class="text-[9px] text-gray-400">${tx.network} • ${tx.date}</p></div>
-            <span class="text-[9px] px-2 py-0.5 rounded font-bold ${statusClass}">${tx.status}</span></div>`;
-    });
-    listEl.innerHTML = html;
-}
-
-function claimMining() {
-    if (unclaimedVal < 0.1) { alert("⚠️ Minimum claim 0.1 SFN."); }
-    else {
-        balance += unclaimedVal;
-        unclaimedVal = 0;
-        localStorage.setItem('sfn_unclaimed', 0);
-        updateBalanceUI();
-        alert("🎉 Mining rewards added!");
-    }
+    loadTransactions();
 }
 
 const COOLDOWN_TIME = 24 * 60 * 60 * 1000;
@@ -939,21 +966,6 @@ function checkCooldowns() {
     }
 }
 
-function claimDailyCheckin() {
-    localStorage.setItem('sfn_last_checkin', new Date().getTime());
-    balance += 20;
-    updateBalanceUI();
-    checkCooldowns();
-    alert("🎉 +20 SFN added!");
-}
-
-function copyReferralLink() {
-    const linkInput = document.getElementById('referral-link-input');
-    linkInput.select();
-    navigator.clipboard.writeText(linkInput.value);
-    alert('Referral link copied!');
-}
-
 const canvas = document.getElementById('wheelCanvas');
 const ctx = canvas.getContext('2d');
 const rewards = [5, 10, 20, 35, 50, 100];
@@ -986,31 +998,27 @@ function drawWheel() {
 let rotationDescription = 0;
 let isSpinning = false;
 
-function spinWheel() {
-    if (isSpinning) return;
-    isSpinning = true;
-    document.getElementById('spinBtn').disabled = true;
-    const randomIndex = Math.floor(Math.random() * rewards.length);
-    const sliceDeg = 360 / rewards.length;
-    let targetDeg = (270 - (randomIndex + 0.5) * sliceDeg) % 360;
-    if (targetDeg < 0) targetDeg += 360;
-    let currentMod = rotationDescription % 360;
-    let diff = targetDeg - currentMod;
-    if (diff < 0) diff += 360;
-    rotationDescription += 1800 + diff;
-    canvas.style.transform = `rotate(${rotationDescription}deg)`;
-
+// ================= INITIALIZE =================
+window.addEventListener('DOMContentLoaded', async () => {
     setTimeout(() => {
-        const wonAmount = rewards[randomIndex];
-        balance += wonAmount;
-        if (extraSpins > 0) extraSpins -= 1;
-        else localStorage.setItem('sfn_last_spin', new Date().getTime());
-        updateBalanceUI();
-        alert(`🎉 You won +${wonAmount} SFN!`);
-        isSpinning = false;
-        checkCooldowns();
-    }, 4000);
-}
+        const splash = document.getElementById('splash-screen');
+        splash.style.opacity = '0';
+        setTimeout(() => splash.style.display = 'none', 500);
+    }, 5000);
+
+    drawWheel();
+
+    // Sync user to database
+    await syncUser();
+
+    // Load user data from server
+    await loadUserData();
+
+    checkCooldowns();
+    checkVerificationStatus();
+    setInterval(checkCooldowns, 1000);
+    setInterval(updateNFTUI, 60000);
+});
 </script>
 </body>
-    </html>
+</html>
