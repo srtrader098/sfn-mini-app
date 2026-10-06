@@ -48,13 +48,21 @@ body { background-color: #030a06; color: #ffffff; font-family: 'Space Grotesk', 
 /* ===== PREMIUM TOAST & CONFETTI ===== */
 @keyframes slideUp { from { transform: translate(-50%, 30px); opacity: 0; } to { transform: translate(-50%, 0); opacity: 1; } }
 @keyframes slideDown { from { transform: translate(-50%, 0); opacity: 1; } to { transform: translate(-50%, 30px); opacity: 0; } }
+
+/* Toast Color Variants */
+.toast-emerald { background: linear-gradient(135deg, #00ff87 0%, #059669 100%); color: #000000; box-shadow: 0 0 30px rgba(0, 255, 135, 0.6); }
+.toast-purple { background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%); color: #ffffff; box-shadow: 0 0 30px rgba(168, 85, 247, 0.6); }
+.toast-blue { background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); color: #ffffff; box-shadow: 0 0 30px rgba(59, 130, 246, 0.6); }
+.toast-gold { background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%); color: #000000; box-shadow: 0 0 30px rgba(251, 191, 36, 0.6); }
+.toast-orange { background: linear-gradient(135deg, #fb923c 0%, #ea580c 100%); color: #ffffff; box-shadow: 0 0 30px rgba(251, 146, 60, 0.6); }
+.toast-pink { background: linear-gradient(135deg, #ec4899 0%, #db2777 100%); color: #ffffff; box-shadow: 0 0 30px rgba(236, 72, 153, 0.6); }
 </style>
 </head>
 <body class="p-4 pb-24 max-w-md mx-auto relative min-h-screen">
 
 <canvas id="confetti-canvas" class="fixed inset-0 pointer-events-none z-[500]"></canvas>
 
-<div id="premium-toast" class="fixed bottom-24 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-emerald-500 to-emerald-600 text-black font-bold py-3 px-5 rounded-2xl shadow-[0_0_30px_rgba(0,255,135,0.6)] z-[400] hidden">
+<div id="premium-toast" class="fixed bottom-24 left-1/2 transform -translate-x-1/2 toast-emerald text-black font-bold py-3 px-5 rounded-2xl z-[400] hidden">
 <div class="flex items-center gap-2">
 <span id="toast-emoji" class="text-lg">⛏️</span>
 <span id="toast-message" class="text-xs">Claimed 2.2897 SFN!</span>
@@ -417,7 +425,6 @@ let txHistory = [];
 let activeNFT = { name: 'SFN Free Miner', speed: 500, expiresAt: null, isFree: true };
 let lockedBalance = 0;
 
-// ===== MINING ENGINE (Client-Side Timer) =====
 let serverUnclaimed = 0;
 let lastServerSync = Date.now();
 let localUnclaimed = 0;
@@ -446,15 +453,22 @@ const NFT_DATA = {
     'SFN Aurora': { price: 30, days: 15, speed: 6000 }
 };
 
-// ===== CONFETTI + TOAST =====
-function fireConfetti() {
+// ===== CONFETTI with Color Palette =====
+function fireConfetti(colorPalette = 'emerald') {
+    const palettes = {
+        emerald: { colors: ['#00ff87', '#059669', '#10b981', '#34d399', '#6ee7b7'], emojis: ['⛏️', '💰', '💎', '🪙', '⭐'] },
+        purple: { colors: ['#a855f7', '#7c3aed', '#c084fc', '#e879f9', '#d8b4fe'], emojis: ['🎡', '🎉', '🎁', '✨', '🎊'] },
+        blue: { colors: ['#3b82f6', '#2563eb', '#60a5fa', '#93c5fd', '#bfdbfe'], emojis: ['📅', '💙', '⭐', '✨', '🎉'] },
+        gold: { colors: ['#fbbf24', '#d97706', '#fcd34d', '#fde68a', '#fef3c7'], emojis: ['💳', '💰', '👑', '⭐', '🪙'] },
+        orange: { colors: ['#fb923c', '#ea580c', '#fdba74', '#fed7aa', '#ffedd5'], emojis: ['💸', '📤', '⭐', '✨', '🎉'] },
+        pink: { colors: ['#ec4899', '#db2777', '#f472b6', '#fbcfe8', '#fce7f3'], emojis: ['🎁', '💖', '⭐', '✨', '🎉'] }
+    };
+    const { colors, emojis } = palettes[colorPalette] || palettes.emerald;
     const canvas = document.getElementById('confetti-canvas');
     const ctx = canvas.getContext('2d');
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
     const particles = [];
-    const colors = ['#00ff87', '#059669', '#ffd700', '#ff6b6b', '#4ecdc4'];
-    const emojis = ['⛏️', '💰', '💎', '🎉', '⭐', '🪙'];
     for (let i = 0; i < 60; i++) {
         particles.push({
             x: Math.random() * canvas.width,
@@ -495,10 +509,13 @@ function fireConfetti() {
     animate();
 }
 
-function showPremiumToast(message, emoji = '⛏️') {
+// ===== TOAST with Color Variant =====
+function showPremiumToast(message, emoji = '⛏️', color = 'emerald') {
     const toast = document.getElementById('premium-toast');
     const msgEl = document.getElementById('toast-message');
     const emojiEl = document.getElementById('toast-emoji');
+    // Reset classes
+    toast.className = `fixed bottom-24 left-1/2 transform -translate-x-1/2 font-bold py-3 px-5 rounded-2xl z-[400] toast-${color}`;
     emojiEl.innerText = emoji;
     msgEl.innerText = message;
     toast.classList.remove('hidden');
@@ -607,27 +624,23 @@ function updateMiningUI() {
     if (el) el.innerText = `${localUnclaimed.toFixed(4)} SFN`;
 }
 
-// ===== INSTANT CLAIM WITH OPTIMISTIC UI =====
+// ===== CLAIM with EMERALD color =====
 async function claimMining() {
     if (!userTGID) { alert("Please open from Telegram"); return; }
     if (localUnclaimed < 0.1) { alert("⚠️ Minimum claim 0.1 SFN."); return; }
     const claimedAmount = localUnclaimed;
-    // INSTANT UI UPDATE
     balance += claimedAmount;
     serverUnclaimed = 0;
     localUnclaimed = 0;
     lastServerSync = Date.now();
     updateBalanceUI();
-    fireConfetti();
-    showPremiumToast(`Claimed ${claimedAmount.toFixed(4)} SFN!`, '⛏️');
-    // Background Server Sync
+    fireConfetti('emerald');
+    showPremiumToast(`Claimed ${claimedAmount.toFixed(4)} SFN!`, '⛏️', 'emerald');
     const data = await apiCall('/claim_mining', { tg_id: userTGID });
-    if (data.success) {
-        balance = data.new_balance;
-        updateBalanceUI();
-    }
+    if (data.success) { balance = data.new_balance; updateBalanceUI(); }
 }
 
+// ===== CHECK-IN with BLUE color =====
 async function claimDailyCheckin() {
     if (!userTGID) return;
     const data = await apiCall('/daily_checkin', { tg_id: userTGID });
@@ -636,8 +649,8 @@ async function claimDailyCheckin() {
         serverLastCheckin = new Date().toISOString();
         updateBalanceUI();
         checkCooldowns();
-        fireConfetti();
-        showPremiumToast('+20 SFN Claimed!', '📅');
+        fireConfetti('blue');
+        showPremiumToast('+20 SFN Daily Bonus!', '📅', 'blue');
     } else {
         if (data.remaining_seconds) alert("⚠️ Already claimed. Please wait.");
         else alert("⚠️ " + (data.error || "Check-in failed"));
@@ -651,6 +664,7 @@ const colors = ['#082113', '#114227', '#082113', '#114227', '#082113', '#114227'
 let rotationDescription = 0;
 let isSpinning = false;
 
+// ===== SPIN with PURPLE color =====
 async function spinWheel() {
     if (isSpinning) return;
     if (!userTGID) return;
@@ -673,8 +687,8 @@ async function spinWheel() {
             extraSpins = data.extra_spins || 0;
             if (extraSpins === 0) serverLastSpin = new Date().toISOString();
             updateBalanceUI();
-            fireConfetti();
-            showPremiumToast(`You won ${wonAmount} SFN!`, '🎡');
+            fireConfetti('purple');
+            showPremiumToast(`You won ${wonAmount} SFN!`, '🎡', 'purple');
         }
         isSpinning = false;
         checkCooldowns();
@@ -729,7 +743,7 @@ function verifyAndUnlock() {
             localStorage.setItem('sfn_verified', 'true');
             updateVerifyBadge(true);
             document.getElementById('verifyStatus').innerText = "✅ Verified!";
-            fireConfetti();
+            fireConfetti('emerald');
             setTimeout(() => document.getElementById('channel-gate').classList.add('hidden'), 800);
         } else {
             const missing = [];
@@ -854,6 +868,7 @@ function copyReferralLink() {
     alert('Referral link copied!');
 }
 
+// ===== DEPOSIT with GOLD color =====
 async function submitDeposit() {
     const amount = parseFloat(document.getElementById('dep-amount').value);
     const txid = document.getElementById('dep-txid').value.trim();
@@ -864,10 +879,13 @@ async function submitDeposit() {
     if (data.success) {
         document.getElementById('dep-amount').value = '';
         document.getElementById('dep-txid').value = '';
-        showAIScanPage(amount, txid);
+        fireConfetti('gold');
+        showPremiumToast(`Deposit $${amount.toFixed(2)} Submitted!`, '💳', 'gold');
+        setTimeout(() => showAIScanPage(amount, txid), 800);
     } else { alert("⚠️ " + (data.error || "Deposit failed")); }
 }
 
+// ===== WITHDRAW with ORANGE color =====
 async function submitWithdraw() {
     const address = document.getElementById('wd-address').value.trim();
     const amount = parseFloat(document.getElementById('wd-amount').value);
@@ -877,8 +895,12 @@ async function submitWithdraw() {
     if (data.success) {
         document.getElementById('wd-amount').value = '';
         document.getElementById('wd-address').value = '';
-        showWithdrawProcessPage(amount, currentWdNetwork);
-        loadUserData();
+        fireConfetti('orange');
+        showPremiumToast(`Withdrawal $${amount.toFixed(2)} Queued!`, '💸', 'orange');
+        setTimeout(() => {
+            showWithdrawProcessPage(amount, currentWdNetwork);
+            loadUserData();
+        }, 800);
     } else { alert("⚠️ " + (data.error || "Withdraw failed")); }
 }
 
