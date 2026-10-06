@@ -111,8 +111,8 @@ body { background-color: #030a06; color: #ffffff; font-family: 'Space Grotesk', 
 <h1 class="text-2xl font-bold pixel-font emerald-glow-text"><span id="total-balance">0.00</span> <span class="text-xs text-emerald-300">SFN</span></h1>
 </div>
 <p class="text-[10px] text-gray-400 font-mono mt-1">Est. Value: <span class="text-emerald-300 font-bold" id="usd-val">$0.00 USD</span> <span class="text-[9px] text-gray-500">(10,000 SFN = $1)</span></p>
-</div>
-<div id="tab-claim" class="space-y-4">
+    </div>
+    <div id="tab-claim" class="space-y-4">
 <div class="grid grid-cols-2 gap-2 text-[11px] font-mono">
 <div class="glass-card p-2.5 flex items-center gap-2">
 <span class="text-emerald-400 text-base">⚡</span>
@@ -372,7 +372,6 @@ const tgUser = tg?.initDataUnsafe?.user;
 let userUID = localStorage.getItem('sfn_user_uid');
 let userTGID = localStorage.getItem('sfn_tg_id');
 
-// Server-side state (fetch each time)
 let serverLastCheckin = null;
 let serverLastSpin = null;
 
@@ -398,13 +397,17 @@ document.getElementById('user-uid').innerText = userUID;
 document.getElementById('referral-link-input').value = `https://t.me/SFN_MiningBot?start=${userUID}`;
 
 let balance = 0.00;
-let unclaimedVal = 0;
 let referCount = 0;
 let referEarnings = 0;
 let extraSpins = 0;
 let txHistory = [];
 let activeNFT = { name: 'SFN Free Miner', speed: 500, expiresAt: null, isFree: true };
 let lockedBalance = 0;
+
+// ===== MINING ENGINE (Client-Side Timer) =====
+let serverUnclaimed = 0;
+let lastServerSync = Date.now();
+let localUnclaimed = 0;
 
 let currentDepNetwork = 'BEP20';
 let currentWdNetwork = "BNB Smart Chain (BEP20)";
@@ -461,7 +464,9 @@ async function loadUserData() {
     if (data.success) {
         const u = data.user;
         balance = u.balance || 0;
-        unclaimedVal = data.unclaimed || 0;
+        serverUnclaimed = data.unclaimed || 0;
+        lastServerSync = Date.now();
+        localUnclaimed = serverUnclaimed;
         referCount = u.refer_count || 0;
         referEarnings = u.refer_earnings || 0;
         extraSpins = u.extra_spins || 0;
@@ -514,13 +519,36 @@ function updateNFTUI() {
     if (activeNftEl) activeNftEl.innerText = activeNFT.name;
 }
 
+// ===== MINING ENGINE FUNCTIONS =====
+async function syncMiningFromServer() {
+    if (!userTGID) return;
+    const data = await apiCall('/update_mining', { tg_id: userTGID });
+    if (data.success) {
+        serverUnclaimed = data.unclaimed || 0;
+        lastServerSync = Date.now();
+    }
+}
+
+function updateMiningUI() {
+    if (!userTGID) return;
+    const now = Date.now();
+    const elapsedSinceSync = (now - lastServerSync) / 1000;
+    const speed = activeNFT.speed || 500;
+    const perSecond = speed / 86400;
+    localUnclaimed = serverUnclaimed + (perSecond * elapsedSinceSync);
+    const el = document.getElementById('unclaimed-counter');
+    if (el) el.innerText = `${localUnclaimed.toFixed(4)} SFN`;
+}
+
 async function claimMining() {
     if (!userTGID) { alert("Please open from Telegram"); return; }
-    if (unclaimedVal < 0.1) { alert("⚠️ Minimum claim 0.1 SFN."); return; }
+    if (localUnclaimed < 0.1) { alert("⚠️ Minimum claim 0.1 SFN."); return; }
     const data = await apiCall('/claim_mining', { tg_id: userTGID });
     if (data.success) {
         balance = data.new_balance;
-        unclaimedVal = 0;
+        serverUnclaimed = 0;
+        localUnclaimed = 0;
+        lastServerSync = Date.now();
         updateBalanceUI();
         alert(`🎉 Claimed ${data.claimed.toFixed(4)} SFN!`);
     } else {
@@ -975,17 +1003,14 @@ window.addEventListener('DOMContentLoaded', async () => {
 
     checkCooldowns();
     checkVerificationStatus();
+
+    // ✅ START MINING ENGINES
+    setInterval(syncMiningFromServer, 10000); // Server sync every 10s
+    setInterval(updateMiningUI, 1000);         // UI update every 1s
+    updateMiningUI();
+
     setInterval(checkCooldowns, 1000);
-    setInterval(async () => {
-        if (!userTGID) return;
-        const data = await apiCall('/update_mining', { tg_id: userTGID });
-        if (data.success) {
-            unclaimedVal = data.unclaimed || 0;
-            const el = document.getElementById('unclaimed-counter');
-            if (el) el.innerText = `${unclaimedVal.toFixed(4)} SFN`;
-        }
-    }, 10000);
 });
 </script>
 </body>
-</html>
+    </html>
