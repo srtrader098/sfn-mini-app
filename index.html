@@ -44,9 +44,22 @@ body { background-color: #030a06; color: #ffffff; font-family: 'Space Grotesk', 
 .nft-card-details div { padding: 5px 6px; border-radius: 6px; background: rgba(0, 255, 135, 0.08); border: 1px solid rgba(0, 255, 135, 0.2); text-align: center; }
 .nft-card-btn { width: 100%; margin-top: 6px; padding: 8px; border-radius: 10px; font-size: 10px; font-weight: 900; text-transform: uppercase; }
 #user-photo { object-fit: cover; }
+
+/* ===== PREMIUM TOAST & CONFETTI ===== */
+@keyframes slideUp { from { transform: translate(-50%, 30px); opacity: 0; } to { transform: translate(-50%, 0); opacity: 1; } }
+@keyframes slideDown { from { transform: translate(-50%, 0); opacity: 1; } to { transform: translate(-50%, 30px); opacity: 0; } }
 </style>
 </head>
 <body class="p-4 pb-24 max-w-md mx-auto relative min-h-screen">
+
+<canvas id="confetti-canvas" class="fixed inset-0 pointer-events-none z-[500]"></canvas>
+
+<div id="premium-toast" class="fixed bottom-24 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-emerald-500 to-emerald-600 text-black font-bold py-3 px-5 rounded-2xl shadow-[0_0_30px_rgba(0,255,135,0.6)] z-[400] hidden">
+<div class="flex items-center gap-2">
+<span id="toast-emoji" class="text-lg">⛏️</span>
+<span id="toast-message" class="text-xs">Claimed 2.2897 SFN!</span>
+</div>
+</div>
 
 <div id="splash-screen" class="fixed inset-0 bg-[#030a06] z-[200] flex flex-col items-center justify-center p-6 text-center transition-opacity duration-500">
 <div class="relative w-36 h-36 mb-6 flex items-center justify-center">
@@ -111,8 +124,8 @@ body { background-color: #030a06; color: #ffffff; font-family: 'Space Grotesk', 
 <h1 class="text-2xl font-bold pixel-font emerald-glow-text"><span id="total-balance">0.00</span> <span class="text-xs text-emerald-300">SFN</span></h1>
 </div>
 <p class="text-[10px] text-gray-400 font-mono mt-1">Est. Value: <span class="text-emerald-300 font-bold" id="usd-val">$0.00 USD</span> <span class="text-[9px] text-gray-500">(10,000 SFN = $1)</span></p>
-    </div>
-    <div id="tab-claim" class="space-y-4">
+</div>
+<div id="tab-claim" class="space-y-4">
 <div class="grid grid-cols-2 gap-2 text-[11px] font-mono">
 <div class="glass-card p-2.5 flex items-center gap-2">
 <span class="text-emerald-400 text-base">⚡</span>
@@ -433,6 +446,69 @@ const NFT_DATA = {
     'SFN Aurora': { price: 30, days: 15, speed: 6000 }
 };
 
+// ===== CONFETTI + TOAST =====
+function fireConfetti() {
+    const canvas = document.getElementById('confetti-canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    const particles = [];
+    const colors = ['#00ff87', '#059669', '#ffd700', '#ff6b6b', '#4ecdc4'];
+    const emojis = ['⛏️', '💰', '💎', '🎉', '⭐', '🪙'];
+    for (let i = 0; i < 60; i++) {
+        particles.push({
+            x: Math.random() * canvas.width,
+            y: -20 - Math.random() * 100,
+            vx: (Math.random() - 0.5) * 4,
+            vy: Math.random() * 3 + 2,
+            size: Math.random() * 8 + 4,
+            color: colors[Math.floor(Math.random() * colors.length)],
+            emoji: Math.random() > 0.6 ? emojis[Math.floor(Math.random() * emojis.length)] : null,
+            rotation: Math.random() * 360,
+            rotSpeed: (Math.random() - 0.5) * 10
+        });
+    }
+    const startTime = Date.now();
+    function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        const elapsed = Date.now() - startTime;
+        particles.forEach(p => {
+            p.x += p.vx;
+            p.y += p.vy;
+            p.vy += 0.12;
+            p.rotation += p.rotSpeed;
+            ctx.save();
+            ctx.translate(p.x, p.y);
+            ctx.rotate(p.rotation * Math.PI / 180);
+            if (p.emoji) {
+                ctx.font = `${p.size * 3}px serif`;
+                ctx.fillText(p.emoji, -p.size, p.size);
+            } else {
+                ctx.fillStyle = p.color;
+                ctx.fillRect(-p.size/2, -p.size/2, p.size, p.size);
+            }
+            ctx.restore();
+        });
+        if (elapsed < 3200) requestAnimationFrame(animate);
+        else ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+    animate();
+}
+
+function showPremiumToast(message, emoji = '⛏️') {
+    const toast = document.getElementById('premium-toast');
+    const msgEl = document.getElementById('toast-message');
+    const emojiEl = document.getElementById('toast-emoji');
+    emojiEl.innerText = emoji;
+    msgEl.innerText = message;
+    toast.classList.remove('hidden');
+    toast.style.animation = 'slideUp 0.3s ease-out forwards';
+    setTimeout(() => {
+        toast.style.animation = 'slideDown 0.3s ease-in forwards';
+        setTimeout(() => toast.classList.add('hidden'), 300);
+    }, 3000);
+}
+
 async function apiCall(endpoint, data) {
     try {
         const response = await fetch(`${BACKEND_URL}${endpoint}`, {
@@ -473,18 +549,11 @@ async function loadUserData() {
         lockedBalance = u.locked_balance || 0;
         serverLastCheckin = u.last_checkin;
         serverLastSpin = u.last_spin;
-
         if (u.active_nft && u.active_nft !== 'SFN Free Miner') {
-            activeNFT = {
-                name: u.active_nft,
-                speed: u.mining_speed || 500,
-                expiresAt: u.nft_expiry ? new Date(u.nft_expiry).getTime() : null,
-                isFree: false
-            };
+            activeNFT = { name: u.active_nft, speed: u.mining_speed || 500, expiresAt: u.nft_expiry ? new Date(u.nft_expiry).getTime() : null, isFree: false };
         } else {
             activeNFT = { name: 'SFN Free Miner', speed: 500, expiresAt: null, isFree: true };
         }
-
         if (u.verified) {
             localStorage.setItem('sfn_verified', 'true');
             updateVerifyBadge(true);
@@ -493,7 +562,6 @@ async function loadUserData() {
             localStorage.removeItem('sfn_verified');
             updateVerifyBadge(false);
         }
-
         updateBalanceUI();
         updateNFTUI();
         checkCooldowns();
@@ -519,7 +587,6 @@ function updateNFTUI() {
     if (activeNftEl) activeNftEl.innerText = activeNFT.name;
 }
 
-// ===== MINING ENGINE FUNCTIONS =====
 async function syncMiningFromServer() {
     if (!userTGID) return;
     const data = await apiCall('/update_mining', { tg_id: userTGID });
@@ -540,19 +607,24 @@ function updateMiningUI() {
     if (el) el.innerText = `${localUnclaimed.toFixed(4)} SFN`;
 }
 
+// ===== INSTANT CLAIM WITH OPTIMISTIC UI =====
 async function claimMining() {
     if (!userTGID) { alert("Please open from Telegram"); return; }
     if (localUnclaimed < 0.1) { alert("⚠️ Minimum claim 0.1 SFN."); return; }
+    const claimedAmount = localUnclaimed;
+    // INSTANT UI UPDATE
+    balance += claimedAmount;
+    serverUnclaimed = 0;
+    localUnclaimed = 0;
+    lastServerSync = Date.now();
+    updateBalanceUI();
+    fireConfetti();
+    showPremiumToast(`Claimed ${claimedAmount.toFixed(4)} SFN!`, '⛏️');
+    // Background Server Sync
     const data = await apiCall('/claim_mining', { tg_id: userTGID });
     if (data.success) {
         balance = data.new_balance;
-        serverUnclaimed = 0;
-        localUnclaimed = 0;
-        lastServerSync = Date.now();
         updateBalanceUI();
-        alert(`🎉 Claimed ${data.claimed.toFixed(4)} SFN!`);
-    } else {
-        alert("⚠️ " + (data.error || "Claim failed"));
     }
 }
 
@@ -564,13 +636,11 @@ async function claimDailyCheckin() {
         serverLastCheckin = new Date().toISOString();
         updateBalanceUI();
         checkCooldowns();
-        alert("🎉 +20 SFN added!");
+        fireConfetti();
+        showPremiumToast('+20 SFN Claimed!', '📅');
     } else {
-        if (data.remaining_seconds) {
-            alert("⚠️ Already claimed. Please wait.");
-        } else {
-            alert("⚠️ " + (data.error || "Check-in failed"));
-        }
+        if (data.remaining_seconds) alert("⚠️ Already claimed. Please wait.");
+        else alert("⚠️ " + (data.error || "Check-in failed"));
     }
 }
 
@@ -586,7 +656,6 @@ async function spinWheel() {
     if (!userTGID) return;
     isSpinning = true;
     document.getElementById('spinBtn').disabled = true;
-
     const randomIndex = Math.floor(Math.random() * rewards.length);
     const sliceDeg = 360 / rewards.length;
     let targetDeg = (270 - (randomIndex + 0.5) * sliceDeg) % 360;
@@ -596,7 +665,6 @@ async function spinWheel() {
     if (diff < 0) diff += 360;
     rotationDescription += 1800 + diff;
     canvas.style.transform = `rotate(${rotationDescription}deg)`;
-
     setTimeout(async () => {
         const wonAmount = rewards[randomIndex];
         const data = await apiCall('/spin_wheel', { tg_id: userTGID, reward: wonAmount });
@@ -605,7 +673,8 @@ async function spinWheel() {
             extraSpins = data.extra_spins || 0;
             if (extraSpins === 0) serverLastSpin = new Date().toISOString();
             updateBalanceUI();
-            alert(`🎉 You won +${wonAmount} SFN!`);
+            fireConfetti();
+            showPremiumToast(`You won ${wonAmount} SFN!`, '🎡');
         }
         isSpinning = false;
         checkCooldowns();
@@ -616,7 +685,6 @@ function checkCooldowns() {
     const now = Date.now();
     const dailyBtn = document.getElementById('claimDailyBtn');
     const spinBtn = document.getElementById('spinBtn');
-
     if (serverLastCheckin) {
         const last = new Date(serverLastCheckin).getTime();
         const elapsed = now - last;
@@ -628,15 +696,8 @@ function checkCooldowns() {
             const s = Math.floor((remaining % (1000*60)) / 1000);
             dailyBtn.innerText = `READY ${h}h ${m}m ${s}s`;
             dailyBtn.disabled = true;
-        } else {
-            dailyBtn.innerText = "CLAIM +20 SFN";
-            dailyBtn.disabled = false;
-        }
-    } else {
-        dailyBtn.innerText = "CLAIM +20 SFN";
-        dailyBtn.disabled = false;
-    }
-
+        } else { dailyBtn.innerText = "CLAIM +20 SFN"; dailyBtn.disabled = false; }
+    } else { dailyBtn.innerText = "CLAIM +20 SFN"; dailyBtn.disabled = false; }
     if (extraSpins > 0) {
         spinBtn.innerText = `SPIN (Extra: ${extraSpins})`;
         spinBtn.disabled = false;
@@ -651,14 +712,8 @@ function checkCooldowns() {
             const s = Math.floor((remaining % (1000*60)) / 1000);
             spinBtn.innerText = `NEXT SPIN ${h}h ${m}m ${s}s`;
             spinBtn.disabled = true;
-        } else {
-            spinBtn.innerText = "SPIN NOW";
-            spinBtn.disabled = false;
-        }
-    } else {
-        spinBtn.innerText = "SPIN NOW";
-        spinBtn.disabled = false;
-    }
+        } else { spinBtn.innerText = "SPIN NOW"; spinBtn.disabled = false; }
+    } else { spinBtn.innerText = "SPIN NOW"; spinBtn.disabled = false; }
 }
 
 function verifyAndUnlock() {
@@ -669,12 +724,12 @@ function verifyAndUnlock() {
     document.getElementById('verifyBtn').disabled = true;
     document.getElementById('verifyBtn').innerText = "VERIFYING...";
     document.getElementById('verifyStatus').innerText = "🔍 Checking...";
-
     apiCall('/verify', { user_id: parseInt(userTGID) }).then(data => {
         if (data.verified) {
             localStorage.setItem('sfn_verified', 'true');
             updateVerifyBadge(true);
             document.getElementById('verifyStatus').innerText = "✅ Verified!";
+            fireConfetti();
             setTimeout(() => document.getElementById('channel-gate').classList.add('hidden'), 800);
         } else {
             const missing = [];
@@ -810,9 +865,7 @@ async function submitDeposit() {
         document.getElementById('dep-amount').value = '';
         document.getElementById('dep-txid').value = '';
         showAIScanPage(amount, txid);
-    } else {
-        alert("⚠️ " + (data.error || "Deposit failed"));
-    }
+    } else { alert("⚠️ " + (data.error || "Deposit failed")); }
 }
 
 async function submitWithdraw() {
@@ -826,17 +879,12 @@ async function submitWithdraw() {
         document.getElementById('wd-address').value = '';
         showWithdrawProcessPage(amount, currentWdNetwork);
         loadUserData();
-    } else {
-        alert("⚠️ " + (data.error || "Withdraw failed"));
-    }
+    } else { alert("⚠️ " + (data.error || "Withdraw failed")); }
 }
 
 async function loadTransactions() {
     const data = await apiCall('/get_transactions', { tg_id: userTGID });
-    if (data.success) {
-        txHistory = data.transactions || [];
-        renderHistoryUI();
-    }
+    if (data.success) { txHistory = data.transactions || []; renderHistoryUI(); }
 }
 
 function renderHistoryUI() {
@@ -996,19 +1044,14 @@ window.addEventListener('DOMContentLoaded', async () => {
         splash.style.opacity = '0';
         setTimeout(() => splash.style.display = 'none', 500);
     }, 5000);
-
     drawWheel();
     await syncUser();
     await loadUserData();
-
     checkCooldowns();
     checkVerificationStatus();
-
-    // ✅ START MINING ENGINES
-    setInterval(syncMiningFromServer, 10000); // Server sync every 10s
-    setInterval(updateMiningUI, 1000);         // UI update every 1s
+    setInterval(syncMiningFromServer, 10000);
+    setInterval(updateMiningUI, 1000);
     updateMiningUI();
-
     setInterval(checkCooldowns, 1000);
 });
 </script>
