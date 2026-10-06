@@ -364,15 +364,17 @@ body { background-color: #030a06; color: #ffffff; font-family: 'Space Grotesk', 
 </div>
 
 <script>
-// ================= CONFIG =================
 const BACKEND_URL = "https://sfn-backend.onrender.com";
 
-// ================= TELEGRAM USER DATA =================
 const tg = window.Telegram?.WebApp;
 const tgUser = tg?.initDataUnsafe?.user;
 
 let userUID = localStorage.getItem('sfn_user_uid');
 let userTGID = localStorage.getItem('sfn_tg_id');
+
+// Server-side state (fetch each time)
+let serverLastCheckin = null;
+let serverLastSpin = null;
 
 if (tgUser) {
     userTGID = String(tgUser.id);
@@ -395,7 +397,6 @@ if (tgUser) {
 document.getElementById('user-uid').innerText = userUID;
 document.getElementById('referral-link-input').value = `https://t.me/SFN_MiningBot?start=${userUID}`;
 
-// ================= STATE (Server থেকে লোড হবে) =================
 let balance = 0.00;
 let unclaimedVal = 0;
 let referCount = 0;
@@ -429,7 +430,6 @@ const NFT_DATA = {
     'SFN Aurora': { price: 30, days: 15, speed: 6000 }
 };
 
-// ================= API CALLS =================
 async function apiCall(endpoint, data) {
     try {
         const response = await fetch(`${BACKEND_URL}${endpoint}`, {
@@ -446,14 +446,13 @@ async function apiCall(endpoint, data) {
 
 async function syncUser() {
     if (!userTGID) return;
-    const data = await apiCall('/sync_user', {
+    await apiCall('/sync_user', {
         tg_id: userTGID,
         first_name: tgUser?.first_name || '',
         last_name: tgUser?.last_name || '',
         username: tgUser?.username || '',
         photo_url: tgUser?.photo_url || ''
     });
-    console.log("Sync user:", data);
 }
 
 async function loadUserData() {
@@ -467,8 +466,9 @@ async function loadUserData() {
         referEarnings = u.refer_earnings || 0;
         extraSpins = u.extra_spins || 0;
         lockedBalance = u.locked_balance || 0;
+        serverLastCheckin = u.last_checkin;
+        serverLastSpin = u.last_spin;
 
-        // Active NFT
         if (u.active_nft && u.active_nft !== 'SFN Free Miner') {
             activeNFT = {
                 name: u.active_nft,
@@ -480,7 +480,6 @@ async function loadUserData() {
             activeNFT = { name: 'SFN Free Miner', speed: 500, expiresAt: null, isFree: true };
         }
 
-        // Verified
         if (u.verified) {
             localStorage.setItem('sfn_verified', 'true');
             updateVerifyBadge(true);
@@ -492,10 +491,10 @@ async function loadUserData() {
 
         updateBalanceUI();
         updateNFTUI();
+        checkCooldowns();
     }
 }
 
-// ================= UI UPDATE =================
 function updateBalanceUI() {
     document.getElementById('total-balance').innerText = balance.toFixed(2);
     document.getElementById('usd-val').innerText = `$${(balance / 10000).toFixed(2)} USD`;
@@ -505,8 +504,6 @@ function updateBalanceUI() {
     let progPercent = Math.min((referCount / 20) * 100, 100);
     document.getElementById('ref-progress-bar').style.width = `${progPercent}%`;
     document.getElementById('extra-spin-badge').innerText = extraSpins;
-    renderHistoryUI();
-    updateNFTUI();
 }
 
 function updateNFTUI() {
@@ -515,14 +512,11 @@ function updateNFTUI() {
     const activeNftEl = document.getElementById('active-nft');
     if (dailyRate) dailyRate.innerText = `${speed.toLocaleString()} SFN/Day`;
     if (activeNftEl) activeNftEl.innerText = activeNFT.name;
-    // (rest of UI update same as before)
 }
 
-// ================= CLAIM MINING (BACKEND) =================
 async function claimMining() {
     if (!userTGID) { alert("Please open from Telegram"); return; }
     if (unclaimedVal < 0.1) { alert("⚠️ Minimum claim 0.1 SFN."); return; }
-
     const data = await apiCall('/claim_mining', { tg_id: userTGID });
     if (data.success) {
         balance = data.new_balance;
@@ -534,9 +528,34 @@ async function claimMining() {
     }
 }
 
-// ================= SPIN (BACKEND) =================
+async function claimDailyCheckin() {
+    if (!userTGID) return;
+    const data = await apiCall('/daily_checkin', { tg_id: userTGID });
+    if (data.success) {
+        balance = data.new_balance;
+        serverLastCheckin = new Date().toISOString();
+        updateBalanceUI();
+        checkCooldowns();
+        alert("🎉 +20 SFN added!");
+    } else {
+        if (data.remaining_seconds) {
+            alert("⚠️ Already claimed. Please wait.");
+        } else {
+            alert("⚠️ " + (data.error || "Check-in failed"));
+        }
+    }
+}
+
+const canvas = document.getElementById('wheelCanvas');
+const ctx = canvas.getContext('2d');
+const rewards = [5, 10, 20, 35, 50, 100];
+const colors = ['#082113', '#114227', '#082113', '#114227', '#082113', '#114227'];
+let rotationDescription = 0;
+let isSpinning = false;
+
 async function spinWheel() {
     if (isSpinning) return;
+    if (!userTGID) return;
     isSpinning = true;
     document.getElementById('spinBtn').disabled = true;
 
@@ -556,6 +575,7 @@ async function spinWheel() {
         if (data.success) {
             balance = data.new_balance;
             extraSpins = data.extra_spins || 0;
+            if (extraSpins === 0) serverLastSpin = new Date().toISOString();
             updateBalanceUI();
             alert(`🎉 You won +${wonAmount} SFN!`);
         }
@@ -564,134 +584,55 @@ async function spinWheel() {
     }, 4000);
 }
 
-// ================= DAILY CHECK-IN (BACKEND) =================
-async function claimDailyCheckin() {
-    const data = await apiCall('/daily_checkin', { tg_id: userTGID });
-    if (data.success) {
-        balance = data.new_balance;
-        updateBalanceUI();
-        checkCooldowns();
-        alert("🎉 +20 SFN added!");
+function checkCooldowns() {
+    const now = Date.now();
+    const dailyBtn = document.getElementById('claimDailyBtn');
+    const spinBtn = document.getElementById('spinBtn');
+
+    if (serverLastCheckin) {
+        const last = new Date(serverLastCheckin).getTime();
+        const elapsed = now - last;
+        const COOLDOWN = 24 * 60 * 60 * 1000;
+        if (elapsed < COOLDOWN) {
+            const remaining = COOLDOWN - elapsed;
+            const h = Math.floor((remaining % (1000*60*60*24)) / (1000*60*60));
+            const m = Math.floor((remaining % (1000*60*60)) / (1000*60));
+            const s = Math.floor((remaining % (1000*60)) / 1000);
+            dailyBtn.innerText = `READY ${h}h ${m}m ${s}s`;
+            dailyBtn.disabled = true;
+        } else {
+            dailyBtn.innerText = "CLAIM +20 SFN";
+            dailyBtn.disabled = false;
+        }
     } else {
-        alert("⚠️ " + (data.error || "Check-in failed"));
+        dailyBtn.innerText = "CLAIM +20 SFN";
+        dailyBtn.disabled = false;
     }
-}
 
-// ================= BUY NFT (BACKEND) =================
-async function buyNFT(name, price, days, speed) {
-    const data = await apiCall('/buy_nft', {
-        tg_id: userTGID,
-        nft_name: name,
-        price: price,
-        days: days,
-        speed: speed
-    });
-    if (data.success) {
-        navSwitch('wallet');
-        switchWallet('deposit');
-        setTimeout(() => {
-            const depAmount = document.getElementById('dep-amount');
-            if (depAmount) depAmount.value = price;
-            alert(`💳 Submit $${price} deposit for ${name}.\nOnce approved by admin, NFT will activate!`);
-        }, 300);
-    }
-}
-
-// ================= DEPOSIT (BACKEND) =================
-async function submitDeposit() {
-    const amount = parseFloat(document.getElementById('dep-amount').value);
-    const txid = document.getElementById('dep-txid').value.trim();
-    const net = networkData[currentDepNetwork];
-
-    if (!amount || amount < 0.5) { alert("⚠️ Minimum deposit $0.50"); return; }
-    if (!txid) { alert("⚠️ Enter TXID"); return; }
-
-    const data = await apiCall('/submit_deposit', {
-        tg_id: userTGID,
-        amount: amount,
-        network: net.name,
-        txid: txid
-    });
-
-    if (data.success) {
-        document.getElementById('dep-amount').value = '';
-        document.getElementById('dep-txid').value = '';
-        showAIScanPage(amount, txid);
+    if (extraSpins > 0) {
+        spinBtn.innerText = `SPIN (Extra: ${extraSpins})`;
+        spinBtn.disabled = false;
+    } else if (serverLastSpin) {
+        const last = new Date(serverLastSpin).getTime();
+        const elapsed = now - last;
+        const COOLDOWN = 24 * 60 * 60 * 1000;
+        if (elapsed < COOLDOWN) {
+            const remaining = COOLDOWN - elapsed;
+            const h = Math.floor((remaining % (1000*60*60*24)) / (1000*60*60));
+            const m = Math.floor((remaining % (1000*60*60)) / (1000*60));
+            const s = Math.floor((remaining % (1000*60)) / 1000);
+            spinBtn.innerText = `NEXT SPIN ${h}h ${m}m ${s}s`;
+            spinBtn.disabled = true;
+        } else {
+            spinBtn.innerText = "SPIN NOW";
+            spinBtn.disabled = false;
+        }
     } else {
-        alert("⚠️ " + (data.error || "Deposit failed"));
+        spinBtn.innerText = "SPIN NOW";
+        spinBtn.disabled = false;
     }
 }
 
-// ================= WITHDRAW (BACKEND) =================
-async function submitWithdraw() {
-    const address = document.getElementById('wd-address').value.trim();
-    const amount = parseFloat(document.getElementById('wd-amount').value);
-
-    if (!amount || amount < 0.30) { alert("⚠️ Minimum withdrawal $0.30"); return; }
-    if (!address) { alert("⚠️ Enter address"); return; }
-
-    const data = await apiCall('/submit_withdraw', {
-        tg_id: userTGID,
-        amount: amount,
-        network: currentWdNetwork,
-        address: address
-    });
-
-    if (data.success) {
-        document.getElementById('wd-amount').value = '';
-        document.getElementById('wd-address').value = '';
-        showWithdrawProcessPage(amount, currentWdNetwork);
-        loadUserData();
-    } else {
-        alert("⚠️ " + (data.error || "Withdraw failed"));
-    }
-}
-
-// ================= HISTORY (BACKEND) =================
-async function loadTransactions() {
-    const data = await apiCall('/get_transactions', { tg_id: userTGID });
-    if (data.success) {
-        txHistory = data.transactions || [];
-        renderHistoryUI();
-    }
-}
-
-function renderHistoryUI() {
-    const listEl = document.getElementById('transaction-history-list');
-    if (!listEl) return;
-    if (txHistory.length === 0) {
-        listEl.innerHTML = `<p class="text-center text-[10px] text-gray-500 py-6">No transaction records found.</p>`;
-        return;
-    }
-    let html = '';
-    txHistory.forEach(tx => {
-        const isDep = tx.type === 'DEPOSIT';
-        let statusClass = 'bg-yellow-500/20 text-yellow-400 border border-yellow-500/30';
-        if (tx.status === 'Success') statusClass = 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30';
-        if (tx.status === 'Failed' || tx.status === 'Rejected') statusClass = 'bg-red-500/20 text-red-400 border border-red-500/30';
-        if (tx.status === 'Processing') statusClass = 'bg-blue-500/20 text-blue-400 border border-blue-500/30';
-        html += `<div class="bg-black/60 p-2.5 rounded-xl border border-white/5 flex items-center justify-between text-[11px]">
-            <div><div class="flex items-center gap-1.5">
-            <span class="${isDep ? 'text-emerald-400' : 'text-amber-400'} font-bold">${tx.type}</span>
-            <span class="text-white font-bold">$${tx.amount}</span></div>
-            <p class="text-[9px] text-gray-400">${tx.network || ''} • ${tx.date || ''}</p></div>
-            <span class="text-[9px] px-2 py-0.5 rounded font-bold ${statusClass}">${tx.status}</span></div>`;
-    });
-    listEl.innerHTML = html;
-}
-
-// ================= AUTO MINING UPDATE =================
-setInterval(async () => {
-    if (!userTGID) return;
-    const data = await apiCall('/update_mining', { tg_id: userTGID });
-    if (data.success) {
-        unclaimedVal = data.unclaimed || 0;
-        const el = document.getElementById('unclaimed-counter');
-        if (el) el.innerText = `${unclaimedVal.toFixed(4)} SFN`;
-    }
-}, 10000);
-
-// ================= ALL OTHER FUNCTIONS (UNCHANGED) =================
 function verifyAndUnlock() {
     if (!userTGID) {
         document.getElementById('verifyStatus').innerText = "❌ Please open from Telegram!";
@@ -830,6 +771,70 @@ function copyReferralLink() {
     alert('Referral link copied!');
 }
 
+async function submitDeposit() {
+    const amount = parseFloat(document.getElementById('dep-amount').value);
+    const txid = document.getElementById('dep-txid').value.trim();
+    const net = networkData[currentDepNetwork];
+    if (!amount || amount < 0.5) { alert("⚠️ Minimum deposit $0.50"); return; }
+    if (!txid) { alert("⚠️ Enter TXID"); return; }
+    const data = await apiCall('/submit_deposit', { tg_id: userTGID, amount, network: net.name, txid });
+    if (data.success) {
+        document.getElementById('dep-amount').value = '';
+        document.getElementById('dep-txid').value = '';
+        showAIScanPage(amount, txid);
+    } else {
+        alert("⚠️ " + (data.error || "Deposit failed"));
+    }
+}
+
+async function submitWithdraw() {
+    const address = document.getElementById('wd-address').value.trim();
+    const amount = parseFloat(document.getElementById('wd-amount').value);
+    if (!amount || amount < 0.30) { alert("⚠️ Minimum withdrawal $0.30"); return; }
+    if (!address) { alert("⚠️ Enter address"); return; }
+    const data = await apiCall('/submit_withdraw', { tg_id: userTGID, amount, network: currentWdNetwork, address });
+    if (data.success) {
+        document.getElementById('wd-amount').value = '';
+        document.getElementById('wd-address').value = '';
+        showWithdrawProcessPage(amount, currentWdNetwork);
+        loadUserData();
+    } else {
+        alert("⚠️ " + (data.error || "Withdraw failed"));
+    }
+}
+
+async function loadTransactions() {
+    const data = await apiCall('/get_transactions', { tg_id: userTGID });
+    if (data.success) {
+        txHistory = data.transactions || [];
+        renderHistoryUI();
+    }
+}
+
+function renderHistoryUI() {
+    const listEl = document.getElementById('transaction-history-list');
+    if (!listEl) return;
+    if (txHistory.length === 0) {
+        listEl.innerHTML = `<p class="text-center text-[10px] text-gray-500 py-6">No transaction records found.</p>`;
+        return;
+    }
+    let html = '';
+    txHistory.forEach(tx => {
+        const isDep = tx.type === 'DEPOSIT';
+        let statusClass = 'bg-yellow-500/20 text-yellow-400 border border-yellow-500/30';
+        if (tx.status === 'Success') statusClass = 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30';
+        if (tx.status === 'Failed' || tx.status === 'Rejected') statusClass = 'bg-red-500/20 text-red-400 border border-red-500/30';
+        if (tx.status === 'Processing') statusClass = 'bg-blue-500/20 text-blue-400 border border-blue-500/30';
+        html += `<div class="bg-black/60 p-2.5 rounded-xl border border-white/5 flex items-center justify-between text-[11px]">
+            <div><div class="flex items-center gap-1.5">
+            <span class="${isDep ? 'text-emerald-400' : 'text-amber-400'} font-bold">${tx.type}</span>
+            <span class="text-white font-bold">$${tx.amount}</span></div>
+            <p class="text-[9px] text-gray-400">${tx.network || ''} • ${tx.date || ''}</p></div>
+            <span class="text-[9px] px-2 py-0.5 rounded font-bold ${statusClass}">${tx.status}</span></div>`;
+    });
+    listEl.innerHTML = html;
+}
+
 function showAIScanPage(amount, txid) {
     const overlay = document.createElement('div');
     overlay.id = 'ai-scan-overlay';
@@ -933,44 +938,6 @@ function closeWithdrawAndGoHome() {
     loadTransactions();
 }
 
-const COOLDOWN_TIME = 24 * 60 * 60 * 1000;
-
-function checkCooldowns() {
-    const now = new Date().getTime();
-    const lastCheckin = localStorage.getItem('sfn_last_checkin');
-    const dailyBtn = document.getElementById('claimDailyBtn');
-    if (lastCheckin) {
-        const elapsed = now - parseInt(lastCheckin);
-        if (elapsed < COOLDOWN_TIME) {
-            const remaining = COOLDOWN_TIME - elapsed;
-            const h = Math.floor((remaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const m = Math.floor((remaining % (1000 * 60 * 60)) / (1000 * 60));
-            const s = Math.floor((remaining % (1000 * 60)) / 1000);
-            dailyBtn.innerText = `READY ${h}h ${m}m ${s}s`;
-            dailyBtn.disabled = true;
-        } else { dailyBtn.innerText = "CLAIM +20 SFN"; dailyBtn.disabled = false; }
-    }
-    const lastSpin = localStorage.getItem('sfn_last_spin');
-    const spinBtn = document.getElementById('spinBtn');
-    if (extraSpins > 0) { spinBtn.innerText = `SPIN (Extra: ${extraSpins})`; spinBtn.disabled = false; }
-    else if (lastSpin) {
-        const elapsedSpin = now - parseInt(lastSpin);
-        if (elapsedSpin < COOLDOWN_TIME) {
-            const remainingSpin = COOLDOWN_TIME - elapsedSpin;
-            const h = Math.floor((remainingSpin % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const m = Math.floor((remainingSpin % (1000 * 60 * 60)) / (1000 * 60));
-            const s = Math.floor((remainingSpin % (1000 * 60)) / 1000);
-            spinBtn.innerText = `NEXT SPIN ${h}h ${m}m ${s}s`;
-            spinBtn.disabled = true;
-        } else { spinBtn.innerText = "SPIN NOW"; spinBtn.disabled = false; }
-    }
-}
-
-const canvas = document.getElementById('wheelCanvas');
-const ctx = canvas.getContext('2d');
-const rewards = [5, 10, 20, 35, 50, 100];
-const colors = ['#082113', '#114227', '#082113', '#114227', '#082113', '#114227'];
-
 function drawWheel() {
     const slices = rewards.length;
     const sliceAngle = (2 * Math.PI) / slices;
@@ -995,10 +962,6 @@ function drawWheel() {
     }
 }
 
-let rotationDescription = 0;
-let isSpinning = false;
-
-// ================= INITIALIZE =================
 window.addEventListener('DOMContentLoaded', async () => {
     setTimeout(() => {
         const splash = document.getElementById('splash-screen');
@@ -1007,17 +970,21 @@ window.addEventListener('DOMContentLoaded', async () => {
     }, 5000);
 
     drawWheel();
-
-    // Sync user to database
     await syncUser();
-
-    // Load user data from server
     await loadUserData();
 
     checkCooldowns();
     checkVerificationStatus();
     setInterval(checkCooldowns, 1000);
-    setInterval(updateNFTUI, 60000);
+    setInterval(async () => {
+        if (!userTGID) return;
+        const data = await apiCall('/update_mining', { tg_id: userTGID });
+        if (data.success) {
+            unclaimedVal = data.unclaimed || 0;
+            const el = document.getElementById('unclaimed-counter');
+            if (el) el.innerText = `${unclaimedVal.toFixed(4)} SFN`;
+        }
+    }, 10000);
 });
 </script>
 </body>
