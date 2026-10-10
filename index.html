@@ -44,23 +44,63 @@ body { background-color: #030a06; color: #ffffff; font-family: 'Space Grotesk', 
 .nft-card-details div { padding: 5px 6px; border-radius: 6px; background: rgba(0, 255, 135, 0.08); border: 1px solid rgba(0, 255, 135, 0.2); text-align: center; }
 .nft-card-btn { width: 100%; margin-top: 6px; padding: 8px; border-radius: 10px; font-size: 10px; font-weight: 900; text-transform: uppercase; }
 #user-photo { object-fit: cover; }
-
-/* ===== PREMIUM TOAST & CONFETTI ===== */
 @keyframes slideUp { from { transform: translate(-50%, 30px); opacity: 0; } to { transform: translate(-50%, 0); opacity: 1; } }
 @keyframes slideDown { from { transform: translate(-50%, 0); opacity: 1; } to { transform: translate(-50%, 30px); opacity: 0; } }
-
-/* Toast Color Variants */
 .toast-emerald { background: linear-gradient(135deg, #00ff87 0%, #059669 100%); color: #000000; box-shadow: 0 0 30px rgba(0, 255, 135, 0.6); }
 .toast-purple { background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%); color: #ffffff; box-shadow: 0 0 30px rgba(168, 85, 247, 0.6); }
 .toast-blue { background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); color: #ffffff; box-shadow: 0 0 30px rgba(59, 130, 246, 0.6); }
 .toast-gold { background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%); color: #000000; box-shadow: 0 0 30px rgba(251, 191, 36, 0.6); }
 .toast-orange { background: linear-gradient(135deg, #fb923c 0%, #ea580c 100%); color: #ffffff; box-shadow: 0 0 30px rgba(251, 146, 60, 0.6); }
 .toast-pink { background: linear-gradient(135deg, #ec4899 0%, #db2777 100%); color: #ffffff; box-shadow: 0 0 30px rgba(236, 72, 153, 0.6); }
+.toast-red { background: linear-gradient(135deg, #ef4444 0%, #991b1b 100%); color: #ffffff; box-shadow: 0 0 30px rgba(239, 68, 68, 0.6); }
+@keyframes banPulse { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.08); opacity: 0.9; } }
+@keyframes banGlow { 0%, 100% { box-shadow: 0 0 30px rgba(239, 68, 68, 0.4); } 50% { box-shadow: 0 0 60px rgba(239, 68, 68, 0.9); } }
+@keyframes banRingSpin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+@keyframes banFloat { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-10px); } }
+.ban-icon-pulse { animation: banPulse 2s infinite ease-in-out; }
+.ban-glow-box { animation: banGlow 2.5s infinite ease-in-out; }
+.ban-ring-spin { animation: banRingSpin 8s linear infinite; }
+.ban-float { animation: banFloat 3s infinite ease-in-out; }
 </style>
 </head>
 <body class="p-4 pb-24 max-w-md mx-auto relative min-h-screen">
 
 <canvas id="confetti-canvas" class="fixed inset-0 pointer-events-none z-[500]"></canvas>
+
+<!-- ===== BAN SCREEN ===== -->
+<div id="ban-screen" class="fixed inset-0 bg-gradient-to-b from-[#0a0303] via-[#1a0808] to-[#0a0303] z-[9999] hidden flex-col items-center justify-center p-6 text-center">
+    <div class="relative w-36 h-36 mb-6 flex items-center justify-center">
+        <div class="absolute inset-0 bg-red-500/20 rounded-full blur-3xl"></div>
+        <div class="absolute inset-0 rounded-full border-2 border-dashed border-red-500/50 ban-ring-spin"></div>
+        <div class="absolute inset-4 rounded-full border border-red-500/30 ban-ring-spin" style="animation-direction: reverse; animation-duration: 12s;"></div>
+        <div class="absolute inset-8 bg-red-500/10 rounded-full blur-xl"></div>
+        <div class="text-6xl relative z-10 ban-icon-pulse ban-float">⚠️</div>
+    </div>
+    <h1 class="text-lg font-extrabold pixel-font text-red-500 mb-3 tracking-wider px-4 py-2 rounded-xl ban-glow-box" style="text-shadow: 0 0 25px rgba(239, 68, 68, 1);">MINING NODE OFFLINE</h1>
+    <p class="text-[10px] text-red-300/70 font-mono tracking-widest uppercase mb-5">◉ SECURITY PROTOCOL ACTIVATED</p>
+    <div class="bg-red-500/5 border border-red-500/30 rounded-2xl p-5 max-w-sm w-full space-y-3 backdrop-blur-md">
+        <div class="flex items-center justify-center gap-2 pb-2 border-b border-red-500/20">
+            <span class="w-2 h-2 rounded-full bg-red-500 animate-ping"></span>
+            <span class="text-[10px] text-red-400 font-bold uppercase tracking-widest">Status: Suspended</span>
+        </div>
+        <p class="text-[11px] text-gray-300 leading-relaxed">
+            Your account has been <span class="text-red-400 font-bold">flagged for suspicious activity</span>. Our automated security system has temporarily restricted access to protect the network.
+        </p>
+        <div class="bg-black/60 rounded-xl p-3 border border-red-500/20">
+            <p class="text-[9px] text-gray-500 uppercase tracking-widest mb-1">Reference Code</p>
+            <p class="text-[12px] text-red-400 font-mono font-bold">#BANNED_403</p>
+        </div>
+        <div class="flex items-center justify-center gap-3 pt-1 text-[9px] text-gray-500 font-mono">
+            <span>◉ Auto-Detection</span>
+            <span>•</span>
+            <span>◉ v2.4.1</span>
+        </div>
+    </div>
+    <a href="https://t.me/SFN_Support24_7" target="_blank" class="mt-6 bg-gradient-to-r from-red-600 to-red-800 text-white font-black py-4 px-8 rounded-xl text-xs uppercase tracking-widest shadow-[0_0_30px_rgba(239,68,68,0.6)] flex items-center gap-2 active:scale-95 transition">
+        <span class="text-base">📩</span> Submit Appeal
+    </a>
+    <p class="text-[9px] text-gray-600 mt-6 font-mono tracking-widest">ERROR 403 · NODE SECURED</p>
+</div>
 
 <div id="premium-toast" class="fixed bottom-24 left-1/2 transform -translate-x-1/2 toast-emerald text-black font-bold py-3 px-5 rounded-2xl z-[400] hidden">
 <div class="flex items-center gap-2">
@@ -132,7 +172,7 @@ body { background-color: #030a06; color: #ffffff; font-family: 'Space Grotesk', 
 <h1 class="text-2xl font-bold pixel-font emerald-glow-text"><span id="total-balance">0.00</span> <span class="text-xs text-emerald-300">SFN</span></h1>
 </div>
 <p class="text-[10px] text-gray-400 font-mono mt-1">Est. Value: <span class="text-emerald-300 font-bold" id="usd-val">$0.00 USD</span> <span class="text-[9px] text-gray-500">(10,000 SFN = $1)</span></p>
-                                                                                          </div>
+</div>
 <div id="tab-claim" class="space-y-4">
 <div class="grid grid-cols-2 gap-2 text-[11px] font-mono">
 <div class="glass-card p-2.5 flex items-center gap-2">
@@ -267,15 +307,11 @@ body { background-color: #030a06; color: #ffffff; font-family: 'Space Grotesk', 
 </div>
 </div>
 
-<!-- ===== SPIN TAB (with Sub-Tabs: SPIN / TASKS) ===== -->
 <div id="tab-spin" class="space-y-3 hidden">
-<!-- Sub-Tab Navigation -->
 <div class="flex bg-black/60 p-1 rounded-xl border border-white/10">
 <button onclick="switchSpin('spin')" id="s-btn-spin" class="w-1/2 py-2 text-[11px] font-bold rounded-lg sub-tab-active">🎡 SPIN</button>
 <button onclick="switchSpin('tasks')" id="s-btn-tasks" class="w-1/2 py-2 text-[11px] font-bold rounded-lg text-gray-400">🎯 TASKS</button>
 </div>
-
-<!-- SPIN SUB-SECTION -->
 <div id="s-sec-spin" class="glass-card p-4 text-center space-y-4">
 <div class="bg-black/60 p-3 rounded-xl border border-emerald-500/30 flex items-center justify-between">
 <div class="text-left"><h4 class="text-xs font-bold text-white">Daily Streak Bonus</h4><p class="text-[10px] text-emerald-400 font-bold">+20 SFN Every 24h</p></div>
@@ -290,8 +326,6 @@ body { background-color: #030a06; color: #ffffff; font-family: 'Space Grotesk', 
 <button id="spinBtn" onclick="spinWheel()" class="emerald-glow-btn w-full py-3.5 rounded-xl text-xs font-black uppercase mt-2">SPIN NOW</button>
 </div>
 </div>
-
-<!-- TASKS SUB-SECTION -->
 <div id="s-sec-tasks" class="space-y-3 hidden">
 <div class="glass-card p-4 text-center space-y-3">
 <div class="w-16 h-16 mx-auto bg-emerald-500/10 border border-emerald-400/50 rounded-2xl flex items-center justify-center text-3xl">🎯</div>
@@ -409,11 +443,13 @@ body { background-color: #030a06; color: #ffffff; font-family: 'Space Grotesk', 
 <button onclick="navSwitch('refer')" id="nav-refer" class="flex flex-col items-center gap-1 text-gray-500 text-[8px] font-bold w-1/6"><span class="text-sm">👥</span> Refer</button>
 <button onclick="navSwitch('wallet')" id="nav-wallet" class="flex flex-col items-center gap-1 text-gray-500 text-[8px] font-bold w-1/6"><span class="text-sm">💸</span> Wallet</button>
 <button onclick="navSwitch('support')" id="nav-support" class="flex flex-col items-center gap-1 text-gray-500 text-[8px] font-bold w-1/6"><span class="text-sm">💬</span> Support</button>
-</div>
-
-<script>
+  </div>
+  <script>
+// ================= CONFIG =================
 const BACKEND_URL = "https://sfn-backend.onrender.com";
+const SUPPORT_URL = "https://t.me/SFN_Support24_7";
 
+// ================= TELEGRAM =================
 const tg = window.Telegram?.WebApp;
 const tgUser = tg?.initDataUnsafe?.user;
 
@@ -423,6 +459,7 @@ let userTGID = localStorage.getItem('sfn_tg_id');
 let serverLastCheckin = null;
 let serverLastSpin = null;
 let isVerifiedServer = false;
+let isBannedServer = false;
 
 if (tgUser) {
     userTGID = String(tgUser.id);
@@ -431,9 +468,11 @@ if (tgUser) {
     userUID = '62' + last7;
     localStorage.setItem('sfn_user_uid', userUID);
     const fullName = tgUser.first_name + (tgUser.last_name ? ' ' + tgUser.last_name : '');
-    document.getElementById('user-name').innerText = fullName;
+    const nameEl = document.getElementById('user-name');
+    if (nameEl) nameEl.innerText = fullName;
     if (tgUser.photo_url) {
-        document.getElementById('user-photo').src = tgUser.photo_url;
+        const photoEl = document.getElementById('user-photo');
+        if (photoEl) photoEl.src = tgUser.photo_url;
     }
     tg.ready();
     tg.expand();
@@ -442,9 +481,12 @@ if (tgUser) {
     localStorage.setItem('sfn_user_uid', userUID);
 }
 
-document.getElementById('user-uid').innerText = userUID;
-document.getElementById('referral-link-input').value = `https://t.me/SFN_MiningBot?start=${userUID}`;
+const uidEl = document.getElementById('user-uid');
+if (uidEl) uidEl.innerText = userUID;
+const refLinkEl = document.getElementById('referral-link-input');
+if (refLinkEl) refLinkEl.value = `https://t.me/SFN_MiningBot?start=${userUID}`;
 
+// ================= STATE =================
 let balance = 0.00;
 let referCount = 0;
 let referEarnings = 0;
@@ -452,11 +494,9 @@ let extraSpins = 0;
 let txHistory = [];
 let activeNFT = { name: 'SFN Free Miner', speed: 500, expiresAt: null, isFree: true };
 let lockedBalance = 0;
-
 let serverUnclaimed = 0;
 let lastServerSync = Date.now();
 let localUnclaimed = 0;
-
 let currentDepNetwork = 'BEP20';
 let currentWdNetwork = "BNB Smart Chain (BEP20)";
 
@@ -481,7 +521,47 @@ const NFT_DATA = {
     'SFN Aurora': { price: 30, days: 15, speed: 6000 }
 };
 
-// ===== SPIN SUB-TAB SWITCH =====
+// ================= BAN CHECK =================
+async function checkBanStatus() {
+    if (!userTGID) return false;
+    try {
+        const res = await fetch(`${BACKEND_URL}/get_user_data`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ tg_id: userTGID })
+        });
+        if (res.status === 403) {
+            const data = await res.json().catch(() => ({}));
+            if (data.banned) {
+                showBanScreen();
+                return true;
+            }
+        }
+        return false;
+    } catch (e) {
+        console.error('Ban check error:', e);
+        return false;
+    }
+}
+
+function showBanScreen() {
+    const banScreen = document.getElementById('ban-screen');
+    const splash = document.getElementById('splash-screen');
+    const gate = document.getElementById('channel-gate');
+    const app = document.getElementById('app-content');
+    const nav = document.querySelector('.fixed.bottom-0');
+    if (banScreen) {
+        banScreen.classList.remove('hidden');
+        banScreen.style.display = 'flex';
+    }
+    if (splash) splash.style.display = 'none';
+    if (gate) gate.style.display = 'none';
+    if (app) app.style.display = 'none';
+    if (nav) nav.style.display = 'none';
+    isBannedServer = true;
+}
+
+// ================= SPIN SUB-TAB =================
 function switchSpin(type) {
     document.getElementById('s-sec-spin').classList.add('hidden');
     document.getElementById('s-sec-tasks').classList.add('hidden');
@@ -498,7 +578,7 @@ function switchSpin(type) {
     }
 }
 
-// ===== CONFETTI =====
+// ================= CONFETTI =================
 function fireConfetti(colorPalette = 'emerald') {
     const palettes = {
         emerald: { colors: ['#00ff87', '#059669', '#10b981', '#34d399', '#6ee7b7'], emojis: ['⛏️', '💰', '💎', '🪙', '⭐'] },
@@ -509,6 +589,7 @@ function fireConfetti(colorPalette = 'emerald') {
     };
     const { colors, emojis } = palettes[colorPalette] || palettes.emerald;
     const canvas = document.getElementById('confetti-canvas');
+    if (!canvas) return;
     const ctx = canvas.getContext('2d');
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
@@ -553,8 +634,10 @@ function fireConfetti(colorPalette = 'emerald') {
     animate();
 }
 
+// ================= TOAST =================
 function showPremiumToast(message, emoji = '⛏️', color = 'emerald') {
     const toast = document.getElementById('premium-toast');
+    if (!toast) return;
     const msgEl = document.getElementById('toast-message');
     const emojiEl = document.getElementById('toast-emoji');
     toast.className = `fixed bottom-24 left-1/2 transform -translate-x-1/2 font-bold py-3 px-5 rounded-2xl z-[400] toast-${color}`;
@@ -568,6 +651,7 @@ function showPremiumToast(message, emoji = '⛏️', color = 'emerald') {
     }, 3000);
 }
 
+// ================= API =================
 async function apiCall(endpoint, data) {
     try {
         const response = await fetch(`${BACKEND_URL}${endpoint}`, {
@@ -575,7 +659,12 @@ async function apiCall(endpoint, data) {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data)
         });
-        return await response.json();
+        const json = await response.json();
+        if (response.status === 403 && json.banned) {
+            showBanScreen();
+            return json;
+        }
+        return json;
     } catch (err) {
         console.error(`API Error (${endpoint}):`, err);
         return { success: false, error: 'Network error' };
@@ -596,6 +685,7 @@ async function syncUser() {
 async function loadUserData() {
     if (!userTGID) return;
     const data = await apiCall('/get_user_data', { tg_id: userTGID });
+    if (data.banned) return;
     if (data.success) {
         const u = data.user;
         balance = u.balance || 0;
@@ -614,14 +704,20 @@ async function loadUserData() {
         } else {
             activeNFT = { name: 'SFN Free Miner', speed: 500, expiresAt: null, isFree: true };
         }
-        // ✅ Channel Gate Fix: Server confirmed Verified হলে Gate দেখাব না
+
+        // ✅ VERIFIED → সরাসরি Mining Page
         if (isVerifiedServer) {
             localStorage.setItem('sfn_verified', 'true');
             updateVerifyBadge(true);
-            document.getElementById('channel-gate').classList.add('hidden');
+            const gate = document.getElementById('channel-gate');
+            if (gate) gate.classList.add('hidden');
+            const app = document.getElementById('app-content');
+            if (app) app.style.display = 'block';
         } else {
             localStorage.removeItem('sfn_verified');
             updateVerifyBadge(false);
+            const gate = document.getElementById('channel-gate');
+            if (gate) gate.classList.remove('hidden');
         }
         updateBalanceUI();
         updateNFTUI();
@@ -630,14 +726,23 @@ async function loadUserData() {
 }
 
 function updateBalanceUI() {
-    document.getElementById('total-balance').innerText = balance.toFixed(2);
-    document.getElementById('usd-val').innerText = `$${(balance / 10000).toFixed(2)} USD`;
-    document.getElementById('ref-count').innerText = `${referCount}`;
-    document.getElementById('ref-earnings').innerText = `${referEarnings.toFixed(0)} SFN`;
-    document.getElementById('ref-progress-num').innerText = referCount;
-    let progPercent = Math.min((referCount / 20) * 100, 100);
-    document.getElementById('ref-progress-bar').style.width = `${progPercent}%`;
-    document.getElementById('extra-spin-badge').innerText = extraSpins;
+    const tb = document.getElementById('total-balance');
+    if (tb) tb.innerText = balance.toFixed(2);
+    const uv = document.getElementById('usd-val');
+    if (uv) uv.innerText = `$${(balance / 10000).toFixed(2)} USD`;
+    const rc = document.getElementById('ref-count');
+    if (rc) rc.innerText = `${referCount}`;
+    const re = document.getElementById('ref-earnings');
+    if (re) re.innerText = `${referEarnings.toFixed(0)} SFN`;
+    const rpn = document.getElementById('ref-progress-num');
+    if (rpn) rpn.innerText = referCount;
+    const rpb = document.getElementById('ref-progress-bar');
+    if (rpb) {
+        let progPercent = Math.min((referCount / 20) * 100, 100);
+        rpb.style.width = `${progPercent}%`;
+    }
+    const esb = document.getElementById('extra-spin-badge');
+    if (esb) esb.innerText = extraSpins;
 }
 
 function updateNFTUI() {
@@ -649,7 +754,7 @@ function updateNFTUI() {
 }
 
 async function syncMiningFromServer() {
-    if (!userTGID) return;
+    if (!userTGID || isBannedServer) return;
     const data = await apiCall('/update_mining', { tg_id: userTGID });
     if (data.success) {
         serverUnclaimed = data.unclaimed || 0;
@@ -658,7 +763,7 @@ async function syncMiningFromServer() {
 }
 
 function updateMiningUI() {
-    if (!userTGID) return;
+    if (!userTGID || isBannedServer) return;
     const now = Date.now();
     const elapsedSinceSync = (now - lastServerSync) / 1000;
     const speed = activeNFT.speed || 500;
@@ -699,10 +804,10 @@ async function claimDailyCheckin() {
     }
 }
 
-const canvas = document.getElementById('wheelCanvas');
-const ctx = canvas.getContext('2d');
+const wheelCanvas = document.getElementById('wheelCanvas');
+const wheelCtx = wheelCanvas ? wheelCanvas.getContext('2d') : null;
 const rewards = [5, 10, 20, 35, 50, 100];
-const colors = ['#082113', '#114227', '#082113', '#114227', '#082113', '#114227'];
+const wheelColors = ['#082113', '#114227', '#082113', '#114227', '#082113', '#114227'];
 let rotationDescription = 0;
 let isSpinning = false;
 
@@ -710,7 +815,8 @@ async function spinWheel() {
     if (isSpinning) return;
     if (!userTGID) return;
     isSpinning = true;
-    document.getElementById('spinBtn').disabled = true;
+    const spinBtn = document.getElementById('spinBtn');
+    if (spinBtn) spinBtn.disabled = true;
     const randomIndex = Math.floor(Math.random() * rewards.length);
     const sliceDeg = 360 / rewards.length;
     let targetDeg = (270 - (randomIndex + 0.5) * sliceDeg) % 360;
@@ -719,7 +825,7 @@ async function spinWheel() {
     let diff = targetDeg - currentMod;
     if (diff < 0) diff += 360;
     rotationDescription += 1800 + diff;
-    canvas.style.transform = `rotate(${rotationDescription}deg)`;
+    if (wheelCanvas) wheelCanvas.style.transform = `rotate(${rotationDescription}deg)`;
     setTimeout(async () => {
         const wonAmount = rewards[randomIndex];
         const data = await apiCall('/spin_wheel', { tg_id: userTGID, reward: wonAmount });
@@ -740,6 +846,7 @@ function checkCooldowns() {
     const now = Date.now();
     const dailyBtn = document.getElementById('claimDailyBtn');
     const spinBtn = document.getElementById('spinBtn');
+    if (!dailyBtn || !spinBtn) return;
     if (serverLastCheckin) {
         const last = new Date(serverLastCheckin).getTime();
         const elapsed = now - last;
@@ -771,28 +878,39 @@ function checkCooldowns() {
     } else { spinBtn.innerText = "SPIN NOW"; spinBtn.disabled = false; }
 }
 
+// ================= VERIFY =================
 function verifyAndUnlock() {
     if (!userTGID) {
-        document.getElementById('verifyStatus').innerText = "❌ Please open from Telegram!";
+        const vs = document.getElementById('verifyStatus');
+        if (vs) vs.innerText = "❌ Please open from Telegram!";
         return;
     }
-    document.getElementById('verifyBtn').disabled = true;
-    document.getElementById('verifyBtn').innerText = "VERIFYING...";
-    document.getElementById('verifyStatus').innerText = "🔍 Checking...";
+    const btn = document.getElementById('verifyBtn');
+    const vs = document.getElementById('verifyStatus');
+    btn.disabled = true;
+    btn.innerText = "VERIFYING...";
+    vs.innerText = "🔍 Checking...";
     apiCall('/verify', { user_id: parseInt(userTGID) }).then(data => {
+        if (data.banned) return;
         if (data.verified) {
             localStorage.setItem('sfn_verified', 'true');
             updateVerifyBadge(true);
-            document.getElementById('verifyStatus').innerText = "✅ Verified!";
+            vs.innerText = "✅ Verified!";
             fireConfetti('emerald');
-            setTimeout(() => document.getElementById('channel-gate').classList.add('hidden'), 800);
+            setTimeout(() => {
+                const gate = document.getElementById('channel-gate');
+                if (gate) gate.classList.add('hidden');
+                const app = document.getElementById('app-content');
+                if (app) app.style.display = 'block';
+                loadUserData();
+            }, 800);
         } else {
             const missing = [];
             if (data.missing && data.missing.payment) missing.push("Payment");
             if (data.missing && data.missing.news) missing.push("News");
-            document.getElementById('verifyStatus').innerText = `❌ Join: ${missing.join(", ")}`;
-            document.getElementById('verifyBtn').disabled = false;
-            document.getElementById('verifyBtn').innerText = "TRY AGAIN";
+            vs.innerText = `❌ Join: ${missing.join(", ")}`;
+            btn.disabled = false;
+            btn.innerText = "TRY AGAIN";
         }
     });
 }
@@ -811,6 +929,7 @@ function updateVerifyBadge(isVerified) {
     }
 }
 
+// ================= NETWORK & DEPOSIT =================
 function selectDepNetwork(key) {
     const net = networkData[key];
     currentDepNetwork = key;
@@ -827,10 +946,12 @@ function selectDepNetwork(key) {
         const sub = activeBtn.querySelector('div:last-child');
         if (sub) sub.className = 'text-[9px] text-emerald-400 font-medium';
     }
-    document.getElementById('network-full-name').innerText = net.name;
-    document.getElementById('admin-deposit-address').value = net.address;
-    const newQr = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(net.address)}&ecc=H`;
-    document.getElementById('qr-code-img').src = newQr;
+    const nfn = document.getElementById('network-full-name');
+    if (nfn) nfn.innerText = net.name;
+    const ada = document.getElementById('admin-deposit-address');
+    if (ada) ada.value = net.address;
+    const qr = document.getElementById('qr-code-img');
+    if (qr) qr.src = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(net.address)}&ecc=H`;
 }
 
 function copyAdminAddress() {
@@ -867,6 +988,7 @@ function selectWdNetwork(net) {
     closeNetworkModal();
 }
 
+// ================= NAVIGATION =================
 function navSwitch(tab) {
     ['claim', 'nft', 'spin', 'refer', 'wallet', 'support'].forEach(t => {
         document.getElementById(`tab-${t}`).classList.add('hidden');
@@ -903,6 +1025,7 @@ function copyReferralLink() {
     alert('Referral link copied!');
 }
 
+// ================= DEPOSIT & WITHDRAW =================
 async function submitDeposit() {
     const amount = parseFloat(document.getElementById('dep-amount').value);
     const txid = document.getElementById('dep-txid').value.trim();
@@ -1069,36 +1192,47 @@ function closeWithdrawAndGoHome() {
     loadTransactions();
 }
 
+// ================= WHEEL DRAW =================
 function drawWheel() {
+    if (!wheelCtx) return;
     const slices = rewards.length;
     const sliceAngle = (2 * Math.PI) / slices;
     for (let i = 0; i < slices; i++) {
         const angle = i * sliceAngle;
-        ctx.beginPath();
-        ctx.fillStyle = colors[i];
-        ctx.moveTo(120, 120);
-        ctx.arc(120, 120, 115, angle, angle + sliceAngle);
-        ctx.fill();
-        ctx.lineWidth = 2;
-        ctx.strokeStyle = '#00ff87';
-        ctx.stroke();
-        ctx.save();
-        ctx.translate(120, 120);
-        ctx.rotate(angle + sliceAngle / 2);
-        ctx.textAlign = "right";
-        ctx.fillStyle = "#00ff87";
-        ctx.font = "bold 12px sans-serif";
-        ctx.fillText(rewards[i] + " SFN", 105, 4);
-        ctx.restore();
+        wheelCtx.beginPath();
+        wheelCtx.fillStyle = wheelColors[i];
+        wheelCtx.moveTo(120, 120);
+        wheelCtx.arc(120, 120, 115, angle, angle + sliceAngle);
+        wheelCtx.fill();
+        wheelCtx.lineWidth = 2;
+        wheelCtx.strokeStyle = '#00ff87';
+        wheelCtx.stroke();
+        wheelCtx.save();
+        wheelCtx.translate(120, 120);
+        wheelCtx.rotate(angle + sliceAngle / 2);
+        wheelCtx.textAlign = "right";
+        wheelCtx.fillStyle = "#00ff87";
+        wheelCtx.font = "bold 12px sans-serif";
+        wheelCtx.fillText(rewards[i] + " SFN", 105, 4);
+        wheelCtx.restore();
     }
 }
 
+// ================= APP STARTUP =================
 window.addEventListener('DOMContentLoaded', async () => {
+    // 1️⃣ BAN CHECK FIRST
+    const isBanned = await checkBanStatus();
+    if (isBanned) return;
+
+    // 2️⃣ Splash screen hide
     setTimeout(() => {
         const splash = document.getElementById('splash-screen');
-        splash.style.opacity = '0';
-        setTimeout(() => splash.style.display = 'none', 500);
+        if (splash) {
+            splash.style.opacity = '0';
+            setTimeout(() => splash.style.display = 'none', 500);
+        }
     }, 5000);
+
     drawWheel();
     await syncUser();
     await loadUserData();
@@ -1107,7 +1241,9 @@ window.addEventListener('DOMContentLoaded', async () => {
     setInterval(updateMiningUI, 1000);
     updateMiningUI();
     setInterval(checkCooldowns, 1000);
+    // 🔄 Re-check ban every 60 seconds
+    setInterval(checkBanStatus, 60000);
 });
 </script>
 </body>
-    </html>                                                                                          
+</html>
