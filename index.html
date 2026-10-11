@@ -10,272 +10,80 @@
 <style>
 * { user-select: none; -webkit-tap-highlight-color: transparent; box-sizing: border-box; margin: 0; padding: 0; }
 html, body { overflow-x: hidden; }
-
-body {
-  background: #030108;
-  color: #fff;
-  font-family: 'Space Grotesk', sans-serif;
-  min-height: 100vh;
-  padding: 10px 10px 85px 10px;
-  background-image: 
-    radial-gradient(circle at 15% 20%, rgba(139, 92, 246, 0.15) 0%, transparent 40%),
-    radial-gradient(circle at 85% 30%, rgba(6, 182, 212, 0.12) 0%, transparent 40%),
-    radial-gradient(circle at 50% 80%, rgba(0, 255, 135, 0.08) 0%, transparent 45%),
-    linear-gradient(180deg, #0a0514 0%, #030108 50%, #060a08 100%);
-}
-
+body { background: #030108; color: #fff; font-family: 'Space Grotesk', sans-serif; min-height: 100vh; padding: 10px 10px 85px 10px;
+  background-image: radial-gradient(circle at 15% 20%, rgba(139, 92, 246, 0.15) 0%, transparent 40%),
+  radial-gradient(circle at 85% 30%, rgba(6, 182, 212, 0.12) 0%, transparent 40%),
+  radial-gradient(circle at 50% 80%, rgba(0, 255, 135, 0.08) 0%, transparent 45%),
+  linear-gradient(180deg, #0a0514 0%, #030108 50%, #060a08 100%); }
 .pixel-font { font-family: 'Press Start 2P', monospace; }
 .mono { font-family: 'JetBrains Mono', monospace; }
-
-.glass {
-  background: linear-gradient(145deg, rgba(20, 12, 35, 0.88) 0%, rgba(10, 6, 20, 0.92) 100%);
-  border: 1px solid rgba(139, 92, 246, 0.25);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border-radius: 16px;
-  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05);
-  position: relative;
-  overflow: hidden;
-}
+.glass { background: linear-gradient(145deg, rgba(20, 12, 35, 0.88) 0%, rgba(10, 6, 20, 0.92) 100%); border: 1px solid rgba(139, 92, 246, 0.25); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border-radius: 16px; box-shadow: 0 6px 24px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05); position: relative; overflow: hidden; }
 .glass-emerald { border-color: rgba(0, 255, 135, 0.35); }
 .glass-violet { border-color: rgba(139, 92, 246, 0.4); }
 .glass-cyan { border-color: rgba(6, 182, 212, 0.4); }
-
 .glow-emerald { color: #00ff87; text-shadow: 0 0 12px rgba(0, 255, 135, 0.7); }
 .glow-violet { color: #a78bfa; text-shadow: 0 0 12px rgba(139, 92, 246, 0.7); }
 .glow-cyan { color: #22d3ee; text-shadow: 0 0 12px rgba(6, 182, 212, 0.7); }
-
-.btn-premium {
-  background: linear-gradient(135deg, #00ff87 0%, #059669 100%);
-  color: #000;
-  font-weight: 900;
-  letter-spacing: 0.3px;
-  transition: transform 0.12s ease;
-  box-shadow: 0 4px 16px rgba(0, 255, 135, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.3);
-  will-change: transform;
-  transform: translate3d(0, 0, 0);
-  border: none;
-}
+.btn-premium { background: linear-gradient(135deg, #00ff87 0%, #059669 100%); color: #000; font-weight: 900; letter-spacing: 0.3px; transition: transform 0.12s ease; box-shadow: 0 4px 16px rgba(0, 255, 135, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.3); will-change: transform; transform: translate3d(0, 0, 0); border: none; }
 .btn-premium:active { transform: scale3d(0.96, 0.96, 1); }
 .btn-premium:disabled { background: #1a2530; color: #4b5563; box-shadow: none; }
 .btn-violet { background: linear-gradient(135deg, #a78bfa 0%, #7c3aed 100%); box-shadow: 0 4px 16px rgba(139, 92, 246, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3); }
 .btn-cyan { background: linear-gradient(135deg, #22d3ee 0%, #0891b2 100%); box-shadow: 0 4px 16px rgba(6, 182, 212, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3); }
 .btn-gold { background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%); box-shadow: 0 4px 16px rgba(251, 191, 36, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3); }
-
-/* ═══ SPLASH ═══ */
 @keyframes splashGlow { 0%, 100% { transform: scale(1); opacity: 0.6; } 50% { transform: scale(1.08); opacity: 1; } }
 @keyframes splashRotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 @keyframes typewriter { from { width: 0; } to { width: 100%; } }
 @keyframes blink { 50% { border-color: transparent; } }
 @keyframes splashProgress { 0% { width: 0%; } 100% { width: 100%; } }
-
 .typewriter-text { overflow: hidden; white-space: nowrap; border-right: 2px solid #00ff87; animation: typewriter 2s steps(30) forwards, blink 0.8s step-end infinite; display: inline-block; }
-
-#splash-screen {
-  position: fixed;
-  inset: 0;
-  background: #030108;
-  z-index: 200;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 24px;
-  transition: opacity 0.5s;
-}
+#splash-screen { position: fixed; inset: 0; background: #030108; z-index: 200; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 24px; transition: opacity 0.5s; }
 #splash-screen.hidden { display: none; }
-
-/* ⭐ Splash logo — FIXED with calc() for perfect centering */
-.splash-logo-wrap {
-  position: relative;
-  width: 150px;
-  height: 150px;
-  margin-bottom: 22px;
-}
-
-.splash-logo-glow {
-  position: absolute;
-  top: calc(50% - 65px);
-  left: calc(50% - 65px);
-  width: 130px;
-  height: 130px;
-  background: radial-gradient(circle, rgba(139,92,246,0.55), transparent 62%);
-  border-radius: 50%;
-  filter: blur(18px);
-  pointer-events: none;
-  animation: splashGlow 2.5s infinite ease-in-out;
-  will-change: transform, opacity;
-}
-
-.splash-logo-ring {
-  position: absolute;
-  top: calc(50% - 65px);
-  left: calc(50% - 65px);
-  width: 130px;
-  height: 130px;
-  border-radius: 50%;
-  border: 2px dashed rgba(0, 255, 135, 0.55);
-  pointer-events: none;
-  animation: splashRotate 20s linear infinite;
-  will-change: transform;
-}
-
-.splash-logo-ring-2 {
-  position: absolute;
-  top: calc(50% - 72.5px);
-  left: calc(50% - 72.5px);
-  width: 145px;
-  height: 145px;
-  border-radius: 50%;
-  border: 1px dashed rgba(139, 92, 246, 0.4);
-  pointer-events: none;
-  animation: splashRotate 30s linear infinite reverse;
-  will-change: transform;
-}
-
-.splash-logo-img {
-  position: absolute;
-  top: calc(50% - 55px);
-  left: calc(50% - 55px);
-  width: 110px;
-  height: 110px;
-  object-fit: contain;
-  mix-blend-mode: screen;
-  z-index: 10;
-  filter: drop-shadow(0 0 20px rgba(0, 255, 135, 0.85));
-}
-
-/* ═══ BAN SCREEN ═══ */
+.splash-logo-wrap { position: relative; width: 150px; height: 150px; margin-bottom: 22px; }
+.splash-logo-glow { position: absolute; top: calc(50% - 65px); left: calc(50% - 65px); width: 130px; height: 130px; background: radial-gradient(circle, rgba(139,92,246,0.55), transparent 62%); border-radius: 50%; filter: blur(18px); pointer-events: none; animation: splashGlow 2.5s infinite ease-in-out; }
+.splash-logo-ring { position: absolute; top: calc(50% - 65px); left: calc(50% - 65px); width: 130px; height: 130px; border-radius: 50%; border: 2px dashed rgba(0, 255, 135, 0.55); pointer-events: none; animation: splashRotate 20s linear infinite; }
+.splash-logo-ring-2 { position: absolute; top: calc(50% - 72.5px); left: calc(50% - 72.5px); width: 145px; height: 145px; border-radius: 50%; border: 1px dashed rgba(139, 92, 246, 0.4); pointer-events: none; animation: splashRotate 30s linear infinite reverse; }
+.splash-logo-img { position: absolute; top: calc(50% - 55px); left: calc(50% - 55px); width: 110px; height: 110px; object-fit: contain; mix-blend-mode: screen; z-index: 10; filter: drop-shadow(0 0 20px rgba(0, 255, 135, 0.85)); }
 @keyframes banPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
 @keyframes banRingSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 @keyframes banFloat { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-8px); } }
 @keyframes glitch { 0%, 100% { transform: translate(0); } 20% { transform: translate(-2px, 2px); } 40% { transform: translate(2px, -2px); } 60% { transform: translate(-2px, -2px); } 80% { transform: translate(2px, 2px); } }
-
 .ban-icon-pulse { animation: banPulse 2.5s infinite ease-in-out; }
 .ban-ring-spin { animation: banRingSpin 10s linear infinite; }
 .ban-float { animation: banFloat 3.5s infinite ease-in-out; }
 .glitch-text { animation: glitch 0.8s infinite; }
-
-#ban-screen {
-  position: fixed;
-  inset: 0;
-  background: linear-gradient(180deg, #0a0303 0%, #1a0808 50%, #0a0303 100%);
-  z-index: 9999;
-  display: none;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 24px;
-  text-align: center;
-  overflow: hidden;
-}
+#ban-screen { position: fixed; inset: 0; background: linear-gradient(180deg, #0a0303 0%, #1a0808 50%, #0a0303 100%); z-index: 9999; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 24px; text-align: center; }
 #ban-screen.show { display: flex; }
-
-/* ═══ MINER ═══ */
 @keyframes rotateRing1 { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 @keyframes rotateRing2 { from { transform: rotate(360deg); } to { transform: rotate(0deg); } }
-@keyframes minerFloat {
-  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
-  50% { transform: translate3d(0, -10px, 0) scale(1.02); }
-}
-@keyframes fireSpark {
-  0% { transform: translate3d(0, 15px, 0) scale(0.5); opacity: 0; }
-  30% { opacity: 1; }
-  100% { transform: translate3d(0, -60px, 0) scale(1.2); opacity: 0; }
-}
-@keyframes scanLine {
-  0% { top: 0%; opacity: 0; }
-  10% { opacity: 1; }
-  90% { opacity: 1; }
-  100% { top: 100%; opacity: 0; }
-}
+@keyframes minerFloat { 0%, 100% { transform: translate3d(0, 0, 0) scale(1); } 50% { transform: translate3d(0, -10px, 0) scale(1.02); } }
+@keyframes fireSpark { 0% { transform: translate3d(0, 15px, 0) scale(0.5); opacity: 0; } 30% { opacity: 1; } 100% { transform: translate3d(0, -60px, 0) scale(1.2); opacity: 0; } }
+@keyframes scanLine { 0% { top: 0%; opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { top: 100%; opacity: 0; } }
 @keyframes pulseDot { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.4); opacity: 0.6; } }
-
-.miner-float { animation: minerFloat 4s ease-in-out infinite; will-change: transform; }
-.ring-layer-1 { animation: rotateRing1 25s linear infinite; will-change: transform; }
-.ring-layer-2 { animation: rotateRing2 35s linear infinite; will-change: transform; }
-.fire-spark {
-  position: absolute; width: 6px; height: 6px;
-  background: radial-gradient(circle, #ffcc00 0%, #ff5500 60%, #ff0000 100%);
-  border-radius: 50%;
-  box-shadow: 0 0 8px #ff5500;
-  pointer-events: none;
-  animation: fireSpark 3s infinite ease-in-out;
-  will-change: transform, opacity;
-}
-.scan-line {
-  position: absolute; left: 0; right: 0; height: 2px;
-  background: linear-gradient(90deg, transparent, #00ff87, #22d3ee, #00ff87, transparent);
-  box-shadow: 0 0 15px #00ff87;
-  animation: scanLine 8s linear infinite;
-  pointer-events: none; z-index: 30;
-}
+.miner-float { animation: minerFloat 4s ease-in-out infinite; }
+.ring-layer-1 { animation: rotateRing1 25s linear infinite; }
+.ring-layer-2 { animation: rotateRing2 35s linear infinite; }
+.fire-spark { position: absolute; width: 6px; height: 6px; background: radial-gradient(circle, #ffcc00 0%, #ff5500 60%, #ff0000 100%); border-radius: 50%; box-shadow: 0 0 8px #ff5500; pointer-events: none; animation: fireSpark 3s infinite ease-in-out; }
+.scan-line { position: absolute; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, #00ff87, #22d3ee, #00ff87, transparent); box-shadow: 0 0 15px #00ff87; animation: scanLine 8s linear infinite; pointer-events: none; z-index: 30; }
 .pulse-dot { animation: pulseDot 2s ease-in-out infinite; }
-
-@keyframes particleRise {
-  0% { transform: translate3d(0, 0, 0); opacity: 0; }
-  10% { opacity: 0.6; }
-  90% { opacity: 0.6; }
-  100% { transform: translate3d(20px, -100vh, 0); opacity: 0; }
-}
-.bg-particle {
-  position: fixed; width: 3px; height: 3px;
-  background: #00ff87; border-radius: 50%;
-  box-shadow: 0 0 8px #00ff87;
-  pointer-events: none; z-index: 1;
-  animation: particleRise linear infinite;
-  will-change: transform, opacity;
-}
-
-.nav-btn {
-  display: flex; flex-direction: column; align-items: center; gap: 2px;
-  color: #6b7280; font-size: 7px; font-weight: 800;
-  text-transform: uppercase; letter-spacing: 0.2px;
-  transition: color 0.25s, transform 0.25s;
-  padding: 4px 0; position: relative; width: 16.66%;
-  background: none; border: none;
-}
+@keyframes particleRise { 0% { transform: translate3d(0, 0, 0); opacity: 0; } 10% { opacity: 0.6; } 90% { opacity: 0.6; } 100% { transform: translate3d(20px, -100vh, 0); opacity: 0; } }
+.bg-particle { position: fixed; width: 3px; height: 3px; background: #00ff87; border-radius: 50%; box-shadow: 0 0 8px #00ff87; pointer-events: none; z-index: 1; animation: particleRise linear infinite; }
+.nav-btn { display: flex; flex-direction: column; align-items: center; gap: 2px; color: #6b7280; font-size: 7px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.2px; transition: color 0.25s, transform 0.25s; padding: 4px 0; position: relative; width: 16.66%; background: none; border: none; }
 .nav-btn .nav-icon { font-size: 16px; transition: transform 0.25s; filter: grayscale(1) brightness(0.6); }
 .nav-btn.nav-active { color: #00ff87; }
 .nav-btn.nav-active .nav-icon { filter: grayscale(0) brightness(1.2); transform: translate3d(0, -3px, 0) scale(1.12); }
-.nav-btn.nav-active::before {
-  content: ''; position: absolute; top: -2px; left: 50%; transform: translateX(-50%);
-  width: 20px; height: 2px; background: #00ff87; border-radius: 2px; box-shadow: 0 0 10px #00ff87;
-}
-
+.nav-btn.nav-active::before { content: ''; position: absolute; top: -2px; left: 50%; transform: translateX(-50%); width: 20px; height: 2px; background: #00ff87; border-radius: 2px; box-shadow: 0 0 10px #00ff87; }
 @keyframes tabFadeIn { from { opacity: 0; transform: translate3d(0, 6px, 0); } to { opacity: 1; transform: translate3d(0, 0, 0); } }
 .tab-content { animation: tabFadeIn 0.3s ease-out; }
-
-.sub-tab {
-  padding: 7px 6px; font-size: 9px; font-weight: 800;
-  border-radius: 9px; text-transform: uppercase;
-  transition: all 0.25s; color: #6b7280;
-  background: transparent; flex: 1; text-align: center;
-  cursor: pointer; border: none;
-}
-.sub-tab.active {
-  background: linear-gradient(135deg, #00ff87 0%, #059669 100%);
-  color: #000; box-shadow: 0 3px 12px rgba(0, 255, 135, 0.4);
-}
-
+.sub-tab { padding: 7px 6px; font-size: 9px; font-weight: 800; border-radius: 9px; text-transform: uppercase; transition: all 0.25s; color: #6b7280; background: transparent; flex: 1; text-align: center; cursor: pointer; border: none; }
+.sub-tab.active { background: linear-gradient(135deg, #00ff87 0%, #059669 100%); color: #000; box-shadow: 0 3px 12px rgba(0, 255, 135, 0.4); }
 .nft-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-.nft-card {
-  background: linear-gradient(145deg, rgba(20, 12, 35, 0.9) 0%, rgba(10, 6, 20, 0.95) 100%);
-  border-radius: 14px; border: 1px solid rgba(255, 255, 255, 0.08);
-  padding: 8px; position: relative; overflow: hidden;
-  transition: transform 0.2s ease;
-}
+.nft-card { background: linear-gradient(145deg, rgba(20, 12, 35, 0.9) 0%, rgba(10, 6, 20, 0.95) 100%); border-radius: 14px; border: 1px solid rgba(255, 255, 255, 0.08); padding: 8px; position: relative; overflow: hidden; transition: transform 0.2s ease; }
 .nft-card:active { transform: scale3d(0.98, 0.98, 1); }
 .nft-card.border-common { border-color: rgba(0, 255, 135, 0.4); }
 .nft-card.border-rare { border-color: rgba(6, 182, 212, 0.5); }
 .nft-card.border-epic { border-color: rgba(139, 92, 246, 0.5); }
 .nft-card.border-legendary { border-color: rgba(251, 191, 36, 0.6); }
-.nft-rarity {
-  position: absolute; top: 6px; right: 6px;
-  padding: 2px 6px; border-radius: 6px;
-  font-size: 7px; font-weight: 900; letter-spacing: 0.5px;
-  text-transform: uppercase; z-index: 5;
-}
+.nft-rarity { position: absolute; top: 6px; right: 6px; padding: 2px 6px; border-radius: 6px; font-size: 7px; font-weight: 900; letter-spacing: 0.5px; text-transform: uppercase; z-index: 5; }
 .rarity-common { background: rgba(0, 255, 135, 0.2); color: #00ff87; border: 1px solid rgba(0, 255, 135, 0.5); }
 .rarity-rare { background: rgba(6, 182, 212, 0.2); color: #22d3ee; border: 1px solid rgba(6, 182, 212, 0.6); }
 .rarity-epic { background: rgba(139, 92, 246, 0.25); color: #a78bfa; border: 1px solid rgba(139, 92, 246, 0.6); }
@@ -287,121 +95,39 @@ body {
 .nft-detail-row .label { color: #6b7280; font-weight: 700; font-size: 8px; }
 .nft-detail-row .value { color: #fff; font-weight: 800; font-family: 'JetBrains Mono', monospace; font-size: 9px; }
 .nft-card-btn { width: 100%; margin-top: 6px; padding: 8px; border-radius: 10px; font-size: 9px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.4px; border: none; }
-
 .wheel-container { position: relative; width: 210px; height: 210px; margin: 0 auto; }
-.wheel-pointer {
-  position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
-  width: 0; height: 0;
-  border-left: 12px solid transparent; border-right: 12px solid transparent;
-  border-top: 20px solid #00ff87; z-index: 20;
-  filter: drop-shadow(0 0 8px #00ff87);
-}
-#wheelCanvas {
-  border-radius: 50%;
-  transition: transform 5s cubic-bezier(0.17, 0.67, 0.12, 0.99);
-  box-shadow: 0 0 20px rgba(0, 255, 135, 0.4);
-  will-change: transform;
-}
-
+.wheel-pointer { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 12px solid transparent; border-right: 12px solid transparent; border-top: 20px solid #00ff87; z-index: 20; filter: drop-shadow(0 0 8px #00ff87); }
+#wheelCanvas { border-radius: 50%; transition: transform 5s cubic-bezier(0.17, 0.67, 0.12, 0.99); box-shadow: 0 0 20px rgba(0, 255, 135, 0.4); will-change: transform; }
 @keyframes toastIn { from { transform: translate3d(-50%, -30px, 0) scale(0.9); opacity: 0; } to { transform: translate3d(-50%, 0, 0) scale(1); opacity: 1; } }
 @keyframes toastOut { from { transform: translate3d(-50%, 0, 0) scale(1); opacity: 1; } to { transform: translate3d(-50%, -30px, 0) scale(0.9); opacity: 0; } }
-
-.toast {
-  position: fixed; top: 16px; left: 50%;
-  transform: translateX(-50%);
-  padding: 10px 16px; border-radius: 12px;
-  font-weight: 800; font-size: 11px; z-index: 9999;
-  animation: toastIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  max-width: 90vw; text-align: center;
-  display: flex; align-items: center; gap: 8px;
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
-}
+.toast { position: fixed; top: 16px; left: 50%; transform: translateX(-50%); padding: 10px 16px; border-radius: 12px; font-weight: 800; font-size: 11px; z-index: 9999; animation: toastIn 0.3s cubic-bezier(0.4, 0, 0.2, 1); max-width: 90vw; text-align: center; display: flex; align-items: center; gap: 8px; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5); }
 .toast-emerald { background: linear-gradient(135deg, #00ff87 0%, #059669 100%); color: #000; }
 .toast-violet { background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%); color: #fff; }
 .toast-cyan { background: linear-gradient(135deg, #22d3ee 0%, #06b6d4 100%); color: #000; }
 .toast-gold { background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%); color: #000; }
 .toast-red { background: linear-gradient(135deg, #ef4444 0%, #991b1b 100%); color: #fff; }
 .toast-blue { background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); color: #fff; }
-
-.modal-overlay {
-  position: fixed; inset: 0;
-  background: rgba(0, 0, 0, 0.85);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  z-index: 2000; display: none;
-  align-items: flex-end; justify-content: center;
-}
+.modal-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); z-index: 2000; display: none; align-items: flex-end; justify-content: center; }
 .modal-overlay.show { display: flex; }
-.modal-content {
-  background: linear-gradient(145deg, #140a24 0%, #0a0514 100%);
-  border: 1px solid rgba(139, 92, 246, 0.4);
-  border-radius: 22px 22px 0 0;
-  width: 100%; max-width: 480px; max-height: 88vh;
-  overflow-y: auto; padding: 18px;
-  padding-bottom: max(18px, env(safe-area-inset-bottom));
-  animation: slideUpModal 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
+.modal-content { background: linear-gradient(145deg, #140a24 0%, #0a0514 100%); border: 1px solid rgba(139, 92, 246, 0.4); border-radius: 22px 22px 0 0; width: 100%; max-width: 480px; max-height: 88vh; overflow-y: auto; padding: 18px; padding-bottom: max(18px, env(safe-area-inset-bottom)); animation: slideUpModal 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
 @keyframes slideUpModal { from { transform: translate3d(0, 100%, 0); } to { transform: translate3d(0, 0, 0); } }
-
 .progress-bar { height: 5px; border-radius: 3px; background: rgba(255, 255, 255, 0.08); overflow: hidden; }
 .progress-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, #00ff87 0%, #22d3ee 100%); box-shadow: 0 0 10px rgba(0, 255, 135, 0.6); transition: width 0.5s ease; }
-
 @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
-.skeleton {
-  background: linear-gradient(90deg, rgba(255,255,255,0.06) 25%, rgba(139,92,246,0.15) 50%, rgba(255,255,255,0.06) 75%);
-  background-size: 200% 100%;
-  animation: shimmer 1.5s infinite;
-  border-radius: 6px;
-  color: transparent !important;
-}
-
+.skeleton { background: linear-gradient(90deg, rgba(255,255,255,0.06) 25%, rgba(139,92,246,0.15) 50%, rgba(255,255,255,0.06) 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite; border-radius: 6px; color: transparent !important; }
 #confetti-canvas { position: fixed; inset: 0; pointer-events: none; z-index: 500; }
-
-.badge-verified {
-  background: linear-gradient(135deg, rgba(0, 255, 135, 0.15), rgba(6, 182, 212, 0.15));
-  border: 1px solid rgba(0, 255, 135, 0.5); color: #00ff87;
-}
-.badge-unverified {
-  background: linear-gradient(135deg, rgba(251, 191, 36, 0.15), rgba(217, 119, 6, 0.15));
-  border: 1px solid rgba(251, 191, 36, 0.5); color: #fbbf24;
-}
-
-.input-premium {
-  width: 100%; background: rgba(0, 0, 0, 0.5);
-  border: 1px solid rgba(139, 92, 246, 0.3);
-  border-radius: 11px; padding: 11px 13px;
-  font-size: 12px; color: #fff; outline: none;
-  transition: border-color 0.2s, box-shadow 0.2s;
-  font-family: 'JetBrains Mono', monospace;
-}
+.badge-verified { background: linear-gradient(135deg, rgba(0, 255, 135, 0.15), rgba(6, 182, 212, 0.15)); border: 1px solid rgba(0, 255, 135, 0.5); color: #00ff87; }
+.badge-unverified { background: linear-gradient(135deg, rgba(251, 191, 36, 0.15), rgba(217, 119, 6, 0.15)); border: 1px solid rgba(251, 191, 36, 0.5); color: #fbbf24; }
+.input-premium { width: 100%; background: rgba(0, 0, 0, 0.5); border: 1px solid rgba(139, 92, 246, 0.3); border-radius: 11px; padding: 11px 13px; font-size: 12px; color: #fff; outline: none; transition: border-color 0.2s, box-shadow 0.2s; font-family: 'JetBrains Mono', monospace; }
 .input-premium:focus { border-color: #00ff87; box-shadow: 0 0 0 2px rgba(0, 255, 135, 0.15); }
 .input-premium::placeholder { color: #4b5563; }
-
-.net-card {
-  padding: 8px 4px; border-radius: 10px;
-  background: rgba(20, 15, 30, 0.6);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  text-align: center; cursor: pointer;
-  transition: all 0.25s;
-}
-.net-card.active {
-  background: linear-gradient(135deg, rgba(0, 255, 135, 0.12), rgba(6, 182, 212, 0.12));
-  border: 1.5px solid #00ff87;
-}
-
+.net-card { padding: 8px 4px; border-radius: 10px; background: rgba(20, 15, 30, 0.6); border: 1px solid rgba(255, 255, 255, 0.06); text-align: center; cursor: pointer; transition: all 0.25s; }
+.net-card.active { background: linear-gradient(135deg, rgba(0, 255, 135, 0.12), rgba(6, 182, 212, 0.12)); border: 1.5px solid #00ff87; }
 ::-webkit-scrollbar { width: 3px; height: 3px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: rgba(139, 92, 246, 0.4); border-radius: 2px; }
-
-.lock-banner {
-  background: linear-gradient(135deg, rgba(251, 191, 36, 0.08), rgba(217, 119, 6, 0.08));
-  border: 1px solid rgba(251, 191, 36, 0.4);
-  border-radius: 12px; padding: 12px;
-}
-.lock-banner.unlocked {
-  background: linear-gradient(135deg, rgba(0, 255, 135, 0.1), rgba(6, 182, 212, 0.1));
-  border-color: rgba(0, 255, 135, 0.5);
-}
+.lock-banner { background: linear-gradient(135deg, rgba(251, 191, 36, 0.08), rgba(217, 119, 6, 0.08)); border: 1px solid rgba(251, 191, 36, 0.4); border-radius: 12px; padding: 12px; }
+.lock-banner.unlocked { background: linear-gradient(135deg, rgba(0, 255, 135, 0.1), rgba(6, 182, 212, 0.1)); border-color: rgba(0, 255, 135, 0.5); }
 </style>
 </head>
 <body class="max-w-md mx-auto relative min-h-screen">
@@ -409,7 +135,7 @@ body {
 <canvas id="confetti-canvas"></canvas>
 <div id="particle-field"></div>
 
-<!-- ═══ BAN SCREEN ═══ -->
+<!-- BAN SCREEN -->
 <div id="ban-screen">
   <div style="position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center;">
     <div style="position: relative; width: 120px; height: 120px; margin-bottom: 20px; display: flex; align-items: center; justify-content: center;">
@@ -424,27 +150,23 @@ body {
         <span style="width: 6px; height: 6px; border-radius: 50%; background: #ef4444;" class="pulse-dot"></span>
         <span class="mono" style="font-size: 8px; color: #f87171; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase;">Status: Suspended</span>
       </div>
-      <p style="font-size: 10px; color: #d1d5db; line-height: 1.6; margin-bottom: 12px;">
-        Your account has been <span style="color: #f87171; font-weight: 800;">flagged by our automated detection system</span>. Access temporarily restricted.
-      </p>
+      <p style="font-size: 10px; color: #d1d5db; line-height: 1.6; margin-bottom: 12px;">Your account has been <span style="color: #f87171; font-weight: 800;">flagged by our automated detection system</span>. Access temporarily restricted.</p>
       <div style="background: rgba(0, 0, 0, 0.6); border-radius: 10px; padding: 10px;">
         <p class="mono" style="font-size: 7px; color: #6b7280; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 3px;">Reference Code</p>
         <p class="mono" style="font-size: 11px; color: #f87171; font-weight: 800;">#BANNED_403</p>
       </div>
     </div>
-    <a href="https://t.me/SFN_Support24_7" target="_blank" style="margin-top: 18px; background: linear-gradient(135deg, #ef4444 0%, #991b1b 100%); color: #fff; font-weight: 900; padding: 12px 24px; border-radius: 12px; font-size: 10px; text-transform: uppercase; letter-spacing: 1.2px; text-decoration: none; box-shadow: 0 0 25px rgba(239, 68, 68, 0.6); display: flex; align-items: center; gap: 6px;">
-      <span style="font-size: 13px;">📩</span> Submit Appeal
-    </a>
+    <a href="https://t.me/SFN_Support24_7" target="_blank" style="margin-top: 18px; background: linear-gradient(135deg, #ef4444 0%, #991b1b 100%); color: #fff; font-weight: 900; padding: 12px 24px; border-radius: 12px; font-size: 10px; text-transform: uppercase; letter-spacing: 1.2px; text-decoration: none; box-shadow: 0 0 25px rgba(239, 68, 68, 0.6); display: flex; align-items: center; gap: 6px;"><span style="font-size: 13px;">📩</span> Submit Appeal</a>
   </div>
 </div>
 
-<!-- ═══ TOAST ═══ -->
+<!-- TOAST -->
 <div id="premium-toast" class="toast toast-emerald" style="display: none;">
   <span id="toast-emoji" style="font-size: 16px;">⛏️</span>
   <span id="toast-message" style="font-size: 11px;">Claimed!</span>
 </div>
 
-<!-- ═══ SPLASH (FIXED) ═══ -->
+<!-- SPLASH -->
 <div id="splash-screen">
   <div class="splash-logo-wrap">
     <div class="splash-logo-glow"></div>
@@ -457,12 +179,10 @@ body {
   <div style="width: 180px; height: 3px; background: rgba(0, 0, 0, 0.6); border-radius: 2px; overflow: hidden; border: 1px solid rgba(0, 255, 135, 0.3);">
     <div style="height: 100%; background: linear-gradient(90deg, #00ff87, #22d3ee, #8b5cf6); border-radius: 2px; animation: splashProgress 3s linear forwards;"></div>
   </div>
-  <div class="mono" style="font-size: 8px; color: #6b7280; margin-top: 14px; letter-spacing: 1.5px;">
-    <span class="typewriter-text">Loading secure nodes...</span>
-  </div>
+  <div class="mono" style="font-size: 8px; color: #6b7280; margin-top: 14px; letter-spacing: 1.5px;"><span class="typewriter-text">Loading secure nodes...</span></div>
 </div>
 
-<!-- ═══ VERIFICATION GATE ═══ -->
+<!-- CHANNEL GATE -->
 <div id="channel-gate" class="modal-overlay" style="align-items: center; padding: 14px; display: none;">
   <div class="glass glass-emerald" style="padding: 22px; text-align: center; max-width: 340px; width: 100%;">
     <div style="width: 58px; height: 58px; margin: 0 auto 14px; background: linear-gradient(135deg, rgba(0, 255, 135, 0.15), rgba(6, 182, 212, 0.15)); border: 1px solid rgba(0, 255, 135, 0.5); border-radius: 18px; display: flex; align-items: center; justify-content: center; font-size: 28px;">🔒</div>
@@ -483,7 +203,37 @@ body {
   </div>
 </div>
 
-<!-- ═══ NETWORK MODAL ═══ -->
+<!-- NFT BUY MODAL -->
+<div id="nft-buy-modal" class="modal-overlay" style="align-items: center; padding: 16px;">
+  <div class="glass glass-violet" style="padding: 22px; max-width: 360px; width: 100%;">
+    <div style="text-align: center; margin-bottom: 16px;">
+      <div style="width: 60px; height: 60px; margin: 0 auto 12px; background: linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(251, 191, 36, 0.15)); border: 2px solid rgba(251, 191, 36, 0.5); border-radius: 18px; display: flex; align-items: center; justify-content: center; font-size: 28px;">💎</div>
+      <h3 class="pixel-font glow-violet" style="font-size: 11px; margin-bottom: 4px;">PURCHASE NFT</h3>
+      <p style="font-size: 10px; color: #9ca3af;">Deposit USDT to activate</p>
+    </div>
+    <div class="glass" style="padding: 12px; margin-bottom: 12px;">
+      <p class="mono" style="font-size: 9px; color: #a78bfa; font-weight: 800; letter-spacing: 1.2px; margin-bottom: 8px;">📦 NFT DETAILS</p>
+      <div style="display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid rgba(139, 92, 246, 0.15);"><span style="font-size: 10px; color: #6b7280;">Name</span><span id="nft-buy-name" style="font-size: 10px; color: #fff; font-weight: 800;">-</span></div>
+      <div style="display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid rgba(139, 92, 246, 0.15);"><span style="font-size: 10px; color: #6b7280;">Price</span><span id="nft-buy-price" class="mono" style="font-size: 11px; color: #00ff87; font-weight: 900;">-</span></div>
+      <div style="display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid rgba(139, 92, 246, 0.15);"><span style="font-size: 10px; color: #6b7280;">Duration</span><span id="nft-buy-days" style="font-size: 10px; color: #fff; font-weight: 800;">-</span></div>
+      <div style="display: flex; justify-content: space-between; padding: 5px 0;"><span style="font-size: 10px; color: #6b7280;">Speed</span><span id="nft-buy-speed" class="mono" style="font-size: 10px; color: #22d3ee; font-weight: 800;">-</span></div>
+    </div>
+    <div class="glass" style="padding: 10px; margin-bottom: 12px; background: rgba(251, 191, 36, 0.05); border-color: rgba(251, 191, 36, 0.3);">
+      <p class="mono" style="font-size: 8px; color: #fbbf24; font-weight: 800; margin-bottom: 4px;">⚠️ HOW TO BUY</p>
+      <p style="font-size: 9px; color: #d1d5db; line-height: 1.5;">1. Deposit exact USDT amount<br>2. Submit TXID<br>3. Admin approves → NFT activates</p>
+    </div>
+    <div style="margin-bottom: 12px;">
+      <label style="font-size: 9px; color: #6b7280; font-weight: 700; display: block; margin-bottom: 5px;">DEPOSIT AMOUNT ($)</label>
+      <input type="number" id="nft-buy-amount" class="input-premium" readonly style="background: rgba(0,0,0,0.7); font-weight: 900; color: #00ff87;">
+    </div>
+    <div style="display: flex; gap: 8px;">
+      <button onclick="closeNftBuyModal()" style="flex: 1; padding: 12px; border-radius: 11px; background: rgba(255,255,255,0.06); color: #9ca3af; border: 1px solid rgba(255,255,255,0.1); font-size: 10px; font-weight: 800; text-transform: uppercase; cursor: pointer;">Cancel</button>
+      <button onclick="proceedNftBuy()" class="btn-premium btn-gold" style="flex: 2; padding: 12px; border-radius: 11px; font-size: 10px; font-weight: 900; text-transform: uppercase; border: none;">💳 Proceed to Deposit</button>
+    </div>
+  </div>
+</div>
+
+<!-- NETWORK MODAL -->
 <div id="network-modal" class="modal-overlay">
   <div class="modal-content">
     <div style="display: flex; align-items: center; justify-content: space-between; padding-bottom: 12px; border-bottom: 1px solid rgba(139, 92, 246, 0.2); margin-bottom: 14px;">
@@ -494,9 +244,8 @@ body {
   </div>
 </div>
 
-<!-- ═══ MAIN APP ═══ -->
+<!-- MAIN APP -->
 <div id="app-content" style="display: none; position: relative; z-index: 5;">
-
   <div class="glass" style="padding: 10px 12px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
     <div style="display: flex; align-items: center; gap: 9px;">
       <div style="position: relative;">
@@ -528,22 +277,9 @@ body {
 
   <div id="tab-claim" class="tab-content" style="display: flex; flex-direction: column; gap: 10px;">
     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 7px;">
-      <div class="glass" style="padding: 9px; display: flex; align-items: center; gap: 7px;">
-        <span style="font-size: 16px;">⚡</span>
-        <div>
-          <p class="mono" style="font-size: 7px; color: #6b7280; letter-spacing: 0.8px; text-transform: uppercase;">HASH SPEED</p>
-          <p class="mono" style="font-size: 10px; color: #00ff87; font-weight: 800;" id="daily-rate">500 SFN/D</p>
-        </div>
-      </div>
-      <div class="glass" style="padding: 9px; display: flex; align-items: center; gap: 7px;">
-        <span style="font-size: 16px;">🛡️</span>
-        <div>
-          <p class="mono" style="font-size: 7px; color: #6b7280; letter-spacing: 0.8px; text-transform: uppercase;">BOOST</p>
-          <p style="font-size: 10px; color: #fff; font-weight: 800;" id="active-nft">Free Tier</p>
-        </div>
-      </div>
+      <div class="glass" style="padding: 9px; display: flex; align-items: center; gap: 7px;"><span style="font-size: 16px;">⚡</span><div><p class="mono" style="font-size: 7px; color: #6b7280; letter-spacing: 0.8px; text-transform: uppercase;">HASH SPEED</p><p class="mono" style="font-size: 10px; color: #00ff87; font-weight: 800;" id="daily-rate">500 SFN/D</p></div></div>
+      <div class="glass" style="padding: 9px; display: flex; align-items: center; gap: 7px;"><span style="font-size: 16px;">🛡️</span><div><p class="mono" style="font-size: 7px; color: #6b7280; letter-spacing: 0.8px; text-transform: uppercase;">BOOST</p><p style="font-size: 10px; color: #fff; font-weight: 800;" id="active-nft">Free Tier</p></div></div>
     </div>
-
     <div style="display: flex; flex-direction: column; align-items: center; padding: 12px 0; position: relative;">
       <div style="position: relative; width: 190px; height: 190px; display: flex; align-items: center; justify-content: center;">
         <div style="position: absolute; inset: 6px; border: 2px dashed rgba(0, 255, 135, 0.5); border-radius: 50%;" class="ring-layer-1"></div>
@@ -555,135 +291,38 @@ body {
         <div class="miner-float" style="position: relative; z-index: 20; width: 120px; height: 120px; display: flex; align-items: center; justify-content: center;">
           <img id="main-character-img" src="https://i.ibb.co/rnXqY75/file-00000000888c82109e188f21049ea846.png" alt="SFN Miner" onerror="this.onerror=null; this.src='https://www.image2url.com/r2/default/images/1791043985369-a9e2b85f-86b0-4636-b90a-a46e632a1d32.png';" style="width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 0 18px rgba(0, 255, 135, 0.9));">
         </div>
-        <div style="position: absolute; bottom: 0; background: rgba(0, 0, 0, 0.9); border: 1px solid rgba(0, 255, 135, 0.6); padding: 4px 10px; border-radius: 14px; z-index: 30; display: flex; align-items: center; gap: 5px;">
-          <span style="width: 6px; height: 6px; border-radius: 50%; background: #00ff87;" class="pulse-dot"></span>
-          <span class="mono" style="font-size: 8px; color: #00ff87; font-weight: 800; letter-spacing: 1px;">MINING LIVE</span>
-        </div>
+        <div style="position: absolute; bottom: 0; background: rgba(0, 0, 0, 0.9); border: 1px solid rgba(0, 255, 135, 0.6); padding: 4px 10px; border-radius: 14px; z-index: 30; display: flex; align-items: center; gap: 5px;"><span style="width: 6px; height: 6px; border-radius: 50%; background: #00ff87;" class="pulse-dot"></span><span class="mono" style="font-size: 8px; color: #00ff87; font-weight: 800; letter-spacing: 1px;">MINING LIVE</span></div>
       </div>
       <div style="margin-top: 12px; background: rgba(0, 0, 0, 0.6); border: 1px solid rgba(139, 92, 246, 0.3); padding: 9px 18px; border-radius: 12px; text-align: center;">
         <p class="mono" style="font-size: 7px; color: #a78bfa; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 2px;">UNCLAIMED</p>
         <p class="pixel-font glow-emerald" id="unclaimed-counter" style="font-size: 11px;">0.0000 SFN</p>
       </div>
     </div>
-
-    <button onclick="claimMining()" class="btn-premium" style="width: 100%; padding: 13px; border-radius: 14px; font-size: 11px; text-transform: uppercase; letter-spacing: 1.2px; display: flex; flex-direction: column; align-items: center; gap: 2px;">
-      <span style="font-size: 13px;">⛏ CLAIM MINING REWARDS</span>
-      <span class="mono" style="font-size: 7px; font-weight: 600; opacity: 0.75;">Minimum: 0.1 SFN</span>
-    </button>
+    <button onclick="claimMining()" class="btn-premium" style="width: 100%; padding: 13px; border-radius: 14px; font-size: 11px; text-transform: uppercase; letter-spacing: 1.2px; display: flex; flex-direction: column; align-items: center; gap: 2px;"><span style="font-size: 13px;">⛏ CLAIM MINING REWARDS</span><span class="mono" style="font-size: 7px; font-weight: 600; opacity: 0.75;">Minimum: 0.1 SFN</span></button>
   </div>
 
   <div id="tab-nft" class="tab-content" style="display: none; flex-direction: column; gap: 10px;">
-    <div class="glass glass-violet" style="padding: 12px;">
-      <h3 class="pixel-font glow-violet" style="font-size: 9px; letter-spacing: 1px; margin-bottom: 3px;">⚡ NFT SPEED PASSES</h3>
-      <p style="font-size: 9px; color: #9ca3af; line-height: 1.4;">Boost mining speed. Principal locked until expiry.</p>
-    </div>
+    <div class="glass glass-violet" style="padding: 12px;"><h3 class="pixel-font glow-violet" style="font-size: 9px; letter-spacing: 1px; margin-bottom: 3px;">⚡ NFT SPEED PASSES</h3><p style="font-size: 9px; color: #9ca3af; line-height: 1.4;">Buy with USDT deposit. Boost mining speed.</p></div>
     <div class="nft-grid">
-      <div class="nft-card border-common">
-        <div class="nft-rarity rarity-common">COMMON</div>
-        <img src="https://i.ibb.co.com/1JRwPMBL/Picsart-26-10-04-23-27-29-716.png" alt="Free" class="nft-card-img">
-        <h4 class="nft-card-title">SFN FREE MINER</h4>
-        <div class="nft-divider"></div>
-        <div class="nft-detail-row"><span class="label">💰 Price</span><span class="value" style="color: #00ff87;">FREE</span></div>
-        <div class="nft-detail-row"><span class="label">📅 Duration</span><span class="value">∞</span></div>
-        <div class="nft-detail-row"><span class="label">⚡ Speed</span><span class="value" style="color: #00ff87;">500/D</span></div>
-        <button disabled class="nft-card-btn btn-premium" style="opacity: 0.6;">✅ ACTIVE</button>
-      </div>
-      <div class="nft-card border-rare">
-        <div class="nft-rarity rarity-rare">RARE</div>
-        <img src="https://i.ibb.co.com/TBL0628c/Picsart-26-10-04-23-32-21-653.png" alt="Elite" class="nft-card-img">
-        <h4 class="nft-card-title">SFN ELITE PASS</h4>
-        <div class="nft-divider"></div>
-        <div class="nft-detail-row"><span class="label">💰 Price</span><span class="value" style="color: #22d3ee;">$3</span></div>
-        <div class="nft-detail-row"><span class="label">📅 Duration</span><span class="value">7D</span></div>
-        <div class="nft-detail-row"><span class="label">⚡ Speed</span><span class="value" style="color: #22d3ee;">1,300/D</span></div>
-        <button onclick="buyNFT('SFN Elite Pass', 3, 7, 1300)" class="nft-card-btn btn-premium btn-cyan">BUY $3</button>
-      </div>
-      <div class="nft-card border-epic">
-        <div class="nft-rarity rarity-epic">EPIC</div>
-        <img src="https://i.ibb.co.com/B54DpnBp/Picsart-26-10-04-23-32-49-110.png" alt="Infinity" class="nft-card-img">
-        <h4 class="nft-card-title">SFN INFINITY PRO</h4>
-        <div class="nft-divider"></div>
-        <div class="nft-detail-row"><span class="label">💰 Price</span><span class="value" style="color: #a78bfa;">$5</span></div>
-        <div class="nft-detail-row"><span class="label">📅 Duration</span><span class="value">7D</span></div>
-        <div class="nft-detail-row"><span class="label">⚡ Speed</span><span class="value" style="color: #a78bfa;">2,200/D</span></div>
-        <button onclick="buyNFT('SFN Infinity Pro', 5, 7, 2200)" class="nft-card-btn btn-premium btn-violet">BUY $5</button>
-      </div>
-      <div class="nft-card border-legendary">
-        <div class="nft-rarity rarity-legendary">LEGENDARY</div>
-        <img src="https://i.ibb.co.com/67dZ2TwJ/Picsart-26-10-04-23-33-15-634.png" alt="Century" class="nft-card-img">
-        <h4 class="nft-card-title">SFN CENTURY</h4>
-        <div class="nft-divider"></div>
-        <div class="nft-detail-row"><span class="label">💰 Price</span><span class="value" style="color: #fbbf24;">$10</span></div>
-        <div class="nft-detail-row"><span class="label">📅 Duration</span><span class="value">10D</span></div>
-        <div class="nft-detail-row"><span class="label">⚡ Speed</span><span class="value" style="color: #fbbf24;">3,000/D</span></div>
-        <button onclick="buyNFT('SFN Century', 10, 10, 3000)" class="nft-card-btn btn-premium btn-gold">BUY $10</button>
-      </div>
-      <div class="nft-card border-epic">
-        <div class="nft-rarity rarity-epic">EPIC</div>
-        <img src="https://i.ibb.co.com/rf4wwc72/Picsart-26-10-04-23-33-43-134.png" alt="Zenith" class="nft-card-img">
-        <h4 class="nft-card-title">SFN ZENITH</h4>
-        <div class="nft-divider"></div>
-        <div class="nft-detail-row"><span class="label">💰 Price</span><span class="value" style="color: #a78bfa;">$15</span></div>
-        <div class="nft-detail-row"><span class="label">📅 Duration</span><span class="value">10D</span></div>
-        <div class="nft-detail-row"><span class="label">⚡ Speed</span><span class="value" style="color: #a78bfa;">4,500/D</span></div>
-        <button onclick="buyNFT('SFN Zenith', 15, 10, 4500)" class="nft-card-btn btn-premium btn-violet">BUY $15</button>
-      </div>
-      <div class="nft-card border-rare">
-        <div class="nft-rarity rarity-rare">RARE</div>
-        <img src="https://i.ibb.co.com/Z7Q9KC3/Picsart-26-10-04-23-34-15-828.png" alt="Nova" class="nft-card-img">
-        <h4 class="nft-card-title">SFN NOVA</h4>
-        <div class="nft-divider"></div>
-        <div class="nft-detail-row"><span class="label">💰 Price</span><span class="value" style="color: #22d3ee;">$20</span></div>
-        <div class="nft-detail-row"><span class="label">📅 Duration</span><span class="value">15D</span></div>
-        <div class="nft-detail-row"><span class="label">⚡ Speed</span><span class="value" style="color: #22d3ee;">4,000/D</span></div>
-        <button onclick="buyNFT('SFN Nova', 20, 15, 4000)" class="nft-card-btn btn-premium btn-cyan">BUY $20</button>
-      </div>
-      <div class="nft-card border-legendary">
-        <div class="nft-rarity rarity-legendary">LEGENDARY</div>
-        <img src="https://i.ibb.co.com/mVPcD31j/Picsart-26-10-04-23-34-44-833.png" alt="Phoenix" class="nft-card-img">
-        <h4 class="nft-card-title">SFN PHOENIX 🔥</h4>
-        <div class="nft-divider"></div>
-        <div class="nft-detail-row"><span class="label">💰 Price</span><span class="value" style="color: #fbbf24;">$25</span></div>
-        <div class="nft-detail-row"><span class="label">📅 Duration</span><span class="value">15D</span></div>
-        <div class="nft-detail-row"><span class="label">⚡ Speed</span><span class="value" style="color: #fbbf24;">5,000/D</span></div>
-        <button onclick="buyNFT('SFN Phoenix', 25, 15, 5000)" class="nft-card-btn btn-premium btn-gold">BUY $25</button>
-      </div>
-      <div class="nft-card border-epic">
-        <div class="nft-rarity rarity-epic">EPIC</div>
-        <img src="https://i.ibb.co.com/8LCXD77H/Picsart-26-10-04-23-35-17-202.png" alt="Aurora" class="nft-card-img">
-        <h4 class="nft-card-title">SFN AURORA 👑</h4>
-        <div class="nft-divider"></div>
-        <div class="nft-detail-row"><span class="label">💰 Price</span><span class="value" style="color: #a78bfa;">$30</span></div>
-        <div class="nft-detail-row"><span class="label">📅 Duration</span><span class="value">15D</span></div>
-        <div class="nft-detail-row"><span class="label">⚡ Speed</span><span class="value" style="color: #a78bfa;">6,000/D</span></div>
-        <button onclick="buyNFT('SFN Aurora', 30, 15, 6000)" class="nft-card-btn btn-premium btn-violet">BUY $30</button>
-      </div>
+      <div class="nft-card border-common"><div class="nft-rarity rarity-common">COMMON</div><img src="https://i.ibb.co.com/1JRwPMBL/Picsart-26-10-04-23-27-29-716.png" alt="Free" class="nft-card-img" loading="lazy"><h4 class="nft-card-title">SFN FREE MINER</h4><div class="nft-divider"></div><div class="nft-detail-row"><span class="label">💰 Price</span><span class="value" style="color: #00ff87;">FREE</span></div><div class="nft-detail-row"><span class="label">📅 Duration</span><span class="value">∞</span></div><div class="nft-detail-row"><span class="label">⚡ Speed</span><span class="value" style="color: #00ff87;">500/D</span></div><button disabled class="nft-card-btn btn-premium" style="opacity: 0.6;">✅ ACTIVE</button></div>
+      <div class="nft-card border-rare"><div class="nft-rarity rarity-rare">RARE</div><img src="https://i.ibb.co.com/TBL0628c/Picsart-26-10-04-23-32-21-653.png" alt="Elite" class="nft-card-img" loading="lazy"><h4 class="nft-card-title">SFN ELITE PASS</h4><div class="nft-divider"></div><div class="nft-detail-row"><span class="label">💰 Price</span><span class="value" style="color: #22d3ee;">$3</span></div><div class="nft-detail-row"><span class="label">📅 Duration</span><span class="value">7D</span></div><div class="nft-detail-row"><span class="label">⚡ Speed</span><span class="value" style="color: #22d3ee;">1,300/D</span></div><button onclick="buyNFT('SFN Elite Pass', 3, 7, 1300)" class="nft-card-btn btn-premium btn-cyan">BUY $3</button></div>
+      <div class="nft-card border-epic"><div class="nft-rarity rarity-epic">EPIC</div><img src="https://i.ibb.co.com/B54DpnBp/Picsart-26-10-04-23-32-49-110.png" alt="Infinity" class="nft-card-img" loading="lazy"><h4 class="nft-card-title">SFN INFINITY PRO</h4><div class="nft-divider"></div><div class="nft-detail-row"><span class="label">💰 Price</span><span class="value" style="color: #a78bfa;">$5</span></div><div class="nft-detail-row"><span class="label">📅 Duration</span><span class="value">7D</span></div><div class="nft-detail-row"><span class="label">⚡ Speed</span><span class="value" style="color: #a78bfa;">2,200/D</span></div><button onclick="buyNFT('SFN Infinity Pro', 5, 7, 2200)" class="nft-card-btn btn-premium btn-violet">BUY $5</button></div>
+      <div class="nft-card border-legendary"><div class="nft-rarity rarity-legendary">LEGENDARY</div><img src="https://i.ibb.co.com/67dZ2TwJ/Picsart-26-10-04-23-33-15-634.png" alt="Century" class="nft-card-img" loading="lazy"><h4 class="nft-card-title">SFN CENTURY</h4><div class="nft-divider"></div><div class="nft-detail-row"><span class="label">💰 Price</span><span class="value" style="color: #fbbf24;">$10</span></div><div class="nft-detail-row"><span class="label">📅 Duration</span><span class="value">10D</span></div><div class="nft-detail-row"><span class="label">⚡ Speed</span><span class="value" style="color: #fbbf24;">3,000/D</span></div><button onclick="buyNFT('SFN Century', 10, 10, 3000)" class="nft-card-btn btn-premium btn-gold">BUY $10</button></div>
+      <div class="nft-card border-epic"><div class="nft-rarity rarity-epic">EPIC</div><img src="https://i.ibb.co.com/rf4wwc72/Picsart-26-10-04-23-33-43-134.png" alt="Zenith" class="nft-card-img" loading="lazy"><h4 class="nft-card-title">SFN ZENITH</h4><div class="nft-divider"></div><div class="nft-detail-row"><span class="label">💰 Price</span><span class="value" style="color: #a78bfa;">$15</span></div><div class="nft-detail-row"><span class="label">📅 Duration</span><span class="value">10D</span></div><div class="nft-detail-row"><span class="label">⚡ Speed</span><span class="value" style="color: #a78bfa;">4,500/D</span></div><button onclick="buyNFT('SFN Zenith', 15, 10, 4500)" class="nft-card-btn btn-premium btn-violet">BUY $15</button></div>
+      <div class="nft-card border-rare"><div class="nft-rarity rarity-rare">RARE</div><img src="https://i.ibb.co.com/Z7Q9KC3/Picsart-26-10-04-23-34-15-828.png" alt="Nova" class="nft-card-img" loading="lazy"><h4 class="nft-card-title">SFN NOVA</h4><div class="nft-divider"></div><div class="nft-detail-row"><span class="label">💰 Price</span><span class="value" style="color: #22d3ee;">$20</span></div><div class="nft-detail-row"><span class="label">📅 Duration</span><span class="value">15D</span></div><div class="nft-detail-row"><span class="label">⚡ Speed</span><span class="value" style="color: #22d3ee;">4,000/D</span></div><button onclick="buyNFT('SFN Nova', 20, 15, 4000)" class="nft-card-btn btn-premium btn-cyan">BUY $20</button></div>
+      <div class="nft-card border-legendary"><div class="nft-rarity rarity-legendary">LEGENDARY</div><img src="https://i.ibb.co.com/mVPcD31j/Picsart-26-10-04-23-34-44-833.png" alt="Phoenix" class="nft-card-img" loading="lazy"><h4 class="nft-card-title">SFN PHOENIX 🔥</h4><div class="nft-divider"></div><div class="nft-detail-row"><span class="label">💰 Price</span><span class="value" style="color: #fbbf24;">$25</span></div><div class="nft-detail-row"><span class="label">📅 Duration</span><span class="value">15D</span></div><div class="nft-detail-row"><span class="label">⚡ Speed</span><span class="value" style="color: #fbbf24;">5,000/D</span></div><button onclick="buyNFT('SFN Phoenix', 25, 15, 5000)" class="nft-card-btn btn-premium btn-gold">BUY $25</button></div>
+      <div class="nft-card border-epic"><div class="nft-rarity rarity-epic">EPIC</div><img src="https://i.ibb.co.com/8LCXD77H/Picsart-26-10-04-23-35-17-202.png" alt="Aurora" class="nft-card-img" loading="lazy"><h4 class="nft-card-title">SFN AURORA 👑</h4><div class="nft-divider"></div><div class="nft-detail-row"><span class="label">💰 Price</span><span class="value" style="color: #a78bfa;">$30</span></div><div class="nft-detail-row"><span class="label">📅 Duration</span><span class="value">15D</span></div><div class="nft-detail-row"><span class="label">⚡ Speed</span><span class="value" style="color: #a78bfa;">6,000/D</span></div><button onclick="buyNFT('SFN Aurora', 30, 15, 6000)" class="nft-card-btn btn-premium btn-violet">BUY $30</button></div>
     </div>
   </div>
 
   <div id="tab-spin" class="tab-content" style="display: none; flex-direction: column; gap: 10px;">
-    <div class="glass" style="padding: 3px; display: flex; gap: 3px;">
-      <button id="s-btn-spin" class="sub-tab active" onclick="switchSpin('spin')">🎡 SPIN</button>
-      <button id="s-btn-tasks" class="sub-tab" onclick="switchSpin('tasks')">🎯 TASKS</button>
-    </div>
+    <div class="glass" style="padding: 3px; display: flex; gap: 3px;"><button id="s-btn-spin" class="sub-tab active" onclick="switchSpin('spin')">🎡 SPIN</button><button id="s-btn-tasks" class="sub-tab" onclick="switchSpin('tasks')">🎯 TASKS</button></div>
     <div id="s-sec-spin" style="display: flex; flex-direction: column; gap: 10px;">
-      <div class="glass glass-emerald" style="padding: 12px; display: flex; align-items: center; justify-content: space-between; gap: 8px;">
-        <div style="flex: 1;">
-          <h4 style="font-size: 11px; font-weight: 800; color: #fff; margin-bottom: 2px;">📅 Daily Bonus</h4>
-          <p class="mono" style="font-size: 9px; color: #00ff87; font-weight: 700;">+20 SFN / 24h</p>
-        </div>
-        <button id="claimDailyBtn" onclick="claimDailyCheckin()" class="btn-premium" style="padding: 7px 12px; border-radius: 9px; font-size: 8px; text-transform: uppercase;">CLAIM +20</button>
-      </div>
+      <div class="glass glass-emerald" style="padding: 12px; display: flex; align-items: center; justify-content: space-between; gap: 8px;"><div style="flex: 1;"><h4 style="font-size: 11px; font-weight: 800; color: #fff; margin-bottom: 2px;">📅 Daily Bonus</h4><p class="mono" style="font-size: 9px; color: #00ff87; font-weight: 700;">+20 SFN / 24h</p></div><button id="claimDailyBtn" onclick="claimDailyCheckin()" class="btn-premium" style="padding: 7px 12px; border-radius: 9px; font-size: 8px; text-transform: uppercase;">CLAIM +20</button></div>
       <div class="glass glass-violet" style="padding: 16px; text-align: center;">
         <h3 class="pixel-font glow-violet" style="font-size: 9px; margin-bottom: 14px; letter-spacing: 1px;">🎡 LUCKY SPINNER</h3>
-        <div class="wheel-container">
-          <div class="wheel-pointer"></div>
-          <canvas id="wheelCanvas" width="210" height="210"></canvas>
-        </div>
-        <div style="display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 12px; background: rgba(0,0,0,0.4); padding: 7px 12px; border-radius: 9px; border: 1px solid rgba(139, 92, 246, 0.2);">
-          <span class="mono" style="font-size: 9px; color: #a78bfa;">🎟️ Extra Spins:</span>
-          <strong class="mono" style="font-size: 10px; color: #fff;" id="extra-spin-badge">0</strong>
-        </div>
+        <div class="wheel-container"><div class="wheel-pointer"></div><canvas id="wheelCanvas" width="210" height="210"></canvas></div>
+        <div style="display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 12px; background: rgba(0,0,0,0.4); padding: 7px 12px; border-radius: 9px; border: 1px solid rgba(139, 92, 246, 0.2);"><span class="mono" style="font-size: 9px; color: #a78bfa;">🎟️ Extra Spins:</span><strong class="mono" style="font-size: 10px; color: #fff;" id="extra-spin-badge">0</strong></div>
         <button id="spinBtn" onclick="spinWheel()" class="btn-premium btn-violet" style="width: 100%; padding: 12px; border-radius: 12px; font-size: 10px; text-transform: uppercase; letter-spacing: 1.2px; margin-top: 12px;">🎡 SPIN NOW</button>
       </div>
     </div>
@@ -692,164 +331,59 @@ body {
         <div style="width: 56px; height: 56px; margin: 0 auto 12px; background: linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(6, 182, 212, 0.15)); border: 1px solid rgba(139, 92, 246, 0.5); border-radius: 18px; display: flex; align-items: center; justify-content: center; font-size: 26px;">🎯</div>
         <h3 class="pixel-font glow-violet" style="font-size: 10px; margin-bottom: 5px;">SOCIAL TASKS</h3>
         <p style="font-size: 9px; color: #9ca3af; line-height: 1.4; margin-bottom: 12px;">Complete tasks to earn bonus SFN.</p>
-        <div style="background: rgba(0, 0, 0, 0.5); padding: 12px; border-radius: 12px; border: 1px solid rgba(139, 92, 246, 0.25);">
-          <div style="display: flex; align-items: center; justify-content: center; gap: 7px; margin-bottom: 6px;">
-            <span style="width: 6px; height: 6px; background: #00ff87; border-radius: 50%;" class="pulse-dot"></span>
-            <span class="mono" style="font-size: 8px; color: #00ff87; font-weight: 800; letter-spacing: 1.5px;">SYSTEM SCANNING</span>
-          </div>
-          <p style="font-size: 9px; color: #6b7280;">No tasks available yet</p>
-        </div>
+        <div style="background: rgba(0, 0, 0, 0.5); padding: 12px; border-radius: 12px; border: 1px solid rgba(139, 92, 246, 0.25);"><div style="display: flex; align-items: center; justify-content: center; gap: 7px; margin-bottom: 6px;"><span style="width: 6px; height: 6px; background: #00ff87; border-radius: 50%;" class="pulse-dot"></span><span class="mono" style="font-size: 8px; color: #00ff87; font-weight: 800; letter-spacing: 1.5px;">SYSTEM SCANNING</span></div><p style="font-size: 9px; color: #6b7280;">No tasks available yet</p></div>
       </div>
     </div>
   </div>
 
   <div id="tab-refer" class="tab-content" style="display: none; flex-direction: column; gap: 10px;">
-    <div class="glass glass-cyan" style="padding: 14px;">
-      <h3 class="pixel-font glow-cyan" style="font-size: 10px; margin-bottom: 6px; letter-spacing: 1px;">👥 INVITE & EARN</h3>
-      <p style="font-size: 10px; color: #d1d5db; line-height: 1.5;">Earn <span style="color: #00ff87; font-weight: 800;">500 SFN</span> + <span style="color: #00ff87; font-weight: 800;">1 Free Spin</span> per referral!</p>
-    </div>
+    <div class="glass glass-cyan" style="padding: 14px;"><h3 class="pixel-font glow-cyan" style="font-size: 10px; margin-bottom: 6px; letter-spacing: 1px;">👥 INVITE & EARN</h3><p style="font-size: 10px; color: #d1d5db; line-height: 1.5;">Earn <span style="color: #00ff87; font-weight: 800;">500 SFN</span> + <span style="color: #00ff87; font-weight: 800;">1 Free Spin</span> per referral!</p></div>
     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
-      <div class="glass" style="padding: 11px; text-align: center;">
-        <p class="mono" style="font-size: 7px; color: #6b7280; letter-spacing: 1.2px; text-transform: uppercase; margin-bottom: 4px;">TOTAL REFERS</p>
-        <p class="pixel-font glow-emerald" id="ref-count" style="font-size: 13px;">0</p>
-      </div>
-      <div class="glass" style="padding: 11px; text-align: center;">
-        <p class="mono" style="font-size: 7px; color: #6b7280; letter-spacing: 1.2px; text-transform: uppercase; margin-bottom: 4px;">EARNINGS</p>
-        <p class="pixel-font glow-cyan" id="ref-earnings" style="font-size: 12px;">0</p>
-      </div>
+      <div class="glass" style="padding: 11px; text-align: center;"><p class="mono" style="font-size: 7px; color: #6b7280; letter-spacing: 1.2px; text-transform: uppercase; margin-bottom: 4px;">TOTAL REFERS</p><p class="pixel-font glow-emerald" id="ref-count" style="font-size: 13px;">0</p></div>
+      <div class="glass" style="padding: 11px; text-align: center;"><p class="mono" style="font-size: 7px; color: #6b7280; letter-spacing: 1.2px; text-transform: uppercase; margin-bottom: 4px;">EARNINGS</p><p class="pixel-font glow-cyan" id="ref-earnings" style="font-size: 12px;">0</p></div>
     </div>
     <div class="glass glass-violet" style="padding: 13px;">
       <h4 class="mono" style="font-size: 9px; color: #a78bfa; font-weight: 800; letter-spacing: 1.5px; margin-bottom: 10px;">🔓 WITHDRAW UNLOCK TIERS</h4>
       <div style="display: flex; flex-direction: column; gap: 6px;">
-        <div style="display: flex; align-items: center; justify-content: space-between; padding: 8px 10px; background: rgba(0, 0, 0, 0.4); border-radius: 9px; border: 1px solid rgba(251, 191, 36, 0.3);">
-          <div style="display: flex; align-items: center; gap: 7px;"><span style="font-size: 13px;">⏱️</span><span style="font-size: 9px; color: #d1d5db; font-weight: 700;">5 Referrals</span></div>
-          <span class="mono" style="font-size: 8px; color: #fbbf24; font-weight: 800;">7 DAYS</span>
-        </div>
-        <div style="display: flex; align-items: center; justify-content: space-between; padding: 8px 10px; background: rgba(0, 0, 0, 0.4); border-radius: 9px; border: 1px solid rgba(6, 182, 212, 0.3);">
-          <div style="display: flex; align-items: center; gap: 7px;"><span style="font-size: 13px;">⏱️</span><span style="font-size: 9px; color: #d1d5db; font-weight: 700;">10 Referrals</span></div>
-          <span class="mono" style="font-size: 8px; color: #22d3ee; font-weight: 800;">3 DAYS</span>
-        </div>
-        <div style="display: flex; align-items: center; justify-content: space-between; padding: 8px 10px; background: rgba(0, 255, 135, 0.08); border-radius: 9px; border: 1px solid rgba(0, 255, 135, 0.5);">
-          <div style="display: flex; align-items: center; gap: 7px;"><span style="font-size: 13px;">⚡</span><span style="font-size: 9px; color: #fff; font-weight: 800;">20 Referrals</span></div>
-          <span class="mono" style="font-size: 8px; color: #00ff87; font-weight: 800;">INSTANT</span>
-        </div>
+        <div style="display: flex; align-items: center; justify-content: space-between; padding: 8px 10px; background: rgba(0, 0, 0, 0.4); border-radius: 9px; border: 1px solid rgba(251, 191, 36, 0.3);"><div style="display: flex; align-items: center; gap: 7px;"><span style="font-size: 13px;">⏱️</span><span style="font-size: 9px; color: #d1d5db; font-weight: 700;">5 Referrals</span></div><span class="mono" style="font-size: 8px; color: #fbbf24; font-weight: 800;">7 DAYS</span></div>
+        <div style="display: flex; align-items: center; justify-content: space-between; padding: 8px 10px; background: rgba(0, 0, 0, 0.4); border-radius: 9px; border: 1px solid rgba(6, 182, 212, 0.3);"><div style="display: flex; align-items: center; gap: 7px;"><span style="font-size: 13px;">⏱️</span><span style="font-size: 9px; color: #d1d5db; font-weight: 700;">10 Referrals</span></div><span class="mono" style="font-size: 8px; color: #22d3ee; font-weight: 800;">3 DAYS</span></div>
+        <div style="display: flex; align-items: center; justify-content: space-between; padding: 8px 10px; background: rgba(0, 255, 135, 0.08); border-radius: 9px; border: 1px solid rgba(0, 255, 135, 0.5);"><div style="display: flex; align-items: center; gap: 7px;"><span style="font-size: 13px;">⚡</span><span style="font-size: 9px; color: #fff; font-weight: 800;">20 Referrals</span></div><span class="mono" style="font-size: 8px; color: #00ff87; font-weight: 800;">INSTANT</span></div>
       </div>
     </div>
-    <div class="glass" style="padding: 11px;">
-      <div style="display: flex; justify-content: space-between; margin-bottom: 7px; font-size: 9px;">
-        <span style="color: #d1d5db; font-weight: 700;">Progress to Instant</span>
-        <span class="mono" style="color: #00ff87; font-weight: 800;"><span id="ref-progress-num">0</span>/20</span>
-      </div>
-      <div class="progress-bar"><div class="progress-fill" id="ref-progress-bar" style="width: 0%;"></div></div>
-    </div>
-    <div class="glass" style="padding: 11px;">
-      <label class="mono" style="font-size: 8px; color: #a78bfa; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; display: block; margin-bottom: 6px;">🔗 REFERRAL LINK</label>
-      <div style="display: flex; gap: 5px;">
-        <input type="text" id="referral-link-input" readonly value="https://t.me/SFN_MiningBot?start=620001" class="input-premium" style="font-size: 9px; padding: 9px;">
-        <button onclick="copyReferralLink()" class="btn-premium" style="padding: 0 12px; border-radius: 11px; font-size: 9px; text-transform: uppercase; white-space: nowrap;">COPY</button>
-      </div>
-    </div>
+    <div class="glass" style="padding: 11px;"><div style="display: flex; justify-content: space-between; margin-bottom: 7px; font-size: 9px;"><span style="color: #d1d5db; font-weight: 700;">Progress to Instant</span><span class="mono" style="color: #00ff87; font-weight: 800;"><span id="ref-progress-num">0</span>/20</span></div><div class="progress-bar"><div class="progress-fill" id="ref-progress-bar" style="width: 0%;"></div></div></div>
+    <div class="glass" style="padding: 11px;"><label class="mono" style="font-size: 8px; color: #a78bfa; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; display: block; margin-bottom: 6px;">🔗 REFERRAL LINK</label><div style="display: flex; gap: 5px;"><input type="text" id="referral-link-input" readonly value="https://t.me/SFN_MiningBot?start=620001" class="input-premium" style="font-size: 9px; padding: 9px;"><button onclick="copyReferralLink()" class="btn-premium" style="padding: 0 12px; border-radius: 11px; font-size: 9px; text-transform: uppercase; white-space: nowrap;">COPY</button></div></div>
   </div>
 
   <div id="tab-wallet" class="tab-content" style="display: none; flex-direction: column; gap: 10px;">
-    <div class="glass" style="padding: 3px; display: flex; gap: 3px;">
-      <button id="w-btn-deposit" class="sub-tab active" onclick="switchWallet('deposit')">💳 DEPOSIT</button>
-      <button id="w-btn-withdraw" class="sub-tab" onclick="switchWallet('withdraw')">💸 WITHDRAW</button>
-      <button id="w-btn-history" class="sub-tab" onclick="switchWallet('history')">📜 HISTORY</button>
-    </div>
+    <div class="glass" style="padding: 3px; display: flex; gap: 3px;"><button id="w-btn-deposit" class="sub-tab active" onclick="switchWallet('deposit')">💳 DEPOSIT</button><button id="w-btn-withdraw" class="sub-tab" onclick="switchWallet('withdraw')">💸 WITHDRAW</button><button id="w-btn-history" class="sub-tab" onclick="switchWallet('history')">📜 HISTORY</button></div>
     <div id="w-sec-deposit" style="display: flex; flex-direction: column; gap: 10px;">
-      <div class="glass glass-violet" style="padding: 12px;">
-        <label class="mono" style="font-size: 8px; color: #a78bfa; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; display: block; margin-bottom: 7px;">SELECT NETWORK</label>
-        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px;">
-          <div id="net-BEP20" class="net-card active" onclick="selectDepNetwork('BEP20')"><p style="font-size: 10px; font-weight: 900; color: #fff;">BEP20</p><p class="mono" style="font-size: 7px; color: #00ff87; margin-top: 1px;">BSC</p></div>
-          <div id="net-TRC20" class="net-card" onclick="selectDepNetwork('TRC20')"><p style="font-size: 10px; font-weight: 900; color: #fff;">TRC20</p><p class="mono" style="font-size: 7px; color: #6b7280; margin-top: 1px;">TRON</p></div>
-          <div id="net-ERC20" class="net-card" onclick="selectDepNetwork('ERC20')"><p style="font-size: 10px; font-weight: 900; color: #fff;">ERC20</p><p class="mono" style="font-size: 7px; color: #6b7280; margin-top: 1px;">ETH</p></div>
-          <div id="net-POL" class="net-card" onclick="selectDepNetwork('POL')"><p style="font-size: 10px; font-weight: 900; color: #fff;">POL</p><p class="mono" style="font-size: 7px; color: #6b7280; margin-top: 1px;">POLY</p></div>
-          <div id="net-SOL" class="net-card" onclick="selectDepNetwork('SOL')"><p style="font-size: 10px; font-weight: 900; color: #fff;">SOL</p><p class="mono" style="font-size: 7px; color: #6b7280; margin-top: 1px;">SOLANA</p></div>
-          <div id="net-TON" class="net-card" onclick="selectDepNetwork('TON')"><p style="font-size: 10px; font-weight: 900; color: #fff;">TON</p><p class="mono" style="font-size: 7px; color: #6b7280; margin-top: 1px;">TON</p></div>
-        </div>
-      </div>
-      <div class="glass" style="padding: 9px 11px;">
-        <div style="display: flex; justify-content: space-between; align-items: center;">
-          <span style="font-size: 9px; color: #9ca3af;">Selected:</span>
-          <span class="mono" id="network-full-name" style="font-size: 9px; color: #00ff87; font-weight: 800;">BNB Smart Chain</span>
-        </div>
-      </div>
-      <div class="glass" style="padding: 14px; text-align: center;">
-        <div style="display: inline-block; background: #fff; padding: 9px; border-radius: 14px;">
-          <div style="position: relative;">
-            <img id="qr-code-img" src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=0x9dd6863ef3b2005131f78be8df916844f21c0737&ecc=H" alt="QR" style="width: 120px; height: 120px; border-radius: 8px; display: block;">
-            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #fff; padding: 3px; border-radius: 50%;">
-              <img src="https://www.image2url.com/r2/default/images/1791043985369-a9e2b85f-86b0-4636-b90a-a46e632a1d32.png" alt="SFN" style="width: 18px; height: 18px; object-fit: contain; background: #000; border-radius: 50%;">
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="glass" style="padding: 10px;">
-        <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
-          <span class="mono" style="font-size: 8px; color: #6b7280; letter-spacing: 1px;">DEPOSIT ADDRESS</span>
-          <span id="copy-status" class="mono" style="font-size: 8px; color: #00ff87; font-weight: 800; opacity: 0; transition: opacity 0.3s;">✓ Copied!</span>
-        </div>
-        <div style="display: flex; gap: 5px; align-items: center; background: rgba(0,0,0,0.6); padding: 9px; border-radius: 9px; border: 1px solid rgba(0, 255, 135, 0.3);">
-          <input type="text" id="admin-deposit-address" readonly value="0x9dd6863ef3b2005131f78be8df916844f21c0737" class="mono" style="flex: 1; background: transparent; border: none; color: #00ff87; font-size: 9px; outline: none; font-weight: 700;">
-          <button onclick="copyAdminAddress()" style="background: none; border: none; color: #9ca3af; padding: 2px;">
-            <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
-          </button>
-        </div>
-      </div>
+      <div class="glass glass-violet" style="padding: 12px;"><label class="mono" style="font-size: 8px; color: #a78bfa; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; display: block; margin-bottom: 7px;">SELECT NETWORK</label><div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px;"><div id="net-BEP20" class="net-card active" onclick="selectDepNetwork('BEP20')"><p style="font-size: 10px; font-weight: 900; color: #fff;">BEP20</p><p class="mono" style="font-size: 7px; color: #00ff87; margin-top: 1px;">BSC</p></div><div id="net-TRC20" class="net-card" onclick="selectDepNetwork('TRC20')"><p style="font-size: 10px; font-weight: 900; color: #fff;">TRC20</p><p class="mono" style="font-size: 7px; color: #6b7280; margin-top: 1px;">TRON</p></div><div id="net-ERC20" class="net-card" onclick="selectDepNetwork('ERC20')"><p style="font-size: 10px; font-weight: 900; color: #fff;">ERC20</p><p class="mono" style="font-size: 7px; color: #6b7280; margin-top: 1px;">ETH</p></div><div id="net-POL" class="net-card" onclick="selectDepNetwork('POL')"><p style="font-size: 10px; font-weight: 900; color: #fff;">POL</p><p class="mono" style="font-size: 7px; color: #6b7280; margin-top: 1px;">POLY</p></div><div id="net-SOL" class="net-card" onclick="selectDepNetwork('SOL')"><p style="font-size: 10px; font-weight: 900; color: #fff;">SOL</p><p class="mono" style="font-size: 7px; color: #6b7280; margin-top: 1px;">SOLANA</p></div><div id="net-TON" class="net-card" onclick="selectDepNetwork('TON')"><p style="font-size: 10px; font-weight: 900; color: #fff;">TON</p><p class="mono" style="font-size: 7px; color: #6b7280; margin-top: 1px;">TON</p></div></div></div>
+      <div class="glass" style="padding: 9px 11px;"><div style="display: flex; justify-content: space-between; align-items: center;"><span style="font-size: 9px; color: #9ca3af;">Selected:</span><span class="mono" id="network-full-name" style="font-size: 9px; color: #00ff87; font-weight: 800;">BNB Smart Chain</span></div></div>
+      <div class="glass" style="padding: 14px; text-align: center;"><div style="display: inline-block; background: #fff; padding: 9px; border-radius: 14px;"><div style="position: relative;"><img id="qr-code-img" src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=0x9dd6863ef3b2005131f78be8df916844f21c0737&ecc=H" alt="QR" style="width: 120px; height: 120px; border-radius: 8px; display: block;"><div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #fff; padding: 3px; border-radius: 50%;"><img src="https://www.image2url.com/r2/default/images/1791043985369-a9e2b85f-86b0-4636-b90a-a46e632a1d32.png" alt="SFN" style="width: 18px; height: 18px; object-fit: contain; background: #000; border-radius: 50%;"></div></div></div></div>
+      <div class="glass" style="padding: 10px;"><div style="display: flex; justify-content: space-between; margin-bottom: 5px;"><span class="mono" style="font-size: 8px; color: #6b7280; letter-spacing: 1px;">DEPOSIT ADDRESS</span><span id="copy-status" class="mono" style="font-size: 8px; color: #00ff87; font-weight: 800; opacity: 0; transition: opacity 0.3s;">✓ Copied!</span></div><div style="display: flex; gap: 5px; align-items: center; background: rgba(0,0,0,0.6); padding: 9px; border-radius: 9px; border: 1px solid rgba(0, 255, 135, 0.3);"><input type="text" id="admin-deposit-address" readonly value="0x9dd6863ef3b2005131f78be8df916844f21c0737" class="mono" style="flex: 1; background: transparent; border: none; color: #00ff87; font-size: 9px; outline: none; font-weight: 700;"><button onclick="copyAdminAddress()" style="background: none; border: none; color: #9ca3af; padding: 2px;"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg></button></div></div>
       <p class="mono" style="font-size: 8px; color: #fbbf24; text-align: center; padding: 0 10px;">⚠️ Send only USDT on the selected network</p>
       <input type="number" id="dep-amount" placeholder="Deposit Amount ($)" class="input-premium">
       <input type="text" id="dep-txid" placeholder="Transaction Hash (TXID)" class="input-premium">
       <button onclick="submitDeposit()" class="btn-premium" style="width: 100%; padding: 12px; border-radius: 12px; font-size: 10px; text-transform: uppercase; letter-spacing: 1.2px;">✦ SUBMIT DEPOSIT ✦</button>
     </div>
     <div id="w-sec-withdraw" style="display: none; flex-direction: column; gap: 10px;">
-      <div id="withdraw-lock-banner" class="lock-banner">
-        <div style="display: flex; align-items: center; gap: 9px;">
-          <span style="font-size: 18px;" id="lock-icon">🔒</span>
-          <div style="flex: 1;">
-            <p id="lock-title" style="font-size: 10px; font-weight: 800; color: #fbbf24; margin-bottom: 2px;">Withdraw Locked</p>
-            <p id="lock-subtitle" class="mono" style="font-size: 8px; color: #d1d5db;">Complete 5 referrals to unlock</p>
-          </div>
-        </div>
-        <div class="progress-bar" style="margin-top: 9px;"><div class="progress-fill" id="lock-progress" style="width: 0%;"></div></div>
-      </div>
-      <div class="glass" style="padding: 10px;">
-        <label class="mono" style="font-size: 8px; color: #a78bfa; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; display: block; margin-bottom: 5px;">SELECT NETWORK</label>
-        <div onclick="openNetworkModal()" style="display: flex; align-items: center; justify-content: space-between; background: rgba(0,0,0,0.6); padding: 10px; border-radius: 9px; border: 1px solid rgba(139, 92, 246, 0.3); cursor: pointer;">
-          <span id="wd-network-selected" style="font-size: 10px; color: #fff;">BNB Smart Chain (BEP20)</span>
-          <span style="color: #a78bfa; font-weight: 800;">▼</span>
-        </div>
-      </div>
+      <div id="withdraw-lock-banner" class="lock-banner"><div style="display: flex; align-items: center; gap: 9px;"><span style="font-size: 18px;" id="lock-icon">🔒</span><div style="flex: 1;"><p id="lock-title" style="font-size: 10px; font-weight: 800; color: #fbbf24; margin-bottom: 2px;">Withdraw Locked</p><p id="lock-subtitle" class="mono" style="font-size: 8px; color: #d1d5db;">Complete 5 referrals to unlock</p></div></div><div class="progress-bar" style="margin-top: 9px;"><div class="progress-fill" id="lock-progress" style="width: 0%;"></div></div></div>
+      <div class="glass" style="padding: 10px;"><label class="mono" style="font-size: 8px; color: #a78bfa; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; display: block; margin-bottom: 5px;">SELECT NETWORK</label><div onclick="openNetworkModal()" style="display: flex; align-items: center; justify-content: space-between; background: rgba(0,0,0,0.6); padding: 10px; border-radius: 9px; border: 1px solid rgba(139, 92, 246, 0.3); cursor: pointer;"><span id="wd-network-selected" style="font-size: 10px; color: #fff;">BNB Smart Chain (BEP20)</span><span style="color: #a78bfa; font-weight: 800;">▼</span></div></div>
       <input type="text" id="wd-address" placeholder="Destination Address" class="input-premium">
       <input type="number" id="wd-amount" placeholder="Withdraw Amount ($)" class="input-premium">
-      <div class="glass" style="padding: 10px; background: rgba(139, 92, 246, 0.05);">
-        <p class="mono" style="font-size: 8px; color: #a78bfa; font-weight: 800; margin-bottom: 4px;">🔒 PAYOUT RULES</p>
-        <p style="font-size: 9px; color: #d1d5db; line-height: 1.4;">Min: $0.30. Unlock: 5 ref = 7d · 10 ref = 3d · 20 ref = instant.</p>
-      </div>
+      <div class="glass" style="padding: 10px; background: rgba(139, 92, 246, 0.05);"><p class="mono" style="font-size: 8px; color: #a78bfa; font-weight: 800; margin-bottom: 4px;">🔒 PAYOUT RULES</p><p style="font-size: 9px; color: #d1d5db; line-height: 1.4;">Min: $0.30. Unlock: 5 ref = 7d · 10 ref = 3d · 20 ref = instant.</p></div>
       <button onclick="submitWithdraw()" class="btn-premium btn-violet" style="width: 100%; padding: 12px; border-radius: 12px; font-size: 10px; text-transform: uppercase; letter-spacing: 1.2px;">✦ REQUEST WITHDRAWAL ✦</button>
     </div>
-    <div id="w-sec-history" style="display: none;">
-      <div class="glass" style="padding: 12px;">
-        <h4 class="mono" style="font-size: 9px; color: #a78bfa; font-weight: 800; letter-spacing: 1.5px; margin-bottom: 10px;">📜 TRANSACTION HISTORY</h4>
-        <div id="transaction-history-list" style="display: flex; flex-direction: column; gap: 5px; max-height: 340px; overflow-y: auto;"></div>
-      </div>
-    </div>
+    <div id="w-sec-history" style="display: none;"><div class="glass" style="padding: 12px;"><h4 class="mono" style="font-size: 9px; color: #a78bfa; font-weight: 800; letter-spacing: 1.5px; margin-bottom: 10px;">📜 TRANSACTION HISTORY</h4><div id="transaction-history-list" style="display: flex; flex-direction: column; gap: 5px; max-height: 340px; overflow-y: auto;"></div></div></div>
   </div>
 
   <div id="tab-support" class="tab-content" style="display: none;">
     <div class="glass glass-emerald" style="padding: 14px;">
       <h3 class="pixel-font glow-emerald" style="font-size: 10px; margin-bottom: 5px;">💬 24/7 HELP DESK</h3>
       <p style="font-size: 10px; color: #9ca3af; margin-bottom: 12px;">Need help? Our team responds within minutes.</p>
-      <a href="https://t.me/SFN_Support24_7" target="_blank" style="display: flex; align-items: center; gap: 10px; padding: 12px; background: rgba(0, 0, 0, 0.5); border-radius: 12px; border: 1px solid rgba(0, 255, 135, 0.3); text-decoration: none;">
-        <span style="font-size: 22px;">💬</span>
-        <div>
-          <h4 style="font-size: 11px; font-weight: 800; color: #fff; margin-bottom: 2px;">Official Support</h4>
-          <p class="mono" style="font-size: 8px; color: #00ff87;">@SFN_Support24_7</p>
-        </div>
-      </a>
+      <a href="https://t.me/SFN_Support24_7" target="_blank" style="display: flex; align-items: center; gap: 10px; padding: 12px; background: rgba(0, 0, 0, 0.5); border-radius: 12px; border: 1px solid rgba(0, 255, 135, 0.3); text-decoration: none;"><span style="font-size: 22px;">💬</span><div><h4 style="font-size: 11px; font-weight: 800; color: #fff; margin-bottom: 2px;">Official Support</h4><p class="mono" style="font-size: 8px; color: #00ff87;">@SFN_Support24_7</p></div></a>
     </div>
   </div>
-
 </div>
 
 <div id="bottom-nav" style="position: fixed; bottom: 0; left: 0; right: 0; max-width: 448px; margin: 0 auto; background: rgba(10, 5, 20, 0.96); border-top: 1px solid rgba(139, 92, 246, 0.3); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); padding: 6px 0 max(6px, env(safe-area-inset-bottom)); display: flex; justify-content: space-between; align-items: center; z-index: 100;">
@@ -860,21 +394,15 @@ body {
   <button onclick="navSwitch('wallet')" id="nav-wallet" class="nav-btn"><span class="nav-icon">💸</span> Wallet</button>
   <button onclick="navSwitch('support')" id="nav-support" class="nav-btn"><span class="nav-icon">💬</span> Support</button>
 </div>
-<script>
-// ═══════════════════════════════════════════════════════════
-// CONFIG
-// ═══════════════════════════════════════════════════════════
-const BACKEND_URL = "https://sfn-backend.onrender.com";
 
-// ═══════════════════════════════════════════════════════════
-// TELEGRAM INIT
-// ═══════════════════════════════════════════════════════════
+<!-- PART 2 JS next -->
+  <script>
+const BACKEND_URL = "https://sfn-backend.onrender.com";
 const tg = window.Telegram?.WebApp;
 const tgUser = tg?.initDataUnsafe?.user;
 
 let userUID = localStorage.getItem('sfn_user_uid');
 let userTGID = localStorage.getItem('sfn_tg_id');
-
 let serverLastCheckin = null;
 let serverLastSpin = null;
 let isVerifiedServer = false;
@@ -907,9 +435,6 @@ if (uidEl) uidEl.innerText = userUID;
 const refLinkEl = document.getElementById('referral-link-input');
 if (refLinkEl) refLinkEl.value = `https://t.me/SFN_MiningBot?start=${userUID}`;
 
-// ═══════════════════════════════════════════════════════════
-// STATE
-// ═══════════════════════════════════════════════════════════
 let balance = 0.00;
 let referCount = 0;
 let referEarnings = 0;
@@ -924,9 +449,6 @@ let currentWdNetwork = "BNB Smart Chain (BEP20)";
 let userCreatedAt = null;
 let isAppVisible = true;
 
-// ═══════════════════════════════════════════════════════════
-// NETWORK DATA
-// ═══════════════════════════════════════════════════════════
 const networkData = {
     BEP20: { name: 'BNB Smart Chain (BEP20)', address: '0x9dd6863ef3b2005131f78be8df916844f21c0737' },
     ERC20: { name: 'Ethereum (ERC20)', address: '0x9dd6863ef3b2005131f78be8df916844f21c0737' },
@@ -935,23 +457,39 @@ const networkData = {
     SOL: { name: 'Solana Network', address: '5oyoF1SQq6fYgZUTaaHit457hpW2CJwcjH1e76Nhs1Jp' },
     TON: { name: 'TON Network', address: 'UQDO-DM0d14Uh-q1D_ze3SqRDj2AbBlI1YL2UQMlp2N16Tf5' }
 };
-
 const networksList = ["BNB Smart Chain (BEP20)","Solana (SOL)","Polygon (POL)","TON Network","TRON (TRC20)","Ethereum (ERC20)"];
 
-// ═══════════════════════════════════════════════════════════
-// VISIBILITY (pause animations when hidden)
-// ═══════════════════════════════════════════════════════════
+// ═══ CACHE SYSTEM ═══
+function loadCache() {
+    try {
+        const c = JSON.parse(localStorage.getItem('sfn_cache') || '{}');
+        if (c.balance !== undefined) {
+            balance = c.balance || 0;
+            referCount = c.referCount || 0;
+            referEarnings = c.referEarnings || 0;
+            extraSpins = c.extraSpins || 0;
+            updateBalanceUI();
+            updateNFTUI();
+        }
+    } catch(e) {}
+}
+function saveCache() {
+    try {
+        localStorage.setItem('sfn_cache', JSON.stringify({
+            balance, referCount, referEarnings, extraSpins
+        }));
+    } catch(e) {}
+}
+
+// ═══ VISIBILITY ═══
 document.addEventListener('visibilitychange', () => {
     isAppVisible = !document.hidden;
-    const state = isAppVisible ? 'running' : 'paused';
+    const st = isAppVisible ? 'running' : 'paused';
     document.querySelectorAll('.fire-spark, .scan-line, .ring-layer-1, .ring-layer-2, .miner-float, .bg-particle, .splash-logo-glow, .splash-logo-ring, .splash-logo-ring-2').forEach(el => {
-        el.style.animationPlayState = state;
+        el.style.animationPlayState = st;
     });
 });
 
-// ═══════════════════════════════════════════════════════════
-// PARTICLES
-// ═══════════════════════════════════════════════════════════
 function initParticles() {
     const field = document.getElementById('particle-field');
     if (!field) return;
@@ -970,9 +508,6 @@ function initParticles() {
     }
 }
 
-// ═══════════════════════════════════════════════════════════
-// BAN CHECK
-// ═══════════════════════════════════════════════════════════
 async function checkBanStatus() {
     if (!userTGID) return false;
     try {
@@ -983,43 +518,33 @@ async function checkBanStatus() {
         });
         if (res.status === 403) {
             const data = await res.json().catch(() => ({}));
-            if (data.banned) {
-                showBanScreen();
-                return true;
-            }
+            if (data.banned) { showBanScreen(); return true; }
         }
         return false;
-    } catch (e) {
-        return false;
-    }
+    } catch (e) { return false; }
 }
 
 function showBanScreen() {
-    const banScreen = document.getElementById('ban-screen');
-    const splash = document.getElementById('splash-screen');
-    const gate = document.getElementById('channel-gate');
-    const app = document.getElementById('app-content');
-    const nav = document.getElementById('bottom-nav');
-    if (banScreen) banScreen.classList.add('show');
-    if (splash) splash.classList.add('hidden');
-    if (gate) gate.style.display = 'none';
-    if (app) app.style.display = 'none';
-    if (nav) nav.style.display = 'none';
+    const b = document.getElementById('ban-screen');
+    const s = document.getElementById('splash-screen');
+    const g = document.getElementById('channel-gate');
+    const a = document.getElementById('app-content');
+    const n = document.getElementById('bottom-nav');
+    if (b) b.classList.add('show');
+    if (s) s.classList.add('hidden');
+    if (g) g.style.display = 'none';
+    if (a) a.style.display = 'none';
+    if (n) n.style.display = 'none';
     isBannedServer = true;
 }
 
-// ═══════════════════════════════════════════════════════════
-// TOAST
-// ═══════════════════════════════════════════════════════════
 let toastTimer = null;
 function showPremiumToast(message, emoji = '⛏️', color = 'emerald') {
     const toast = document.getElementById('premium-toast');
     if (!toast) return;
-    const msgEl = document.getElementById('toast-message');
-    const emojiEl = document.getElementById('toast-emoji');
+    document.getElementById('toast-message').innerText = message;
+    document.getElementById('toast-emoji').innerText = emoji;
     toast.className = `toast toast-${color}`;
-    emojiEl.innerText = emoji;
-    msgEl.innerText = message;
     toast.style.display = 'flex';
     toast.style.animation = 'toastIn 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
     clearTimeout(toastTimer);
@@ -1029,9 +554,6 @@ function showPremiumToast(message, emoji = '⛏️', color = 'emerald') {
     }, 2600);
 }
 
-// ═══════════════════════════════════════════════════════════
-// CONFETTI
-// ═══════════════════════════════════════════════════════════
 let confettiActive = false;
 function fireConfetti(palette = 'emerald') {
     if (confettiActive) return;
@@ -1052,41 +574,26 @@ function fireConfetti(palette = 'emerald') {
     const particles = [];
     for (let i = 0; i < 40; i++) {
         particles.push({
-            x: Math.random() * canvas.width,
-            y: -20 - Math.random() * 80,
-            vx: (Math.random() - 0.5) * 3,
-            vy: Math.random() * 2 + 2,
+            x: Math.random() * canvas.width, y: -20 - Math.random() * 80,
+            vx: (Math.random() - 0.5) * 3, vy: Math.random() * 2 + 2,
             size: Math.random() * 6 + 3,
             color: colors[Math.floor(Math.random() * colors.length)],
             emoji: Math.random() > 0.6 ? emojis[Math.floor(Math.random() * emojis.length)] : null,
-            rotation: Math.random() * 360,
-            rotSpeed: (Math.random() - 0.5) * 8
+            rotation: Math.random() * 360, rotSpeed: (Math.random() - 0.5) * 8
         });
     }
     const startTime = Date.now();
     function animate() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         const elapsed = Date.now() - startTime;
-        if (elapsed > 2800) {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            confettiActive = false;
-            return;
-        }
+        if (elapsed > 2800) { ctx.clearRect(0, 0, canvas.width, canvas.height); confettiActive = false; return; }
         particles.forEach(p => {
-            p.x += p.vx;
-            p.y += p.vy;
-            p.vy += 0.1;
-            p.rotation += p.rotSpeed;
+            p.x += p.vx; p.y += p.vy; p.vy += 0.1; p.rotation += p.rotSpeed;
             ctx.save();
             ctx.translate(p.x, p.y);
             ctx.rotate(p.rotation * Math.PI / 180);
-            if (p.emoji) {
-                ctx.font = `${p.size * 2.5}px serif`;
-                ctx.fillText(p.emoji, -p.size, p.size);
-            } else {
-                ctx.fillStyle = p.color;
-                ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
-            }
+            if (p.emoji) { ctx.font = `${p.size * 2.5}px serif`; ctx.fillText(p.emoji, -p.size, p.size); }
+            else { ctx.fillStyle = p.color; ctx.fillRect(-p.size/2, -p.size/2, p.size, p.size); }
             ctx.restore();
         });
         requestAnimationFrame(animate);
@@ -1094,9 +601,6 @@ function fireConfetti(palette = 'emerald') {
     requestAnimationFrame(animate);
 }
 
-// ═══════════════════════════════════════════════════════════
-// API CALL
-// ═══════════════════════════════════════════════════════════
 async function apiCall(endpoint, data) {
     try {
         const response = await fetch(`${BACKEND_URL}${endpoint}`, {
@@ -1105,14 +609,9 @@ async function apiCall(endpoint, data) {
             body: JSON.stringify(data)
         });
         const json = await response.json();
-        if (response.status === 403 && json.banned) {
-            showBanScreen();
-            return json;
-        }
+        if (response.status === 403 && json.banned) { showBanScreen(); return json; }
         return json;
-    } catch (err) {
-        return { success: false, error: 'Network error' };
-    }
+    } catch (err) { return { success: false, error: 'Network error' }; }
 }
 
 async function syncUser() {
@@ -1126,9 +625,6 @@ async function syncUser() {
     });
 }
 
-// ═══════════════════════════════════════════════════════════
-// LOAD USER DATA
-// ═══════════════════════════════════════════════════════════
 async function loadUserData() {
     if (!userTGID) return;
     const data = await apiCall('/get_user_data', { tg_id: userTGID });
@@ -1146,13 +642,11 @@ async function loadUserData() {
         serverLastSpin = u.last_spin;
         isVerifiedServer = u.verified || false;
         userCreatedAt = u.created_at;
-
         if (u.active_nft && u.active_nft !== 'SFN Free Miner') {
             activeNFT = { name: u.active_nft, speed: u.mining_speed || 500, expiresAt: u.nft_expiry ? new Date(u.nft_expiry).getTime() : null, isFree: false };
         } else {
             activeNFT = { name: 'SFN Free Miner', speed: 500, expiresAt: null, isFree: true };
         }
-
         if (isVerifiedServer) {
             localStorage.setItem('sfn_verified', 'true');
             localStorage.setItem('sfn_tg_id', userTGID);
@@ -1177,7 +671,7 @@ async function loadUserData() {
         updateNFTUI();
         updateWithdrawLockUI();
         checkCooldowns();
-        document.querySelectorAll('.skeleton').forEach(el => el.classList.remove('skeleton'));
+        saveCache();
     }
 }
 
@@ -1186,7 +680,7 @@ function updateBalanceUI() {
     if (tb) {
         tb.classList.remove('skeleton');
         const oldVal = parseFloat(tb.innerText.replace(/,/g, '')) || 0;
-        animateNumber(tb, oldVal, balance, 600);
+        animateNumber(tb, oldVal, balance, 500);
     }
     const uv = document.getElementById('usd-val');
     if (uv) uv.innerText = `$${(balance / 10000).toFixed(4)} USD`;
@@ -1197,10 +691,7 @@ function updateBalanceUI() {
     const rpn = document.getElementById('ref-progress-num');
     if (rpn) rpn.innerText = referCount;
     const rpb = document.getElementById('ref-progress-bar');
-    if (rpb) {
-        let progPercent = Math.min((referCount / 20) * 100, 100);
-        rpb.style.width = `${progPercent}%`;
-    }
+    if (rpb) rpb.style.width = `${Math.min((referCount / 20) * 100, 100)}%`;
     const esb = document.getElementById('extra-spin-badge');
     if (esb) esb.innerText = extraSpins;
 }
@@ -1210,8 +701,7 @@ function animateNumber(el, from, to, duration) {
     function step(now) {
         const t = Math.min((now - start) / duration, 1);
         const eased = 1 - Math.pow(1 - t, 3);
-        const val = from + (to - from) * eased;
-        el.innerText = val.toFixed(2);
+        el.innerText = (from + (to - from) * eased).toFixed(2);
         if (t < 1) requestAnimationFrame(step);
     }
     requestAnimationFrame(step);
@@ -1219,15 +709,12 @@ function animateNumber(el, from, to, duration) {
 
 function updateNFTUI() {
     const speed = activeNFT.speed || 500;
-    const dailyRate = document.getElementById('daily-rate');
-    const activeNftEl = document.getElementById('active-nft');
-    if (dailyRate) dailyRate.innerText = `${speed.toLocaleString()} SFN/D`;
-    if (activeNftEl) activeNftEl.innerText = activeNFT.name;
+    const dr = document.getElementById('daily-rate');
+    const an = document.getElementById('active-nft');
+    if (dr) dr.innerText = `${speed.toLocaleString()} SFN/D`;
+    if (an) an.innerText = activeNFT.name;
 }
 
-// ═══════════════════════════════════════════════════════════
-// WITHDRAW LOCK
-// ═══════════════════════════════════════════════════════════
 function updateWithdrawLockUI() {
     const banner = document.getElementById('withdraw-lock-banner');
     const icon = document.getElementById('lock-icon');
@@ -1235,13 +722,11 @@ function updateWithdrawLockUI() {
     const subtitle = document.getElementById('lock-subtitle');
     const progress = document.getElementById('lock-progress');
     if (!banner) return;
-
     let daysSinceJoin = 0;
     if (userCreatedAt) {
         const joinDate = new Date(userCreatedAt.replace(' ', 'T'));
         daysSinceJoin = Math.floor((Date.now() - joinDate.getTime()) / (1000 * 60 * 60 * 24));
     }
-
     if (referCount >= 20) {
         banner.classList.add('unlocked');
         icon.innerText = '⚡';
@@ -1291,24 +776,17 @@ function updateWithdrawLockUI() {
     }
 }
 
-// ═══════════════════════════════════════════════════════════
-// MINING SYNC
-// ═══════════════════════════════════════════════════════════
 async function syncMiningFromServer() {
     if (!userTGID || isBannedServer || !isAppVisible) return;
     const data = await apiCall('/update_mining', { tg_id: userTGID });
-    if (data.success) {
-        serverUnclaimed = data.unclaimed || 0;
-        lastServerSync = Date.now();
-    }
+    if (data.success) { serverUnclaimed = data.unclaimed || 0; lastServerSync = Date.now(); }
 }
 
 function updateMiningUI() {
     if (!userTGID || isBannedServer || !isAppVisible) return;
     const now = Date.now();
     const elapsedSinceSync = (now - lastServerSync) / 1000;
-    const speed = activeNFT.speed || 500;
-    const perSecond = speed / 86400;
+    const perSecond = (activeNFT.speed || 500) / 86400;
     localUnclaimed = serverUnclaimed + (perSecond * elapsedSinceSync);
     const el = document.getElementById('unclaimed-counter');
     if (el) el.innerText = `${localUnclaimed.toFixed(4)} SFN`;
@@ -1316,23 +794,16 @@ function updateMiningUI() {
 
 async function claimMining() {
     if (!userTGID) { alert("Please open from Telegram"); return; }
-    if (localUnclaimed < 0.1) {
-        showPremiumToast('Minimum claim: 0.1 SFN', '⚠️', 'red');
-        return;
-    }
+    if (localUnclaimed < 0.1) { showPremiumToast('Minimum claim: 0.1 SFN', '⚠️', 'red'); return; }
     const claimedAmount = localUnclaimed;
     balance += claimedAmount;
-    serverUnclaimed = 0;
-    localUnclaimed = 0;
-    lastServerSync = Date.now();
+    serverUnclaimed = 0; localUnclaimed = 0; lastServerSync = Date.now();
     updateBalanceUI();
+    saveCache();
     fireConfetti('emerald');
     showPremiumToast(`Claimed ${claimedAmount.toFixed(4)} SFN!`, '⛏️', 'emerald');
     const data = await apiCall('/claim_mining', { tg_id: userTGID });
-    if (data.success) {
-        balance = data.new_balance;
-        updateBalanceUI();
-    }
+    if (data.success) { balance = data.new_balance; updateBalanceUI(); saveCache(); }
 }
 
 async function claimDailyCheckin() {
@@ -1341,8 +812,7 @@ async function claimDailyCheckin() {
     if (data.success) {
         balance = data.new_balance;
         serverLastCheckin = new Date().toISOString();
-        updateBalanceUI();
-        checkCooldowns();
+        updateBalanceUI(); checkCooldowns(); saveCache();
         fireConfetti('cyan');
         showPremiumToast('+20 SFN Daily Bonus!', '📅', 'cyan');
     } else {
@@ -1351,9 +821,6 @@ async function claimDailyCheckin() {
     }
 }
 
-// ═══════════════════════════════════════════════════════════
-// SPIN WHEEL
-// ═══════════════════════════════════════════════════════════
 const wheelCanvas = document.getElementById('wheelCanvas');
 const wheelCtx = wheelCanvas ? wheelCanvas.getContext('2d') : null;
 const rewards = [5, 10, 20, 35, 50, 100];
@@ -1416,7 +883,7 @@ async function spinWheel() {
             balance = data.new_balance;
             extraSpins = data.extra_spins || 0;
             if (extraSpins === 0) serverLastSpin = new Date().toISOString();
-            updateBalanceUI();
+            updateBalanceUI(); saveCache();
             fireConfetti('violet');
             showPremiumToast(`You won ${wonAmount} SFN!`, '🎡', 'violet');
         }
@@ -1433,41 +900,29 @@ function checkCooldowns() {
     if (serverLastCheckin) {
         const last = new Date(serverLastCheckin.replace(' ', 'T')).getTime();
         const elapsed = now - last;
-        const COOLDOWN = 24 * 60 * 60 * 1000;
-        if (elapsed < COOLDOWN) {
-            const remaining = COOLDOWN - elapsed;
-            const h = Math.floor((remaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const m = Math.floor((remaining % (1000 * 60 * 60)) / (1000 * 60));
+        const CD = 24 * 60 * 60 * 1000;
+        if (elapsed < CD) {
+            const rem = CD - elapsed;
+            const h = Math.floor((rem % (1000*60*60*24)) / (1000*60*60));
+            const m = Math.floor((rem % (1000*60*60)) / (1000*60));
             dailyBtn.innerText = `⏱ ${h}h ${m}m`;
             dailyBtn.disabled = true;
-        } else {
-            dailyBtn.innerText = "CLAIM +20";
-            dailyBtn.disabled = false;
-        }
-    } else {
-        dailyBtn.innerText = "CLAIM +20";
-        dailyBtn.disabled = false;
-    }
+        } else { dailyBtn.innerText = "CLAIM +20"; dailyBtn.disabled = false; }
+    } else { dailyBtn.innerText = "CLAIM +20"; dailyBtn.disabled = false; }
     if (extraSpins > 0) {
         spinBtn.innerText = `🎡 SPIN (${extraSpins})`;
         spinBtn.disabled = false;
     } else if (serverLastSpin) {
         const last = new Date(serverLastSpin.replace(' ', 'T')).getTime();
         const elapsed = now - last;
-        const COOLDOWN = 24 * 60 * 60 * 1000;
-        if (elapsed < COOLDOWN) {
-            const remaining = COOLDOWN - elapsed;
-            const h = Math.floor((remaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const CD = 24 * 60 * 60 * 1000;
+        if (elapsed < CD) {
+            const rem = CD - elapsed;
+            const h = Math.floor((rem % (1000*60*60*24)) / (1000*60*60));
             spinBtn.innerText = `⏱ NEXT ${h}h`;
             spinBtn.disabled = true;
-        } else {
-            spinBtn.innerText = "🎡 SPIN NOW";
-            spinBtn.disabled = false;
-        }
-    } else {
-        spinBtn.innerText = "🎡 SPIN NOW";
-        spinBtn.disabled = false;
-    }
+        } else { spinBtn.innerText = "🎡 SPIN NOW"; spinBtn.disabled = false; }
+    } else { spinBtn.innerText = "🎡 SPIN NOW"; spinBtn.disabled = false; }
 }
 
 function switchSpin(type) {
@@ -1484,14 +939,8 @@ function switchSpin(type) {
     }
 }
 
-// ═══════════════════════════════════════════════════════════
-// VERIFY
-// ═══════════════════════════════════════════════════════════
 function verifyAndUnlock() {
-    if (!userTGID) {
-        document.getElementById('verifyStatus').innerText = "❌ Please open from Telegram!";
-        return;
-    }
+    if (!userTGID) { document.getElementById('verifyStatus').innerText = "❌ Please open from Telegram!"; return; }
     const btn = document.getElementById('verifyBtn');
     const vs = document.getElementById('verifyStatus');
     btn.disabled = true;
@@ -1535,9 +984,6 @@ function updateVerifyBadge(isVerified) {
     }
 }
 
-// ═══════════════════════════════════════════════════════════
-// NETWORK & DEPOSIT
-// ═══════════════════════════════════════════════════════════
 function selectDepNetwork(key) {
     const net = networkData[key];
     currentDepNetwork = key;
@@ -1578,9 +1024,7 @@ function openNetworkModal() {
     document.getElementById('network-modal').classList.add('show');
 }
 
-function closeNetworkModal() {
-    document.getElementById('network-modal').classList.remove('show');
-}
+function closeNetworkModal() { document.getElementById('network-modal').classList.remove('show'); }
 
 function selectWdNetwork(net) {
     currentWdNetwork = net;
@@ -1588,9 +1032,6 @@ function selectWdNetwork(net) {
     closeNetworkModal();
 }
 
-// ═══════════════════════════════════════════════════════════
-// NAVIGATION
-// ═══════════════════════════════════════════════════════════
 function navSwitch(tab) {
     ['claim', 'nft', 'spin', 'refer', 'wallet', 'support'].forEach(t => {
         const el = document.getElementById(`tab-${t}`);
@@ -1639,9 +1080,6 @@ function copyReferralLink() {
     showPremiumToast('Link copied!', '📋', 'cyan');
 }
 
-// ═══════════════════════════════════════════════════════════
-// DEPOSIT & WITHDRAW
-// ═══════════════════════════════════════════════════════════
 async function submitDeposit() {
     const amount = parseFloat(document.getElementById('dep-amount').value);
     const txid = document.getElementById('dep-txid').value.trim();
@@ -1654,9 +1092,7 @@ async function submitDeposit() {
         document.getElementById('dep-txid').value = '';
         fireConfetti('gold');
         showPremiumToast(`Deposit $${amount.toFixed(2)} submitted!`, '💳', 'gold');
-    } else {
-        showPremiumToast(data.error || 'Deposit failed', '❌', 'red');
-    }
+    } else { showPremiumToast(data.error || 'Deposit failed', '❌', 'red'); }
 }
 
 async function submitWithdraw() {
@@ -1671,17 +1107,12 @@ async function submitWithdraw() {
         fireConfetti('orange');
         showPremiumToast(`Withdrawal $${amount.toFixed(2)} requested!`, '💸', 'orange');
         loadUserData();
-    } else {
-        showPremiumToast(data.error || 'Withdrawal failed', '❌', 'red');
-    }
+    } else { showPremiumToast(data.error || 'Withdrawal failed', '❌', 'red'); }
 }
 
 async function loadTransactions() {
     const data = await apiCall('/get_transactions', { tg_id: userTGID });
-    if (data.success) {
-        txHistory = data.transactions || [];
-        renderHistoryUI();
-    }
+    if (data.success) { txHistory = data.transactions || []; renderHistoryUI(); }
 }
 
 function renderHistoryUI() {
@@ -1694,45 +1125,63 @@ function renderHistoryUI() {
     let html = '';
     txHistory.forEach(tx => {
         const isDep = tx.type === 'DEPOSIT';
-        let statusColor = '#fbbf24';
-        let statusBg = 'rgba(251, 191, 36, 0.15)';
-        if (tx.status === 'Success') { statusColor = '#00ff87'; statusBg = 'rgba(0, 255, 135, 0.15)'; }
-        if (tx.status === 'Failed' || tx.status === 'Rejected') { statusColor = '#ef4444'; statusBg = 'rgba(239, 68, 68, 0.15)'; }
-        if (tx.status === 'Processing') { statusColor = '#22d3ee'; statusBg = 'rgba(34, 211, 238, 0.15)'; }
+        let sc = '#fbbf24', sb = 'rgba(251, 191, 36, 0.15)';
+        if (tx.status === 'Success') { sc = '#00ff87'; sb = 'rgba(0, 255, 135, 0.15)'; }
+        if (tx.status === 'Failed' || tx.status === 'Rejected') { sc = '#ef4444'; sb = 'rgba(239, 68, 68, 0.15)'; }
+        if (tx.status === 'Processing') { sc = '#22d3ee'; sb = 'rgba(34, 211, 238, 0.15)'; }
         html += `<div style="background: rgba(0,0,0,0.5); padding: 9px 11px; border-radius: 11px; border: 1px solid rgba(255,255,255,0.06); display: flex; align-items: center; justify-content: space-between;">
-            <div>
-                <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 2px;">
-                    <span style="font-size: 10px; font-weight: 800; color: ${isDep ? '#00ff87' : '#fb923c'};">${tx.type}</span>
-                    <span class="mono" style="font-size: 10px; color: #fff; font-weight: 800;">$${tx.amount}</span>
-                </div>
-                <p class="mono" style="font-size: 7px; color: #6b7280;">${tx.network || ''} · ${(tx.date || '').substring(0, 16)}</p>
-            </div>
-            <span class="mono" style="font-size: 7px; padding: 2px 7px; border-radius: 5px; font-weight: 800; color: ${statusColor}; background: ${statusBg};">${tx.status}</span>
+            <div><div style="display: flex; align-items: center; gap: 6px; margin-bottom: 2px;"><span style="font-size: 10px; font-weight: 800; color: ${isDep ? '#00ff87' : '#fb923c'};">${tx.type}</span><span class="mono" style="font-size: 10px; color: #fff; font-weight: 800;">$${tx.amount}</span></div><p class="mono" style="font-size: 7px; color: #6b7280;">${tx.network || ''} · ${(tx.date || '').substring(0, 16)}</p></div>
+            <span class="mono" style="font-size: 7px; padding: 2px 7px; border-radius: 5px; font-weight: 800; color: ${sc}; background: ${sb};">${tx.status}</span>
         </div>`;
     });
     listEl.innerHTML = html;
 }
 
-// ═══════════════════════════════════════════════════════════
-// BUY NFT
-// ═══════════════════════════════════════════════════════════
-async function buyNFT(name, price, days, speed) {
-    showPremiumToast('Contact support to buy', '💎', 'violet');
+// ═══ NFT BUY SYSTEM ═══
+function buyNFT(name, price, days, speed) {
+    const modal = document.getElementById('nft-buy-modal');
+    if (!modal) return;
+    document.getElementById('nft-buy-name').innerText = name;
+    document.getElementById('nft-buy-price').innerText = '$' + price;
+    document.getElementById('nft-buy-days').innerText = days + ' Days';
+    document.getElementById('nft-buy-speed').innerText = speed.toLocaleString() + ' SFN/Day';
+    document.getElementById('nft-buy-amount').value = price;
+    modal.classList.add('show');
 }
 
-// ═══════════════════════════════════════════════════════════
-// APP STARTUP
-// ═══════════════════════════════════════════════════════════
+function closeNftBuyModal() {
+    const modal = document.getElementById('nft-buy-modal');
+    if (modal) modal.classList.remove('show');
+}
+
+function proceedNftBuy() {
+    const name = document.getElementById('nft-buy-name').innerText;
+    const price = parseFloat(document.getElementById('nft-buy-amount').value);
+    if (!price || price < 0.5) { showPremiumToast('Invalid amount', '⚠️', 'red'); return; }
+    closeNftBuyModal();
+    navSwitch('wallet');
+    switchWallet('deposit');
+    setTimeout(() => {
+        const amountEl = document.getElementById('dep-amount');
+        const txidEl = document.getElementById('dep-txid');
+        if (amountEl) amountEl.value = price;
+        if (txidEl) { txidEl.placeholder = 'Paste TXID for ' + name; txidEl.focus(); }
+        showPremiumToast('Deposit $' + price + ' then submit TXID', '💳', 'gold');
+    }, 400);
+}
+
+// ═══ STARTUP ═══
 window.addEventListener('DOMContentLoaded', async () => {
     initParticles();
     drawWheel();
 
-    // ⭐ Verified check from localStorage
+    // ⚡ INSTANT: Cache থেকে data দেখাও
+    loadCache();
+
+    // ⚡ INSTANT: Verified check
     const wasVerified = localStorage.getItem('sfn_verified') === 'true';
     const savedTGID = localStorage.getItem('sfn_tg_id');
-    const sameUser = savedTGID === userTGID;
-
-    if (wasVerified && sameUser) {
+    if (wasVerified && savedTGID === userTGID) {
         const gate = document.getElementById('channel-gate');
         if (gate) { gate.classList.remove('show'); gate.style.display = 'none'; }
         const app = document.getElementById('app-content');
@@ -1745,30 +1194,25 @@ window.addEventListener('DOMContentLoaded', async () => {
         if (app) app.style.display = 'none';
     }
 
-    // Hide splash after 3s
+    // ⚡ Splash hide after 1 second
     setTimeout(() => {
-        const splash = document.getElementById('splash-screen');
-        if (splash) {
-            splash.style.opacity = '0';
-            setTimeout(() => splash.classList.add('hidden'), 500);
+        const s = document.getElementById('splash-screen');
+        if (s && !s.classList.contains('hidden')) {
+            s.style.opacity = '0';
+            setTimeout(() => s.classList.add('hidden'), 300);
         }
-    }, 3000);
+    }, 1000);
 
-    // Parallel data loading
+    // ⚡ ONLY 2 API calls (no duplicates!)
     try {
-        const [banned] = await Promise.all([
-            checkBanStatus(),
-            syncUser()
-        ]);
-        if (banned) return;
+        await syncUser();
         await loadUserData();
         checkCooldowns();
-    } catch (e) {
-        console.error('Startup error:', e);
-    }
+        saveCache();
+    } catch(e) { console.error('Load error:', e); }
 
-    // Live updates
-    setInterval(syncMiningFromServer, 12000);
+    // ⚡ Refresh cycles
+    setInterval(syncMiningFromServer, 15000);
     setInterval(updateMiningUI, 1500);
     updateMiningUI();
     setInterval(checkCooldowns, 2000);
