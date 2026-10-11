@@ -26,20 +26,13 @@ body{background:#030108;color:#fff;font-family:'Space Grotesk',sans-serif;min-he
 .btn-violet{background:linear-gradient(135deg,#a78bfa 0%,#7c3aed 100%);box-shadow:0 4px 16px rgba(139,92,246,.4),inset 0 1px 0 rgba(255,255,255,.3)}
 .btn-cyan{background:linear-gradient(135deg,#22d3ee 0%,#0891b2 100%);box-shadow:0 4px 16px rgba(6,182,212,.4),inset 0 1px 0 rgba(255,255,255,.3)}
 .btn-gold{background:linear-gradient(135deg,#fbbf24 0%,#d97706 100%);box-shadow:0 4px 16px rgba(251,191,36,.4),inset 0 1px 0 rgba(255,255,255,.3)}
-@keyframes splashGlow{0%,100%{transform:scale(1);opacity:.6}50%{transform:scale(1.08);opacity:1}}
-@keyframes splashRotate{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
 @keyframes typewriter{from{width:0}to{width:100%}}
 @keyframes blink{50%{border-color:transparent}}
 @keyframes splashProgress{0%{width:0%}100%{width:100%}}
 .typewriter-text{overflow:hidden;white-space:nowrap;border-right:2px solid #00ff87;animation:typewriter 2s steps(30) forwards,blink .8s step-end infinite;display:inline-block}
 #splash-screen{position:fixed;inset:0;background:#030108;z-index:200;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;transition:opacity .5s}
 #splash-screen.hidden{display:none}
-/* ⭐ PERFECT SPLASH — ring tight around logo */
-.splash-logo-wrap{position:relative;width:140px;height:140px;margin-bottom:22px}
-.splash-logo-img{position:absolute;top:calc(50% - 55px);left:calc(50% - 55px);width:110px;height:110px;object-fit:contain;mix-blend-mode:screen;z-index:10;filter:drop-shadow(0 0 18px rgba(0,255,135,.85))}
-.splash-logo-glow{position:absolute;top:calc(50% - 58px);left:calc(50% - 58px);width:116px;height:116px;background:radial-gradient(circle,rgba(139,92,246,.5),transparent 60%);border-radius:50%;filter:blur(14px);pointer-events:none;animation:splashGlow 2.5s infinite ease-in-out}
-.splash-logo-ring{position:absolute;top:calc(50% - 60px);left:calc(50% - 60px);width:120px;height:120px;border-radius:50%;border:1.5px dashed rgba(0,255,135,.65);pointer-events:none;animation:splashRotate 20s linear infinite}
-.splash-logo-ring-2{position:absolute;top:calc(50% - 66px);left:calc(50% - 66px);width:132px;height:132px;border-radius:50%;border:1px dashed rgba(139,92,246,.4);pointer-events:none;animation:splashRotate 30s linear infinite reverse}
+.splash-logo{width:150px;height:150px;object-fit:contain;mix-blend-mode:screen;filter:drop-shadow(0 0 25px rgba(0,255,135,.9)) drop-shadow(0 0 50px rgba(139,92,246,.5));margin-bottom:22px}
 @keyframes banPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
 @keyframes banRingSpin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
 @keyframes banFloat{0%,100%{transform:translateY(0px)}50%{transform:translateY(-8px)}}
@@ -161,17 +154,13 @@ body{background:#030108;color:#fff;font-family:'Space Grotesk',sans-serif;min-he
 <span id="toast-message" style="font-size:11px">Claimed!</span>
 </div>
 
+<!-- SPLASH SCREEN -->
 <div id="splash-screen">
-<div class="splash-logo-wrap">
-<div class="splash-logo-glow"></div>
-<div class="splash-logo-ring"></div>
-<div class="splash-logo-ring-2"></div>
-<img src="https://www.image2url.com/r2/default/images/1791043985369-a9e2b85f-86b0-4636-b90a-a46e632a1d32.png" alt="SFN" class="splash-logo-img">
-</div>
+<img src="https://www.image2url.com/r2/default/images/1791043985369-a9e2b85f-86b0-4636-b90a-a46e632a1d32.png" alt="SFN" class="splash-logo">
 <h1 class="pixel-font glow-emerald" style="font-size:14px;margin-bottom:6px;letter-spacing:1.5px;text-align:center">START FARMING NOW</h1>
 <p class="mono" style="font-size:8px;color:rgba(167,139,250,.9);letter-spacing:3px;margin-bottom:22px;text-align:center">INITIALIZING MINING ENGINE</p>
 <div style="width:180px;height:3px;background:rgba(0,0,0,.6);border-radius:2px;overflow:hidden;border:1px solid rgba(0,255,135,.3)">
-<div style="height:100%;background:linear-gradient(90deg,#00ff87,#22d3ee,#8b5cf6);border-radius:2px;animation:splashProgress 5s linear forwards"></div>
+<div style="height:100%;background:linear-gradient(90deg,#00ff87,#22d3ee,#8b5cf6);border-radius:2px;animation:splashProgress 3s linear forwards"></div>
 </div>
 <div class="mono" style="font-size:8px;color:#6b7280;margin-top:14px;letter-spacing:1.5px"><span class="typewriter-text">Loading secure nodes...</span></div>
 </div>
@@ -458,6 +447,7 @@ const refLinkEl=document.getElementById('referral-link-input');if(refLinkEl)refL
 let balance=0,referCount=0,referEarnings=0,extraSpins=0,txHistory=[];
 let activeNFT={name:'SFN Free Miner',speed:500,expiresAt:null,isFree:true};
 let serverUnclaimed=0,lastServerSync=Date.now(),localUnclaimed=0;
+let maxUnclaimedSeen=0;
 let currentDepNetwork='BEP20',currentWdNetwork="BNB Smart Chain (BEP20)";
 let userCreatedAt=null,isAppVisible=true;
 
@@ -470,13 +460,13 @@ SOL:{name:'Solana (SOL)',address:'5oyoF1SQq6fYgZUTaaHit457hpW2CJwcjH1e76Nhs1Jp'}
 TON:{name:'TON Network',address:'UQDO-DM0d14Uh-q1D_ze3SqRDj2AbBlI1YL2UQMlp2N16Tf5'}};
 const networksList=["BNB Smart Chain (BEP20)","Solana (SOL)","Polygon (POL)","TON Network","TRON (TRC20)","Ethereum (ERC20)"];
 
-function loadCache(){try{const c=JSON.parse(localStorage.getItem('sfn_cache')||'{}');if(c.balance!==undefined){balance=c.balance||0;referCount=c.referCount||0;referEarnings=c.referEarnings||0;extraSpins=c.extraSpins||0;serverUnclaimed=c.serverUnclaimed||0;lastServerSync=Date.now();updateBalanceUI();updateNFTUI()}}catch(e){}}
+function loadCache(){try{const c=JSON.parse(localStorage.getItem('sfn_cache')||'{}');if(c.balance!==undefined){balance=c.balance||0;referCount=c.referCount||0;referEarnings=c.referEarnings||0;extraSpins=c.extraSpins||0;serverUnclaimed=c.serverUnclaimed||0;maxUnclaimedSeen=c.serverUnclaimed||0;lastServerSync=Date.now();updateBalanceUI();updateNFTUI()}}catch(e){}}
 function saveCache(){try{localStorage.setItem('sfn_cache',JSON.stringify({balance,referCount,referEarnings,extraSpins,serverUnclaimed,lastSyncTime:Date.now()}))}catch(e){}}
 
 document.addEventListener('visibilitychange',()=>{
 isAppVisible=!document.hidden;
 const st=isAppVisible?'running':'paused';
-document.querySelectorAll('.fire-spark,.scan-line,.ring-layer-1,.ring-layer-2,.miner-float,.bg-particle,.splash-logo-glow,.splash-logo-ring,.splash-logo-ring-2').forEach(el=>{el.style.animationPlayState=st});
+document.querySelectorAll('.fire-spark,.scan-line,.ring-layer-1,.ring-layer-2,.miner-float,.bg-particle').forEach(el=>{el.style.animationPlayState=st});
 });
 
 function initParticles(){const f=document.getElementById('particle-field');if(!f)return;const colors=['#00ff87','#22d3ee','#a78bfa'];for(let i=0;i<6;i++){const p=document.createElement('div');p.className='bg-particle';p.style.left=Math.random()*100+'%';p.style.bottom='-10px';p.style.animationDuration=(14+Math.random()*10)+'s';p.style.animationDelay=(Math.random()*10)+'s';const c=colors[Math.floor(Math.random()*3)];p.style.background=c;p.style.boxShadow=`0 0 8px ${c}`;f.appendChild(p)}}
@@ -495,7 +485,10 @@ async function apiCall(endpoint,data){try{const response=await fetch(`${BACKEND_
 
 async function syncUser(){if(!userTGID)return;await apiCall('/sync_user',{tg_id:userTGID,first_name:tgUser?.first_name||'',last_name:tgUser?.last_name||'',username:tgUser?.username||'',photo_url:tgUser?.photo_url||''})}
 
-async function loadUserData(){if(!userTGID)return;const data=await apiCall('/get_user_data',{tg_id:userTGID});if(data.banned)return;if(data.success){const u=data.user;balance=u.balance||0;serverUnclaimed=data.unclaimed||0;lastServerSync=Date.now();localUnclaimed=serverUnclaimed;referCount=u.refer_count||0;referEarnings=u.refer_earnings||0;extraSpins=u.extra_spins||0;serverLastCheckin=u.last_checkin;serverLastSpin=u.last_spin;isVerifiedServer=u.verified||false;userCreatedAt=u.created_at;
+async function loadUserData(){if(!userTGID)return;const data=await apiCall('/get_user_data',{tg_id:userTGID});if(data.banned)return;if(data.success){const u=data.user;balance=u.balance||0;
+const serverVal=data.unclaimed||0;
+if(serverVal>=maxUnclaimedSeen){serverUnclaimed=serverVal;maxUnclaimedSeen=serverVal}
+lastServerSync=Date.now();localUnclaimed=serverUnclaimed;referCount=u.refer_count||0;referEarnings=u.refer_earnings||0;extraSpins=u.extra_spins||0;serverLastCheckin=u.last_checkin;serverLastSpin=u.last_spin;isVerifiedServer=u.verified||false;userCreatedAt=u.created_at;
 if(u.active_nft&&u.active_nft!=='SFN Free Miner'){activeNFT={name:u.active_nft,speed:u.mining_speed||500,expiresAt:u.nft_expiry?new Date(u.nft_expiry).getTime():null,isFree:false}}else{activeNFT={name:'SFN Free Miner',speed:500,expiresAt:null,isFree:true}}
 if(isVerifiedServer){localStorage.setItem('sfn_verified','true');localStorage.setItem('sfn_tg_id',userTGID);updateVerifyBadge(true);const g=document.getElementById('channel-gate');if(g){g.classList.remove('show');g.style.display='none'}const a=document.getElementById('app-content');if(a)a.style.display='block'}else{const wasV=localStorage.getItem('sfn_verified')==='true';if(wasV){updateVerifyBadge(true);const g=document.getElementById('channel-gate');if(g){g.classList.remove('show');g.style.display='none'}const a=document.getElementById('app-content');if(a)a.style.display='block'}else{updateVerifyBadge(false)}}
 updateBalanceUI();updateNFTUI();updateWithdrawLockUI();checkCooldowns();saveCache()}}
@@ -509,11 +502,11 @@ function updateNFTUI(){const speed=activeNFT.speed||500;const dr=document.getEle
 function updateWithdrawLockUI(){const banner=document.getElementById('withdraw-lock-banner');const icon=document.getElementById('lock-icon');const title=document.getElementById('lock-title');const sub=document.getElementById('lock-subtitle');const prog=document.getElementById('lock-progress');if(!banner)return;let daysSinceJoin=0;if(userCreatedAt){const jd=new Date(userCreatedAt.replace(' ','T'));daysSinceJoin=Math.floor((Date.now()-jd.getTime())/(1000*60*60*24))}
 if(referCount>=20){banner.classList.add('unlocked');icon.innerText='⚡';title.innerText='Instant Withdraw Unlocked';title.style.color='#00ff87';sub.innerText='You have 20+ referrals!';prog.style.width='100%'}else if(referCount>=10){if(daysSinceJoin>=3){banner.classList.add('unlocked');icon.innerText='✅';title.innerText='Withdraw Unlocked';title.style.color='#00ff87';sub.innerText='3-day wait complete';prog.style.width='100%'}else{banner.classList.remove('unlocked');icon.innerText='⏱️';title.innerText=`Unlocks in ${3-daysSinceJoin} days`;title.style.color='#22d3ee';sub.innerText='10+ referrals · 3-day wait';prog.style.width=`${(daysSinceJoin/3)*100}%`}}else if(referCount>=5){if(daysSinceJoin>=7){banner.classList.add('unlocked');icon.innerText='✅';title.innerText='Withdraw Unlocked';title.style.color='#00ff87';sub.innerText='7-day wait complete';prog.style.width='100%'}else{banner.classList.remove('unlocked');icon.innerText='⏱️';title.innerText=`Unlocks in ${7-daysSinceJoin} days`;title.style.color='#fbbf24';sub.innerText='5+ referrals · 7-day wait';prog.style.width=`${(daysSinceJoin/7)*100}%`}}else{banner.classList.remove('unlocked');icon.innerText='🔒';title.innerText='Withdraw Locked';title.style.color='#ef4444';sub.innerText=`Need ${5-referCount} more referrals`;prog.style.width=`${(referCount/5)*100}%`}}
 
-async function syncMiningFromServer(){if(!userTGID||isBannedServer||!isAppVisible)return;const data=await apiCall('/update_mining',{tg_id:userTGID});if(data.success){serverUnclaimed=data.unclaimed||0;lastServerSync=Date.now();saveCache()}}
+async function syncMiningFromServer(){if(!userTGID||isBannedServer||!isAppVisible)return;const data=await apiCall('/update_mining',{tg_id:userTGID});if(data.success){const serverVal=data.unclaimed||0;if(serverVal>=maxUnclaimedSeen){serverUnclaimed=serverVal;maxUnclaimedSeen=serverVal}lastServerSync=Date.now();saveCache()}}
 
-function updateMiningUI(){if(!userTGID||isBannedServer||!isAppVisible)return;const now=Date.now();const elapsed=(now-lastServerSync)/1000;const perSec=(activeNFT.speed||500)/86400;localUnclaimed=serverUnclaimed+(perSec*elapsed);const el=document.getElementById('unclaimed-counter');if(el)el.innerText=`${localUnclaimed.toFixed(4)} SFN`}
+function updateMiningUI(){if(!userTGID||isBannedServer)return;const now=Date.now();const elapsed=(now-lastServerSync)/1000;const perSec=(activeNFT.speed||500)/86400;localUnclaimed=serverUnclaimed+(perSec*elapsed);if(localUnclaimed>maxUnclaimedSeen)maxUnclaimedSeen=localUnclaimed;const el=document.getElementById('unclaimed-counter');if(el)el.innerText=`${localUnclaimed.toFixed(4)} SFN`}
 
-async function claimMining(){if(!userTGID){alert("Please open from Telegram");return}if(localUnclaimed<0.1){showPremiumToast('Minimum claim: 0.1 SFN','⚠️','red');return}const claimedAmount=localUnclaimed;balance+=claimedAmount;serverUnclaimed=0;localUnclaimed=0;lastServerSync=Date.now();updateBalanceUI();saveCache();fireConfetti('emerald');showPremiumToast(`Claimed ${claimedAmount.toFixed(4)} SFN!`,'⛏️','emerald');const data=await apiCall('/claim_mining',{tg_id:userTGID});if(data.success){balance=data.new_balance;updateBalanceUI();saveCache()}}
+async function claimMining(){if(!userTGID){alert("Please open from Telegram");return}if(localUnclaimed<0.1){showPremiumToast('Minimum claim: 0.1 SFN','⚠️','red');return}const claimedAmount=localUnclaimed;balance+=claimedAmount;serverUnclaimed=0;maxUnclaimedSeen=0;localUnclaimed=0;lastServerSync=Date.now();updateBalanceUI();saveCache();fireConfetti('emerald');showPremiumToast(`Claimed ${claimedAmount.toFixed(4)} SFN!`,'⛏️','emerald');const data=await apiCall('/claim_mining',{tg_id:userTGID});if(data.success){balance=data.new_balance;updateBalanceUI();saveCache()}}
 
 async function claimDailyCheckin(){if(!userTGID)return;const data=await apiCall('/daily_checkin',{tg_id:userTGID});if(data.success){balance=data.new_balance;serverLastCheckin=new Date().toISOString();updateBalanceUI();checkCooldowns();saveCache();fireConfetti('cyan');showPremiumToast('+20 SFN Daily Bonus!','📅','cyan')}else{if(data.remaining_seconds)showPremiumToast('Already claimed today','⚠️','red');else showPremiumToast(data.error||'Check-in failed','❌','red')}}
 
@@ -579,7 +572,6 @@ window.addEventListener('DOMContentLoaded',async()=>{
     initParticles();
     drawWheel();
     loadCache();
-    // ⭐ INSTANT mining — no wait for server
     updateMiningUI();
     setInterval(updateMiningUI,1500);
     
@@ -594,7 +586,7 @@ window.addEventListener('DOMContentLoaded',async()=>{
         const app=document.getElementById('app-content');if(app)app.style.display='none';
     }
     
-    setTimeout(()=>{const s=document.getElementById('splash-screen');if(s&&!s.classList.contains('hidden')){s.style.opacity='0';setTimeout(()=>s.classList.add('hidden'),300)}},5000);
+    setTimeout(()=>{const s=document.getElementById('splash-screen');if(s&&!s.classList.contains('hidden')){s.style.opacity='0';setTimeout(()=>s.classList.add('hidden'),300)}},3000);
     
     try{
         await syncUser();
