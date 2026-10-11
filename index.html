@@ -11,14 +11,13 @@
 * { user-select: none; -webkit-tap-highlight-color: transparent; box-sizing: border-box; margin: 0; padding: 0; }
 html, body { overflow-x: hidden; }
 
-/* ═══════════ BACKGROUND (static, no animation) ═══════════ */
+/* ═══════ BACKGROUND ═══════ */
 body {
   background: #030108;
-  color: #ffffff;
+  color: #fff;
   font-family: 'Space Grotesk', sans-serif;
   min-height: 100vh;
-  position: relative;
-  padding-bottom: 90px;
+  padding: 10px 10px 85px 10px;
   background-image: 
     radial-gradient(circle at 15% 20%, rgba(139, 92, 246, 0.15) 0%, transparent 40%),
     radial-gradient(circle at 85% 30%, rgba(6, 182, 212, 0.12) 0%, transparent 40%),
@@ -26,89 +25,80 @@ body {
     linear-gradient(180deg, #0a0514 0%, #030108 50%, #060a08 100%);
 }
 
-/* ═══════════ TYPOGRAPHY ═══════════ */
 .pixel-font { font-family: 'Press Start 2P', monospace; }
 .mono { font-family: 'JetBrains Mono', monospace; }
 
-/* ═══════════ GLASS CARDS (optimized) ═══════════ */
+/* ═══════ GLASS ═══════ */
 .glass {
-  background: linear-gradient(145deg, rgba(20, 12, 35, 0.85) 0%, rgba(10, 6, 20, 0.9) 100%);
+  background: linear-gradient(145deg, rgba(20, 12, 35, 0.88) 0%, rgba(10, 6, 20, 0.92) 100%);
   border: 1px solid rgba(139, 92, 246, 0.25);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  border-radius: 20px;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05);
   position: relative;
   overflow: hidden;
 }
 
-.glass-emerald { border-color: rgba(0, 255, 135, 0.35); box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4), 0 0 25px rgba(0, 255, 135, 0.1); }
-.glass-violet { border-color: rgba(139, 92, 246, 0.4); box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4), 0 0 25px rgba(139, 92, 246, 0.15); }
-.glass-cyan { border-color: rgba(6, 182, 212, 0.4); box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4), 0 0 25px rgba(6, 182, 212, 0.15); }
-.glass-gold { border-color: rgba(251, 191, 36, 0.4); box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4), 0 0 25px rgba(251, 191, 36, 0.15); }
+.glass-emerald { border-color: rgba(0, 255, 135, 0.35); }
+.glass-violet { border-color: rgba(139, 92, 246, 0.4); }
+.glass-cyan { border-color: rgba(6, 182, 212, 0.4); }
 
-/* ═══════════ GLOW TEXT ═══════════ */
-.glow-emerald { color: #00ff87; text-shadow: 0 0 15px rgba(0, 255, 135, 0.7); }
-.glow-violet { color: #a78bfa; text-shadow: 0 0 15px rgba(139, 92, 246, 0.7); }
-.glow-cyan { color: #22d3ee; text-shadow: 0 0 15px rgba(6, 182, 212, 0.7); }
-.glow-gold { color: #fbbf24; text-shadow: 0 0 15px rgba(251, 191, 36, 0.7); }
+.glow-emerald { color: #00ff87; text-shadow: 0 0 12px rgba(0, 255, 135, 0.7); }
+.glow-violet { color: #a78bfa; text-shadow: 0 0 12px rgba(139, 92, 246, 0.7); }
+.glow-cyan { color: #22d3ee; text-shadow: 0 0 12px rgba(6, 182, 212, 0.7); }
 
-/* ═══════════ BUTTONS (GPU accelerated) ═══════════ */
+/* ═══════ BUTTONS ═══════ */
 .btn-premium {
   background: linear-gradient(135deg, #00ff87 0%, #059669 100%);
   color: #000;
   font-weight: 900;
-  letter-spacing: 0.5px;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
-  position: relative;
-  overflow: hidden;
-  box-shadow: 0 6px 20px rgba(0, 255, 135, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  letter-spacing: 0.3px;
+  transition: transform 0.12s ease;
+  box-shadow: 0 4px 16px rgba(0, 255, 135, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.3);
   will-change: transform;
   transform: translate3d(0, 0, 0);
+  border: none;
 }
+.btn-premium:active { transform: scale3d(0.96, 0.96, 1); }
+.btn-premium:disabled { background: #1a2530; color: #4b5563; box-shadow: none; }
+.btn-violet { background: linear-gradient(135deg, #a78bfa 0%, #7c3aed 100%); box-shadow: 0 4px 16px rgba(139, 92, 246, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3); }
+.btn-cyan { background: linear-gradient(135deg, #22d3ee 0%, #0891b2 100%); box-shadow: 0 4px 16px rgba(6, 182, 212, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3); }
+.btn-gold { background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%); box-shadow: 0 4px 16px rgba(251, 191, 36, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3); }
 
-.btn-premium:active {
-  transform: scale3d(0.96, 0.96, 1);
-  box-shadow: 0 3px 12px rgba(0, 255, 135, 0.5);
+/* ═══════ SPLASH ═══════ */
+@keyframes splashGlow { 0%, 100% { transform: scale(1); opacity: 0.6; } 50% { transform: scale(1.1); opacity: 1; } }
+@keyframes splashRotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+@keyframes typewriter { from { width: 0; } to { width: 100%; } }
+@keyframes blink { 50% { border-color: transparent; } }
+
+.splash-glow { animation: splashGlow 2.5s infinite ease-in-out; will-change: transform, opacity; }
+.splash-ring-1 { animation: splashRotate 20s linear infinite; will-change: transform; }
+.typewriter-text { overflow: hidden; white-space: nowrap; border-right: 2px solid #00ff87; animation: typewriter 2s steps(30) forwards, blink 0.8s step-end infinite; display: inline-block; }
+
+#splash-screen {
+  position: fixed;
+  inset: 0;
+  background: #030108;
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  transition: opacity 0.5s;
 }
+#splash-screen.hidden { display: none; }
 
-.btn-premium:disabled {
-  background: #1a2530;
-  color: #4b5563;
-  box-shadow: none;
-  cursor: not-allowed;
-}
-
-.btn-violet {
-  background: linear-gradient(135deg, #a78bfa 0%, #7c3aed 100%);
-  box-shadow: 0 6px 20px rgba(139, 92, 246, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3);
-}
-
-.btn-cyan {
-  background: linear-gradient(135deg, #22d3ee 0%, #0891b2 100%);
-  box-shadow: 0 6px 20px rgba(6, 182, 212, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3);
-}
-
-.btn-gold {
-  background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%);
-  box-shadow: 0 6px 20px rgba(251, 191, 36, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3);
-}
-
-/* ═══════════ BAN SCREEN ═══════════ */
+/* ═══════ BAN SCREEN ═══════ */
 @keyframes banPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
 @keyframes banRingSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 @keyframes banFloat { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-8px); } }
-@keyframes glitch {
-  0%, 100% { transform: translate(0); }
-  20% { transform: translate(-2px, 2px); }
-  40% { transform: translate(2px, -2px); }
-  60% { transform: translate(-2px, -2px); }
-  80% { transform: translate(2px, 2px); }
-}
+@keyframes glitch { 0%, 100% { transform: translate(0); } 20% { transform: translate(-2px, 2px); } 40% { transform: translate(2px, -2px); } 60% { transform: translate(-2px, -2px); } 80% { transform: translate(2px, 2px); } }
 
-.ban-icon-pulse { animation: banPulse 2.5s infinite ease-in-out; will-change: transform; }
-.ban-ring-spin { animation: banRingSpin 10s linear infinite; will-change: transform; }
-.ban-float { animation: banFloat 3.5s infinite ease-in-out; will-change: transform; }
+.ban-icon-pulse { animation: banPulse 2.5s infinite ease-in-out; }
+.ban-ring-spin { animation: banRingSpin 10s linear infinite; }
+.ban-float { animation: banFloat 3.5s infinite ease-in-out; }
 .glitch-text { animation: glitch 0.8s infinite; }
 
 #ban-screen {
@@ -124,49 +114,19 @@ body {
   text-align: center;
   overflow: hidden;
 }
-
 #ban-screen.show { display: flex; }
 
-/* ═══════════ SPLASH (optimized) ═══════════ */
-@keyframes splashGlow { 0%, 100% { transform: scale(1); opacity: 0.6; } 50% { transform: scale(1.1); opacity: 1; } }
-@keyframes splashRotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-@keyframes typewriter { from { width: 0; } to { width: 100%; } }
-@keyframes blink { 50% { border-color: transparent; } }
-
-.splash-glow { animation: splashGlow 2.5s infinite ease-in-out; will-change: transform, opacity; }
-.splash-ring-1 { animation: splashRotate 20s linear infinite; will-change: transform; }
-.typewriter-text { 
-  overflow: hidden; 
-  white-space: nowrap; 
-  border-right: 2px solid #00ff87;
-  animation: typewriter 2s steps(30) forwards, blink 0.8s step-end infinite;
-  display: inline-block;
-}
-
-#splash-screen {
-  position: fixed;
-  inset: 0;
-  background: #030108;
-  z-index: 200;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 24px;
-  transition: opacity 0.5s;
-}
-
-/* ═══════════ MINER (optimized, GPU accelerated) ═══════════ */
+/* ═══════ MINER ANIMATIONS ═══════ */
 @keyframes rotateRing1 { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 @keyframes rotateRing2 { from { transform: rotate(360deg); } to { transform: rotate(0deg); } }
 @keyframes minerFloat {
   0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
-  50% { transform: translate3d(0, -12px, 0) scale(1.02); }
+  50% { transform: translate3d(0, -10px, 0) scale(1.02); }
 }
 @keyframes fireSpark {
-  0% { transform: translate3d(0, 20px, 0) scale(0.5); opacity: 0; }
+  0% { transform: translate3d(0, 15px, 0) scale(0.5); opacity: 0; }
   30% { opacity: 1; }
-  100% { transform: translate3d(0, -70px, 0) scale(1.2); opacity: 0; }
+  100% { transform: translate3d(0, -60px, 0) scale(1.2); opacity: 0; }
 }
 @keyframes scanLine {
   0% { top: 0%; opacity: 0; }
@@ -176,311 +136,137 @@ body {
 }
 @keyframes pulseDot { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.4); opacity: 0.6; } }
 
-.miner-float { 
-  animation: minerFloat 4s ease-in-out infinite; 
-  will-change: transform;
-  transform: translate3d(0, 0, 0);
-}
+.miner-float { animation: minerFloat 4s ease-in-out infinite; will-change: transform; }
 .ring-layer-1 { animation: rotateRing1 25s linear infinite; will-change: transform; }
 .ring-layer-2 { animation: rotateRing2 35s linear infinite; will-change: transform; }
-
 .fire-spark {
-  position: absolute;
-  width: 8px;
-  height: 8px;
+  position: absolute; width: 6px; height: 6px;
   background: radial-gradient(circle, #ffcc00 0%, #ff5500 60%, #ff0000 100%);
   border-radius: 50%;
-  box-shadow: 0 0 10px #ff5500;
+  box-shadow: 0 0 8px #ff5500;
   pointer-events: none;
   animation: fireSpark 3s infinite ease-in-out;
   will-change: transform, opacity;
 }
-
 .scan-line {
-  position: absolute;
-  left: 0;
-  right: 0;
-  height: 2px;
+  position: absolute; left: 0; right: 0; height: 2px;
   background: linear-gradient(90deg, transparent, #00ff87, #22d3ee, #00ff87, transparent);
   box-shadow: 0 0 15px #00ff87;
   animation: scanLine 8s linear infinite;
-  pointer-events: none;
-  z-index: 30;
-  will-change: top, opacity;
+  pointer-events: none; z-index: 30;
 }
+.pulse-dot { animation: pulseDot 2s ease-in-out infinite; }
 
-.pulse-dot { animation: pulseDot 2s ease-in-out infinite; will-change: transform, opacity; }
-
-/* ═══════════ PARTICLES (reduced, GPU) ═══════════ */
+/* ═══════ PARTICLES ═══════ */
 @keyframes particleRise {
   0% { transform: translate3d(0, 0, 0); opacity: 0; }
   10% { opacity: 0.6; }
   90% { opacity: 0.6; }
   100% { transform: translate3d(20px, -100vh, 0); opacity: 0; }
 }
-
 .bg-particle {
-  position: fixed;
-  width: 3px;
-  height: 3px;
-  background: #00ff87;
-  border-radius: 50%;
+  position: fixed; width: 3px; height: 3px;
+  background: #00ff87; border-radius: 50%;
   box-shadow: 0 0 8px #00ff87;
-  pointer-events: none;
-  z-index: 1;
+  pointer-events: none; z-index: 1;
   animation: particleRise linear infinite;
   will-change: transform, opacity;
 }
 
-/* ═══════════ NUMBER POP ═══════════ */
-@keyframes numberPop { 0% { transform: scale(1); } 50% { transform: scale(1.06); } 100% { transform: scale(1); } }
-.number-pop { animation: numberPop 0.4s ease-out; }
-
-/* ═══════════ NAV ═══════════ */
+/* ═══════ NAV ═══════ */
 .nav-btn {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 3px;
-  color: #6b7280;
-  font-size: 8px;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.2px;
-  transition: color 0.25s ease, transform 0.25s ease;
-  padding: 5px 0;
-  position: relative;
-  width: 16.66%;
-  background: none;
-  border: none;
-  will-change: transform;
+  display: flex; flex-direction: column; align-items: center; gap: 2px;
+  color: #6b7280; font-size: 7px; font-weight: 800;
+  text-transform: uppercase; letter-spacing: 0.2px;
+  transition: color 0.25s, transform 0.25s;
+  padding: 4px 0; position: relative; width: 16.66%;
+  background: none; border: none;
 }
-
-.nav-btn .nav-icon {
-  font-size: 18px;
-  transition: transform 0.25s ease;
-  filter: grayscale(1) brightness(0.6);
-  will-change: transform;
-}
-
-.nav-btn.nav-active {
-  color: #00ff87;
-}
-
-.nav-btn.nav-active .nav-icon {
-  filter: grayscale(0) brightness(1.2);
-  transform: translate3d(0, -3px, 0) scale(1.12);
-}
-
+.nav-btn .nav-icon { font-size: 16px; transition: transform 0.25s; filter: grayscale(1) brightness(0.6); }
+.nav-btn.nav-active { color: #00ff87; }
+.nav-btn.nav-active .nav-icon { filter: grayscale(0) brightness(1.2); transform: translate3d(0, -3px, 0) scale(1.12); }
 .nav-btn.nav-active::before {
-  content: '';
-  position: absolute;
-  top: -2px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 22px;
-  height: 2px;
-  background: #00ff87;
-  border-radius: 2px;
-  box-shadow: 0 0 10px #00ff87;
+  content: ''; position: absolute; top: -2px; left: 50%; transform: translateX(-50%);
+  width: 20px; height: 2px; background: #00ff87; border-radius: 2px; box-shadow: 0 0 10px #00ff87;
 }
 
-/* ═══════════ TAB SWITCH ═══════════ */
-@keyframes tabFadeIn {
-  from { opacity: 0; transform: translate3d(0, 8px, 0); }
-  to { opacity: 1; transform: translate3d(0, 0, 0); }
-}
+/* ═══════ TAB ═══════ */
+@keyframes tabFadeIn { from { opacity: 0; transform: translate3d(0, 6px, 0); } to { opacity: 1; transform: translate3d(0, 0, 0); } }
+.tab-content { animation: tabFadeIn 0.3s ease-out; }
 
-.tab-content { animation: tabFadeIn 0.3s ease-out; will-change: transform, opacity; }
-
-/* ═══════════ SUB TABS ═══════════ */
 .sub-tab {
-  padding: 9px 8px;
-  font-size: 10px;
-  font-weight: 800;
-  border-radius: 10px;
-  text-transform: uppercase;
-  letter-spacing: 0.3px;
-  transition: all 0.25s;
-  color: #6b7280;
-  background: transparent;
-  flex: 1;
-  text-align: center;
-  cursor: pointer;
-  border: none;
+  padding: 7px 6px; font-size: 9px; font-weight: 800;
+  border-radius: 9px; text-transform: uppercase;
+  transition: all 0.25s; color: #6b7280;
+  background: transparent; flex: 1; text-align: center;
+  cursor: pointer; border: none;
 }
-
 .sub-tab.active {
   background: linear-gradient(135deg, #00ff87 0%, #059669 100%);
-  color: #000;
-  box-shadow: 0 4px 15px rgba(0, 255, 135, 0.4);
+  color: #000; box-shadow: 0 3px 12px rgba(0, 255, 135, 0.4);
 }
 
-/* ═══════════ NFT CARDS (REDESIGNED) ═══════════ */
-.nft-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-
+/* ═══════ NFT CARDS ═══════ */
+.nft-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 .nft-card {
   background: linear-gradient(145deg, rgba(20, 12, 35, 0.9) 0%, rgba(10, 6, 20, 0.95) 100%);
-  border-radius: 18px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  padding: 10px;
-  position: relative;
-  overflow: hidden;
+  border-radius: 14px; border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 8px; position: relative; overflow: hidden;
   transition: transform 0.2s ease;
-  will-change: transform;
 }
-
 .nft-card:active { transform: scale3d(0.98, 0.98, 1); }
-
-.nft-card.border-common { border-color: rgba(0, 255, 135, 0.4); box-shadow: 0 0 20px rgba(0, 255, 135, 0.1); }
-.nft-card.border-rare { border-color: rgba(6, 182, 212, 0.5); box-shadow: 0 0 20px rgba(6, 182, 212, 0.15); }
-.nft-card.border-epic { border-color: rgba(139, 92, 246, 0.5); box-shadow: 0 0 20px rgba(139, 92, 246, 0.15); }
-.nft-card.border-legendary { border-color: rgba(251, 191, 36, 0.6); box-shadow: 0 0 25px rgba(251, 191, 36, 0.2); }
-
+.nft-card.border-common { border-color: rgba(0, 255, 135, 0.4); }
+.nft-card.border-rare { border-color: rgba(6, 182, 212, 0.5); }
+.nft-card.border-epic { border-color: rgba(139, 92, 246, 0.5); }
+.nft-card.border-legendary { border-color: rgba(251, 191, 36, 0.6); }
 .nft-rarity {
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  padding: 3px 8px;
-  border-radius: 8px;
-  font-size: 8px;
-  font-weight: 900;
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
-  z-index: 5;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  position: absolute; top: 6px; right: 6px;
+  padding: 2px 6px; border-radius: 6px;
+  font-size: 7px; font-weight: 900; letter-spacing: 0.5px;
+  text-transform: uppercase; z-index: 5;
 }
-
 .rarity-common { background: rgba(0, 255, 135, 0.2); color: #00ff87; border: 1px solid rgba(0, 255, 135, 0.5); }
 .rarity-rare { background: rgba(6, 182, 212, 0.2); color: #22d3ee; border: 1px solid rgba(6, 182, 212, 0.6); }
 .rarity-epic { background: rgba(139, 92, 246, 0.25); color: #a78bfa; border: 1px solid rgba(139, 92, 246, 0.6); }
 .rarity-legendary { background: rgba(251, 191, 36, 0.25); color: #fbbf24; border: 1px solid rgba(251, 191, 36, 0.7); }
+.nft-card-img { width: 100%; height: auto; object-fit: contain; border-radius: 10px; display: block; margin-bottom: 6px; }
+.nft-card-title { font-size: 10px; font-weight: 900; color: #fff; text-align: center; letter-spacing: 0.3px; margin-bottom: 6px; line-height: 1.2; }
+.nft-divider { height: 1px; background: linear-gradient(90deg, transparent, rgba(139, 92, 246, 0.4), transparent); margin: 6px 0; }
+.nft-detail-row { display: flex; justify-content: space-between; align-items: center; padding: 3px 5px; font-size: 9px; margin-bottom: 2px; border-radius: 5px; background: rgba(0, 0, 0, 0.3); }
+.nft-detail-row .label { color: #6b7280; font-weight: 700; font-size: 8px; }
+.nft-detail-row .value { color: #fff; font-weight: 800; font-family: 'JetBrains Mono', monospace; font-size: 9px; }
+.nft-card-btn { width: 100%; margin-top: 6px; padding: 8px; border-radius: 10px; font-size: 9px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.4px; border: none; }
 
-.nft-card-img {
-  width: 100%;
-  height: auto;
-  object-fit: contain;
-  border-radius: 12px;
-  display: block;
-  margin-bottom: 8px;
-}
-
-.nft-card-title {
-  font-size: 11px;
-  font-weight: 900;
-  color: #fff;
-  text-align: center;
-  letter-spacing: 0.3px;
-  margin-bottom: 8px;
-  line-height: 1.2;
-}
-
-.nft-divider {
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(139, 92, 246, 0.4), transparent);
-  margin: 8px 0;
-}
-
-.nft-detail-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 4px 6px;
-  font-size: 10px;
-  margin-bottom: 3px;
-  border-radius: 6px;
-  background: rgba(0, 0, 0, 0.3);
-}
-
-.nft-detail-row .label {
-  color: #6b7280;
-  font-weight: 700;
-  font-size: 9px;
-}
-
-.nft-detail-row .value {
-  color: #fff;
-  font-weight: 800;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
-}
-
-.nft-card-btn {
-  width: 100%;
-  margin-top: 10px;
-  padding: 10px;
-  border-radius: 12px;
-  font-size: 10px;
-  font-weight: 900;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  border: none;
-  transition: transform 0.15s ease;
-  will-change: transform;
-}
-
-.nft-card-btn:active { transform: scale3d(0.96, 0.96, 1); }
-
-/* ═══════════ SPIN WHEEL ═══════════ */
-.wheel-container {
-  position: relative;
-  width: 240px;
-  height: 240px;
-  margin: 0 auto;
-}
-
+/* ═══════ WHEEL ═══════ */
+.wheel-container { position: relative; width: 210px; height: 210px; margin: 0 auto; }
 .wheel-pointer {
-  position: absolute;
-  top: -14px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 0;
-  height: 0;
-  border-left: 14px solid transparent;
-  border-right: 14px solid transparent;
-  border-top: 24px solid #00ff87;
-  z-index: 20;
-  filter: drop-shadow(0 0 10px #00ff87);
+  position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
+  width: 0; height: 0;
+  border-left: 12px solid transparent; border-right: 12px solid transparent;
+  border-top: 20px solid #00ff87; z-index: 20;
+  filter: drop-shadow(0 0 8px #00ff87);
 }
-
 #wheelCanvas {
   border-radius: 50%;
   transition: transform 5s cubic-bezier(0.17, 0.67, 0.12, 0.99);
-  box-shadow: 0 0 25px rgba(0, 255, 135, 0.4), 0 0 50px rgba(139, 92, 246, 0.2);
+  box-shadow: 0 0 20px rgba(0, 255, 135, 0.4);
   will-change: transform;
 }
 
-/* ═══════════ TOAST ═══════════ */
-@keyframes toastIn {
-  from { transform: translate3d(-50%, -40px, 0) scale(0.9); opacity: 0; }
-  to { transform: translate3d(-50%, 0, 0) scale(1); opacity: 1; }
-}
-@keyframes toastOut {
-  from { transform: translate3d(-50%, 0, 0) scale(1); opacity: 1; }
-  to { transform: translate3d(-50%, -40px, 0) scale(0.9); opacity: 0; }
-}
+/* ═══════ TOAST ═══════ */
+@keyframes toastIn { from { transform: translate3d(-50%, -30px, 0) scale(0.9); opacity: 0; } to { transform: translate3d(-50%, 0, 0) scale(1); opacity: 1; } }
+@keyframes toastOut { from { transform: translate3d(-50%, 0, 0) scale(1); opacity: 1; } to { transform: translate3d(-50%, -30px, 0) scale(0.9); opacity: 0; } }
 
 .toast {
-  position: fixed;
-  top: 20px;
-  left: 50%;
+  position: fixed; top: 16px; left: 50%;
   transform: translateX(-50%);
-  padding: 12px 20px;
-  border-radius: 14px;
-  font-weight: 800;
-  font-size: 12px;
-  z-index: 9999;
+  padding: 10px 16px; border-radius: 12px;
+  font-weight: 800; font-size: 11px; z-index: 9999;
   animation: toastIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  max-width: 90vw;
-  text-align: center;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
-  will-change: transform, opacity;
+  max-width: 90vw; text-align: center;
+  display: flex; align-items: center; gap: 8px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
 }
-
 .toast-emerald { background: linear-gradient(135deg, #00ff87 0%, #059669 100%); color: #000; }
 .toast-violet { background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%); color: #fff; }
 .toast-cyan { background: linear-gradient(135deg, #22d3ee 0%, #06b6d4 100%); color: #000; }
@@ -488,289 +274,234 @@ body {
 .toast-red { background: linear-gradient(135deg, #ef4444 0%, #991b1b 100%); color: #fff; }
 .toast-blue { background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); color: #fff; }
 
-/* ═══════════ MODAL ═══════════ */
+/* ═══════ MODAL ═══════ */
 .modal-overlay {
-  position: fixed;
-  inset: 0;
+  position: fixed; inset: 0;
   background: rgba(0, 0, 0, 0.85);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  z-index: 2000;
-  display: none;
-  align-items: flex-end;
-  justify-content: center;
+  z-index: 2000; display: none;
+  align-items: flex-end; justify-content: center;
 }
-
 .modal-overlay.show { display: flex; }
-
 .modal-content {
   background: linear-gradient(145deg, #140a24 0%, #0a0514 100%);
   border: 1px solid rgba(139, 92, 246, 0.4);
-  border-radius: 24px 24px 0 0;
-  width: 100%;
-  max-width: 480px;
-  max-height: 88vh;
-  overflow-y: auto;
-  padding: 20px;
-  padding-bottom: max(20px, env(safe-area-inset-bottom));
+  border-radius: 22px 22px 0 0;
+  width: 100%; max-width: 480px; max-height: 88vh;
+  overflow-y: auto; padding: 18px;
+  padding-bottom: max(18px, env(safe-area-inset-bottom));
   animation: slideUpModal 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 -15px 50px rgba(139, 92, 246, 0.3);
 }
+@keyframes slideUpModal { from { transform: translate3d(0, 100%, 0); } to { transform: translate3d(0, 0, 0); } }
 
-@keyframes slideUpModal {
-  from { transform: translate3d(0, 100%, 0); }
-  to { transform: translate3d(0, 0, 0); }
-}
+/* ═══════ PROGRESS ═══════ */
+.progress-bar { height: 5px; border-radius: 3px; background: rgba(255, 255, 255, 0.08); overflow: hidden; }
+.progress-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, #00ff87 0%, #22d3ee 100%); box-shadow: 0 0 10px rgba(0, 255, 135, 0.6); transition: width 0.5s ease; }
 
-/* ═══════════ PROGRESS BAR ═══════════ */
-.progress-bar {
-  height: 6px;
-  border-radius: 3px;
-  background: rgba(255, 255, 255, 0.08);
-  overflow: hidden;
-}
-
-.progress-fill {
-  height: 100%;
-  border-radius: 3px;
-  background: linear-gradient(90deg, #00ff87 0%, #22d3ee 100%);
-  box-shadow: 0 0 10px rgba(0, 255, 135, 0.6);
-  transition: width 0.5s ease;
-}
-
-/* ═══════════ SKELETON ═══════════ */
-@keyframes shimmer {
-  0% { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
-}
-
+/* ═══════ SKELETON ═══════ */
+@keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
 .skeleton {
-  background: linear-gradient(90deg, rgba(255,255,255,0.04) 25%, rgba(139,92,246,0.1) 50%, rgba(255,255,255,0.04) 75%);
+  background: linear-gradient(90deg, rgba(255,255,255,0.06) 25%, rgba(139,92,246,0.15) 50%, rgba(255,255,255,0.06) 75%);
   background-size: 200% 100%;
-  animation: shimmer 1.8s infinite;
-  border-radius: 10px;
+  animation: shimmer 1.5s infinite;
+  border-radius: 6px;
+  color: transparent !important;
 }
 
-#confetti-canvas {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 500;
-}
+#confetti-canvas { position: fixed; inset: 0; pointer-events: none; z-index: 500; }
 
-/* ═══════════ BADGES ═══════════ */
+/* ═══════ BADGES ═══════ */
 .badge-verified {
   background: linear-gradient(135deg, rgba(0, 255, 135, 0.15), rgba(6, 182, 212, 0.15));
-  border: 1px solid rgba(0, 255, 135, 0.5);
-  color: #00ff87;
+  border: 1px solid rgba(0, 255, 135, 0.5); color: #00ff87;
 }
-
 .badge-unverified {
   background: linear-gradient(135deg, rgba(251, 191, 36, 0.15), rgba(217, 119, 6, 0.15));
-  border: 1px solid rgba(251, 191, 36, 0.5);
-  color: #fbbf24;
+  border: 1px solid rgba(251, 191, 36, 0.5); color: #fbbf24;
 }
 
-/* ═══════════ INPUTS ═══════════ */
+/* ═══════ INPUTS ═══════ */
 .input-premium {
-  width: 100%;
-  background: rgba(0, 0, 0, 0.5);
+  width: 100%; background: rgba(0, 0, 0, 0.5);
   border: 1px solid rgba(139, 92, 246, 0.3);
-  border-radius: 12px;
-  padding: 12px 14px;
-  font-size: 13px;
-  color: #fff;
-  outline: none;
+  border-radius: 11px; padding: 11px 13px;
+  font-size: 12px; color: #fff; outline: none;
   transition: border-color 0.2s, box-shadow 0.2s;
   font-family: 'JetBrains Mono', monospace;
 }
-
-.input-premium:focus {
-  border-color: #00ff87;
-  box-shadow: 0 0 0 2px rgba(0, 255, 135, 0.15);
-}
-
+.input-premium:focus { border-color: #00ff87; box-shadow: 0 0 0 2px rgba(0, 255, 135, 0.15); }
 .input-premium::placeholder { color: #4b5563; }
 
-/* ═══════════ NETWORK CARDS ═══════════ */
 .net-card {
-  padding: 10px 6px;
-  border-radius: 12px;
+  padding: 8px 4px; border-radius: 10px;
   background: rgba(20, 15, 30, 0.6);
   border: 1px solid rgba(255, 255, 255, 0.06);
-  text-align: center;
-  cursor: pointer;
+  text-align: center; cursor: pointer;
   transition: all 0.25s;
 }
-
 .net-card.active {
   background: linear-gradient(135deg, rgba(0, 255, 135, 0.12), rgba(6, 182, 212, 0.12));
   border: 1.5px solid #00ff87;
-  box-shadow: 0 0 15px rgba(0, 255, 135, 0.25);
 }
 
-/* ═══════════ SCROLLBAR ═══════════ */
 ::-webkit-scrollbar { width: 3px; height: 3px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: rgba(139, 92, 246, 0.4); border-radius: 2px; }
 
-/* ═══════════ LOCK BANNER ═══════════ */
 .lock-banner {
   background: linear-gradient(135deg, rgba(251, 191, 36, 0.08), rgba(217, 119, 6, 0.08));
   border: 1px solid rgba(251, 191, 36, 0.4);
-  border-radius: 14px;
-  padding: 12px;
+  border-radius: 12px; padding: 12px;
 }
-
 .lock-banner.unlocked {
   background: linear-gradient(135deg, rgba(0, 255, 135, 0.1), rgba(6, 182, 212, 0.1));
   border-color: rgba(0, 255, 135, 0.5);
 }
 
-/* ═══════════ REDUCED MOTION (Accessibility) ═══════════ */
 @media (prefers-reduced-motion: reduce) {
-  * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+  * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
 }
 </style>
 </head>
-<body class="p-3 pb-24 max-w-md mx-auto relative min-h-screen">
+<body class="max-w-md mx-auto relative min-h-screen">
 
 <canvas id="confetti-canvas"></canvas>
 <div id="particle-field"></div>
 
-<!-- ═══════════ BAN SCREEN ═══════════ -->
+<!-- ═══ BAN SCREEN ═══ -->
 <div id="ban-screen">
   <div style="position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center;">
-    <div style="position: relative; width: 140px; height: 140px; margin-bottom: 24px; display: flex; align-items: center; justify-content: center;">
+    <div style="position: relative; width: 120px; height: 120px; margin-bottom: 20px; display: flex; align-items: center; justify-content: center;">
       <div style="position: absolute; inset: 0; background: rgba(239, 68, 68, 0.2); border-radius: 50%; filter: blur(25px);" class="ban-icon-pulse"></div>
       <div style="position: absolute; inset: 0; border-radius: 50%; border: 2px dashed rgba(239, 68, 68, 0.5);" class="ban-ring-spin"></div>
-      <div style="font-size: 56px; position: relative; z-index: 10;" class="ban-icon-pulse ban-float">⚠️</div>
+      <div style="font-size: 48px; position: relative; z-index: 10;" class="ban-icon-pulse ban-float">⚠️</div>
     </div>
-    <h1 class="pixel-font glitch-text" style="font-size: 14px; color: #ef4444; margin-bottom: 10px; text-shadow: 0 0 25px rgba(239, 68, 68, 1); padding: 8px 14px; border-radius: 10px;">MINING NODE OFFLINE</h1>
-    <p class="mono" style="font-size: 9px; color: rgba(252, 165, 165, 0.7); letter-spacing: 2px; margin-bottom: 20px;">◉ SECURITY PROTOCOL ACTIVATED</p>
-    <div style="background: rgba(239, 68, 68, 0.05); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 20px; padding: 20px; max-width: 340px; width: 100%;">
-      <div style="display: flex; align-items: center; justify-content: center; gap: 8px; padding-bottom: 12px; border-bottom: 1px solid rgba(239, 68, 68, 0.2); margin-bottom: 14px;">
-        <span style="width: 7px; height: 7px; border-radius: 50%; background: #ef4444;" class="pulse-dot"></span>
-        <span class="mono" style="font-size: 9px; color: #f87171; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase;">Status: Suspended</span>
+    <h1 class="pixel-font glitch-text" style="font-size: 12px; color: #ef4444; margin-bottom: 8px; text-shadow: 0 0 25px rgba(239, 68, 68, 1); padding: 6px 12px; border-radius: 10px;">MINING NODE OFFLINE</h1>
+    <p class="mono" style="font-size: 8px; color: rgba(252, 165, 165, 0.7); letter-spacing: 2px; margin-bottom: 18px;">◉ SECURITY PROTOCOL ACTIVATED</p>
+    <div style="background: rgba(239, 68, 68, 0.05); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 18px; padding: 18px; max-width: 320px; width: 100%;">
+      <div style="display: flex; align-items: center; justify-content: center; gap: 8px; padding-bottom: 10px; border-bottom: 1px solid rgba(239, 68, 68, 0.2); margin-bottom: 12px;">
+        <span style="width: 6px; height: 6px; border-radius: 50%; background: #ef4444;" class="pulse-dot"></span>
+        <span class="mono" style="font-size: 8px; color: #f87171; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase;">Status: Suspended</span>
       </div>
-      <p style="font-size: 11px; color: #d1d5db; line-height: 1.6; margin-bottom: 14px;">
+      <p style="font-size: 10px; color: #d1d5db; line-height: 1.6; margin-bottom: 12px;">
         Your account has been <span style="color: #f87171; font-weight: 800;">flagged by our automated detection system</span>. Access temporarily restricted.
       </p>
-      <div style="background: rgba(0, 0, 0, 0.6); border-radius: 12px; padding: 12px;">
-        <p class="mono" style="font-size: 8px; color: #6b7280; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 4px;">Reference Code</p>
-        <p class="mono" style="font-size: 12px; color: #f87171; font-weight: 800;">#BANNED_403</p>
+      <div style="background: rgba(0, 0, 0, 0.6); border-radius: 10px; padding: 10px;">
+        <p class="mono" style="font-size: 7px; color: #6b7280; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 3px;">Reference Code</p>
+        <p class="mono" style="font-size: 11px; color: #f87171; font-weight: 800;">#BANNED_403</p>
       </div>
     </div>
-    <a href="https://t.me/SFN_Support24_7" target="_blank" style="margin-top: 22px; background: linear-gradient(135deg, #ef4444 0%, #991b1b 100%); color: #fff; font-weight: 900; padding: 14px 28px; border-radius: 14px; font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; text-decoration: none; box-shadow: 0 0 30px rgba(239, 68, 68, 0.6); display: flex; align-items: center; gap: 8px;">
-      <span style="font-size: 14px;">📩</span> Submit Appeal
+    <a href="https://t.me/SFN_Support24_7" target="_blank" style="margin-top: 18px; background: linear-gradient(135deg, #ef4444 0%, #991b1b 100%); color: #fff; font-weight: 900; padding: 12px 24px; border-radius: 12px; font-size: 10px; text-transform: uppercase; letter-spacing: 1.2px; text-decoration: none; box-shadow: 0 0 25px rgba(239, 68, 68, 0.6); display: flex; align-items: center; gap: 6px;">
+      <span style="font-size: 13px;">📩</span> Submit Appeal
     </a>
   </div>
 </div>
 
-<!-- ═══════════ TOAST ═══════════ -->
+<!-- ═══ TOAST ═══ -->
 <div id="premium-toast" class="toast toast-emerald" style="display: none;">
-  <span id="toast-emoji" style="font-size: 18px;">⛏️</span>
-  <span id="toast-message" style="font-size: 12px;">Claimed 2.2897 SFN!</span>
+  <span id="toast-emoji" style="font-size: 16px;">⛏️</span>
+  <span id="toast-message" style="font-size: 11px;">Claimed!</span>
 </div>
 
-<!-- ═══════════ SPLASH ═══════════ -->
+<!-- ═══ SPLASH ═══ -->
 <div id="splash-screen">
-  <div style="position: relative; width: 140px; height: 140px; margin-bottom: 24px; display: flex; align-items: center; justify-content: center;">
+  <div style="position: relative; width: 120px; height: 120px; margin-bottom: 22px; display: flex; align-items: center; justify-content: center;">
     <div style="position: absolute; inset: 0; background: radial-gradient(circle, rgba(139,92,246,0.5), transparent 70%); border-radius: 50%; filter: blur(15px);" class="splash-glow"></div>
     <div style="position: absolute; inset: 0; border-radius: 50%; border: 2px dashed rgba(0, 255, 135, 0.4);" class="splash-ring-1"></div>
     <img src="https://www.image2url.com/r2/default/images/1791043985369-a9e2b85f-86b0-4636-b90a-a46e632a1d32.png" alt="SFN" style="width: 100%; height: 100%; object-fit: contain; mix-blend-mode: screen; position: relative; z-index: 10; filter: drop-shadow(0 0 20px rgba(0, 255, 135, 0.8));">
   </div>
-  <h1 class="pixel-font glow-emerald" style="font-size: 16px; margin-bottom: 6px; letter-spacing: 1.5px;">START FARMING NOW</h1>
-  <p class="mono" style="font-size: 9px; color: rgba(167, 139, 250, 0.9); letter-spacing: 3px; margin-bottom: 24px;">INITIALIZING MINING ENGINE</p>
-  <div style="width: 200px; height: 3px; background: rgba(0, 0, 0, 0.6); border-radius: 2px; overflow: hidden; border: 1px solid rgba(0, 255, 135, 0.3);">
-    <div style="height: 100%; background: linear-gradient(90deg, #00ff87, #22d3ee, #8b5cf6); border-radius: 2px; animation: progress 4s linear forwards;"></div>
+  <h1 class="pixel-font glow-emerald" style="font-size: 14px; margin-bottom: 6px; letter-spacing: 1.5px; text-align: center;">START FARMING NOW</h1>
+  <p class="mono" style="font-size: 8px; color: rgba(167, 139, 250, 0.9); letter-spacing: 3px; margin-bottom: 22px; text-align: center;">INITIALIZING MINING ENGINE</p>
+  <div style="width: 180px; height: 3px; background: rgba(0, 0, 0, 0.6); border-radius: 2px; overflow: hidden; border: 1px solid rgba(0, 255, 135, 0.3);">
+    <div style="height: 100%; background: linear-gradient(90deg, #00ff87, #22d3ee, #8b5cf6); border-radius: 2px; animation: splashProgress 3s linear forwards;"></div>
   </div>
-  <div class="mono" style="font-size: 9px; color: #6b7280; margin-top: 16px; letter-spacing: 1.5px;">
+  <div class="mono" style="font-size: 8px; color: #6b7280; margin-top: 14px; letter-spacing: 1.5px;">
     <span class="typewriter-text">Loading secure nodes...</span>
   </div>
 </div>
 
 <style>
-@keyframes progress { 0% { width: 0%; } 100% { width: 100%; } }
+@keyframes splashProgress { 0% { width: 0%; } 100% { width: 100%; } }
 </style>
 
-<!-- ═══════════ CHANNEL GATE ═══════════ -->
-<div id="channel-gate" class="modal-overlay show" style="align-items: center; padding: 14px;">
-  <div class="glass glass-emerald" style="padding: 24px; text-align: center; max-width: 360px; width: 100%;">
-    <div style="width: 64px; height: 64px; margin: 0 auto 16px; background: linear-gradient(135deg, rgba(0, 255, 135, 0.15), rgba(6, 182, 212, 0.15)); border: 1px solid rgba(0, 255, 135, 0.5); border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 30px;">
+<!-- ═══ VERIFICATION GATE ═══ -->
+<div id="channel-gate" class="modal-overlay" style="align-items: center; padding: 14px; display: none;">
+  <div class="glass glass-emerald" style="padding: 22px; text-align: center; max-width: 340px; width: 100%;">
+    <div style="width: 58px; height: 58px; margin: 0 auto 14px; background: linear-gradient(135deg, rgba(0, 255, 135, 0.15), rgba(6, 182, 212, 0.15)); border: 1px solid rgba(0, 255, 135, 0.5); border-radius: 18px; display: flex; align-items: center; justify-content: center; font-size: 28px;">
       🔒
     </div>
-    <h2 class="pixel-font glow-emerald" style="font-size: 12px; margin-bottom: 8px; letter-spacing: 1px;">ACCESS VERIFICATION</h2>
-    <p style="font-size: 11px; color: #9ca3af; line-height: 1.5; margin-bottom: 16px;">
-      Join our official channels to unlock mining rewards.
+    <h2 class="pixel-font glow-emerald" style="font-size: 11px; margin-bottom: 6px; letter-spacing: 1px;">ACCESS VERIFICATION</h2>
+    <p style="font-size: 10px; color: #9ca3af; line-height: 1.5; margin-bottom: 14px;">
+      Join our channels to unlock mining rewards.
     </p>
-    <div style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px;">
-      <a href="https://t.me/SFN_Payment" target="_blank" style="display: flex; align-items: center; justify-content: space-between; padding: 12px 14px; background: rgba(0, 0, 0, 0.5); border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.08); text-decoration: none;">
-        <div style="display: flex; align-items: center; gap: 10px;">
-          <span style="font-size: 18px;">💳</span>
-          <span style="font-size: 11px; color: #e5e7eb; font-weight: 700;">Payment Proof</span>
+    <div style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px;">
+      <a href="https://t.me/SFN_Payment" target="_blank" style="display: flex; align-items: center; justify-content: space-between; padding: 11px 13px; background: rgba(0, 0, 0, 0.5); border-radius: 11px; border: 1px solid rgba(255, 255, 255, 0.08); text-decoration: none;">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span style="font-size: 16px;">💳</span>
+          <span style="font-size: 10px; color: #e5e7eb; font-weight: 700;">Payment Proof</span>
         </div>
-        <span class="mono" style="font-size: 9px; color: #00ff87; font-weight: 800;">JOIN ↗</span>
+        <span class="mono" style="font-size: 8px; color: #00ff87; font-weight: 800;">JOIN ↗</span>
       </a>
-      <a href="https://t.me/SFN_News" target="_blank" style="display: flex; align-items: center; justify-content: space-between; padding: 12px 14px; background: rgba(0, 0, 0, 0.5); border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.08); text-decoration: none;">
-        <div style="display: flex; align-items: center; gap: 10px;">
-          <span style="font-size: 18px;">📢</span>
-          <span style="font-size: 11px; color: #e5e7eb; font-weight: 700;">Official News</span>
+      <a href="https://t.me/SFN_News" target="_blank" style="display: flex; align-items: center; justify-content: space-between; padding: 11px 13px; background: rgba(0, 0, 0, 0.5); border-radius: 11px; border: 1px solid rgba(255, 255, 255, 0.08); text-decoration: none;">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span style="font-size: 16px;">📢</span>
+          <span style="font-size: 10px; color: #e5e7eb; font-weight: 700;">Official News</span>
         </div>
-        <span class="mono" style="font-size: 9px; color: #00ff87; font-weight: 800;">JOIN ↗</span>
+        <span class="mono" style="font-size: 8px; color: #00ff87; font-weight: 800;">JOIN ↗</span>
       </a>
     </div>
-    <button id="verifyBtn" class="btn-premium" style="width: 100%; padding: 14px; border-radius: 12px; font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; border: none;" onclick="verifyAndUnlock()">
+    <button id="verifyBtn" class="btn-premium" style="width: 100%; padding: 13px; border-radius: 11px; font-size: 10px; text-transform: uppercase; letter-spacing: 1.2px;" onclick="verifyAndUnlock()">
       ✦ VERIFY & UNLOCK ✦
     </button>
-    <p id="verifyStatus" class="mono" style="font-size: 10px; margin-top: 10px; color: #a78bfa; min-height: 14px;"></p>
+    <p id="verifyStatus" class="mono" style="font-size: 9px; margin-top: 8px; color: #a78bfa; min-height: 12px;"></p>
   </div>
 </div>
 
-<!-- ═══════════ NETWORK MODAL ═══════════ -->
+<!-- ═══ NETWORK MODAL ═══ -->
 <div id="network-modal" class="modal-overlay">
   <div class="modal-content">
-    <div style="display: flex; align-items: center; justify-content: space-between; padding-bottom: 14px; border-bottom: 1px solid rgba(139, 92, 246, 0.2); margin-bottom: 16px;">
-      <h3 class="mono" style="font-size: 11px; font-weight: 800; color: #a78bfa; letter-spacing: 1.5px; text-transform: uppercase;">SELECT NETWORK</h3>
-      <button onclick="closeNetworkModal()" style="background: rgba(255,255,255,0.06); border: none; color: #9ca3af; width: 30px; height: 30px; border-radius: 9px; font-size: 15px; cursor: pointer;">✕</button>
+    <div style="display: flex; align-items: center; justify-content: space-between; padding-bottom: 12px; border-bottom: 1px solid rgba(139, 92, 246, 0.2); margin-bottom: 14px;">
+      <h3 class="mono" style="font-size: 10px; font-weight: 800; color: #a78bfa; letter-spacing: 1.5px; text-transform: uppercase;">SELECT NETWORK</h3>
+      <button onclick="closeNetworkModal()" style="background: rgba(255,255,255,0.06); border: none; color: #9ca3af; width: 28px; height: 28px; border-radius: 8px; font-size: 14px; cursor: pointer;">✕</button>
     </div>
-    <div id="network-options-list" style="display: flex; flex-direction: column; gap: 8px; max-height: 400px; overflow-y: auto;"></div>
+    <div id="network-options-list" style="display: flex; flex-direction: column; gap: 7px; max-height: 380px; overflow-y: auto;"></div>
   </div>
 </div>
 
-<!-- ═══════════ MAIN APP ═══════════ -->
+<!-- ═══ MAIN APP ═══ -->
 <div id="app-content" style="display: none; position: relative; z-index: 5;">
 
   <!-- HEADER -->
-  <div class="glass" style="padding: 12px 14px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
-    <div style="display: flex; align-items: center; gap: 10px;">
+  <div class="glass" style="padding: 10px 12px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
+    <div style="display: flex; align-items: center; gap: 9px;">
       <div style="position: relative;">
-        <img id="user-photo" src="https://i.ibb.co/rnXqY75/file-00000000888c82109e188f21049ea846.png" style="width: 38px; height: 38px; border-radius: 12px; border: 2px solid rgba(0, 255, 135, 0.5); object-fit: cover;" alt="Profile">
-        <span style="position: absolute; bottom: -2px; right: -2px; width: 12px; height: 12px; background: #00ff87; border: 2px solid #0a0514; border-radius: 50%;"></span>
+        <img id="user-photo" src="https://i.ibb.co/rnXqY75/file-00000000888c82109e188f21049ea846.png" style="width: 34px; height: 34px; border-radius: 10px; border: 2px solid rgba(0, 255, 135, 0.5); object-fit: cover;" alt="Profile">
+        <span style="position: absolute; bottom: -2px; right: -2px; width: 10px; height: 10px; background: #00ff87; border: 2px solid #0a0514; border-radius: 50%;"></span>
       </div>
       <div>
-        <h3 style="font-size: 12px; font-weight: 800; color: #fff;" id="user-name">SFN User</h3>
-        <p class="mono" style="font-size: 9px; color: #6b7280; margin-top: 1px;">
+        <h3 style="font-size: 11px; font-weight: 800; color: #fff;" id="user-name">SFN User</h3>
+        <p class="mono" style="font-size: 8px; color: #6b7280; margin-top: 1px;">
           UID: <span style="color: #00ff87; font-weight: 800;">#<span id="user-uid">62000001</span></span>
         </p>
       </div>
     </div>
-    <div id="verify-badge-wrapper" class="badge-unverified" style="display: flex; align-items: center; gap: 5px; padding: 5px 10px; border-radius: 16px;">
-      <span id="verify-badge" class="mono" style="font-size: 8px; font-weight: 800; letter-spacing: 0.8px;">⚠️ UNVERIFIED</span>
+    <div id="verify-badge-wrapper" class="badge-unverified" style="display: flex; align-items: center; gap: 4px; padding: 4px 9px; border-radius: 14px;">
+      <span id="verify-badge" class="mono" style="font-size: 7px; font-weight: 800; letter-spacing: 0.8px;">⚠️ UNVERIFIED</span>
     </div>
   </div>
 
-  <!-- BALANCE CARD -->
-  <div class="glass glass-violet" style="padding: 18px; text-align: center; margin-bottom: 12px; position: relative; overflow: hidden;">
+  <!-- BALANCE -->
+  <div class="glass glass-violet" style="padding: 14px; text-align: center; margin-bottom: 10px; position: relative; overflow: hidden;">
     <div style="position: absolute; top: -50%; right: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(139, 92, 246, 0.12), transparent 60%); pointer-events: none;"></div>
     <div style="position: relative; z-index: 2;">
-      <p class="mono" style="font-size: 9px; color: #a78bfa; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px;">◆ TOTAL BALANCE ◆</p>
-      <div style="display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 6px;">
-        <span style="font-size: 20px; filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.7));">🪙</span>
-        <h1 class="pixel-font glow-emerald" id="total-balance" style="font-size: 18px;">0.00</h1>
-        <span class="mono" style="font-size: 11px; color: #00ff87; font-weight: 800; align-self: flex-end; margin-bottom: 2px;">SFN</span>
+      <p class="mono" style="font-size: 8px; color: #a78bfa; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 6px;">◆ TOTAL BALANCE ◆</p>
+      <div style="display: flex; align-items: center; justify-content: center; gap: 7px; margin-bottom: 5px;">
+        <span style="font-size: 18px; filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.7));">🪙</span>
+        <h1 class="pixel-font glow-emerald skeleton" id="total-balance" style="font-size: 16px;">0.00</h1>
+        <span class="mono" style="font-size: 10px; color: #00ff87; font-weight: 800; align-self: flex-end; margin-bottom: 2px;">SFN</span>
       </div>
-      <p class="mono" style="font-size: 9px; color: #6b7280;">
+      <p class="mono" style="font-size: 8px; color: #6b7280;">
         ≈ <span style="color: #22d3ee; font-weight: 800;" id="usd-val">$0.00 USD</span>
         <span style="color: #4b5563;">· 10,000 SFN = $1</span>
       </p>
@@ -778,17 +509,17 @@ body {
   </div>
 
   <!-- ═══ MINING TAB ═══ -->
-  <div id="tab-claim" class="tab-content" style="display: flex; flex-direction: column; gap: 12px;">
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
-      <div class="glass" style="padding: 10px; display: flex; align-items: center; gap: 8px;">
-        <span style="font-size: 18px;">⚡</span>
+  <div id="tab-claim" class="tab-content" style="display: flex; flex-direction: column; gap: 10px;">
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 7px;">
+      <div class="glass" style="padding: 9px; display: flex; align-items: center; gap: 7px;">
+        <span style="font-size: 16px;">⚡</span>
         <div>
           <p class="mono" style="font-size: 7px; color: #6b7280; letter-spacing: 0.8px; text-transform: uppercase;">HASH SPEED</p>
-          <p class="mono" style="font-size: 11px; color: #00ff87; font-weight: 800;" id="daily-rate">500 SFN/D</p>
+          <p class="mono" style="font-size: 10px; color: #00ff87; font-weight: 800;" id="daily-rate">500 SFN/D</p>
         </div>
       </div>
-      <div class="glass" style="padding: 10px; display: flex; align-items: center; gap: 8px;">
-        <span style="font-size: 18px;">🛡️</span>
+      <div class="glass" style="padding: 9px; display: flex; align-items: center; gap: 7px;">
+        <span style="font-size: 16px;">🛡️</span>
         <div>
           <p class="mono" style="font-size: 7px; color: #6b7280; letter-spacing: 0.8px; text-transform: uppercase;">BOOST</p>
           <p style="font-size: 10px; color: #fff; font-weight: 800;" id="active-nft">Free Tier</p>
@@ -796,346 +527,326 @@ body {
       </div>
     </div>
 
-    <div style="display: flex; flex-direction: column; align-items: center; padding: 15px 0; position: relative;">
-      <div style="position: relative; width: 220px; height: 220px; display: flex; align-items: center; justify-content: center;">
-        <div style="position: absolute; inset: 8px; border: 2px dashed rgba(0, 255, 135, 0.5); border-radius: 50%;" class="ring-layer-1"></div>
-        <div style="position: absolute; inset: 30px; border: 2px dashed rgba(139, 92, 246, 0.5); border-radius: 50%;" class="ring-layer-2"></div>
-        <div style="position: absolute; inset: 50px; background: radial-gradient(circle, rgba(139, 92, 246, 0.4), transparent 70%); border-radius: 50%; filter: blur(15px);" class="pulse-dot"></div>
+    <div style="display: flex; flex-direction: column; align-items: center; padding: 12px 0; position: relative;">
+      <div style="position: relative; width: 190px; height: 190px; display: flex; align-items: center; justify-content: center;">
+        <div style="position: absolute; inset: 6px; border: 2px dashed rgba(0, 255, 135, 0.5); border-radius: 50%;" class="ring-layer-1"></div>
+        <div style="position: absolute; inset: 26px; border: 2px dashed rgba(139, 92, 246, 0.5); border-radius: 50%;" class="ring-layer-2"></div>
+        <div style="position: absolute; inset: 42px; background: radial-gradient(circle, rgba(139, 92, 246, 0.4), transparent 70%); border-radius: 50%; filter: blur(15px);" class="pulse-dot"></div>
         <div class="fire-spark" style="bottom: 20%; left: 25%; animation-delay: 0s;"></div>
         <div class="fire-spark" style="bottom: 15%; left: 65%; animation-delay: 1.2s;"></div>
         <div class="scan-line"></div>
-        <div class="miner-float" style="position: relative; z-index: 20; width: 140px; height: 140px; display: flex; align-items: center; justify-content: center;">
-          <img id="main-character-img" src="https://i.ibb.co/rnXqY75/file-00000000888c82109e188f21049ea846.png" alt="SFN Miner" onerror="this.onerror=null; this.src='https://www.image2url.com/r2/default/images/1791043985369-a9e2b85f-86b0-4636-b90a-a46e632a1d32.png';" style="width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 0 20px rgba(0, 255, 135, 0.9));">
+        <div class="miner-float" style="position: relative; z-index: 20; width: 120px; height: 120px; display: flex; align-items: center; justify-content: center;">
+          <img id="main-character-img" src="https://i.ibb.co/rnXqY75/file-00000000888c82109e188f21049ea846.png" alt="SFN Miner" onerror="this.onerror=null; this.src='https://www.image2url.com/r2/default/images/1791043985369-a9e2b85f-86b0-4636-b90a-a46e632a1d32.png';" style="width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 0 18px rgba(0, 255, 135, 0.9));">
         </div>
-        <div style="position: absolute; bottom: 0; background: rgba(0, 0, 0, 0.9); border: 1px solid rgba(0, 255, 135, 0.6); padding: 5px 12px; border-radius: 16px; z-index: 30; display: flex; align-items: center; gap: 6px;">
-          <span style="width: 7px; height: 7px; border-radius: 50%; background: #00ff87;" class="pulse-dot"></span>
-          <span class="mono" style="font-size: 9px; color: #00ff87; font-weight: 800; letter-spacing: 1px;">MINING LIVE</span>
+        <div style="position: absolute; bottom: 0; background: rgba(0, 0, 0, 0.9); border: 1px solid rgba(0, 255, 135, 0.6); padding: 4px 10px; border-radius: 14px; z-index: 30; display: flex; align-items: center; gap: 5px;">
+          <span style="width: 6px; height: 6px; border-radius: 50%; background: #00ff87;" class="pulse-dot"></span>
+          <span class="mono" style="font-size: 8px; color: #00ff87; font-weight: 800; letter-spacing: 1px;">MINING LIVE</span>
         </div>
       </div>
-      <div style="margin-top: 15px; background: rgba(0, 0, 0, 0.6); border: 1px solid rgba(139, 92, 246, 0.3); padding: 10px 20px; border-radius: 14px; text-align: center;">
-        <p class="mono" style="font-size: 8px; color: #a78bfa; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 3px;">UNCLAIMED</p>
-        <p class="pixel-font glow-emerald" id="unclaimed-counter" style="font-size: 13px;">0.0000 SFN</p>
+      <div style="margin-top: 12px; background: rgba(0, 0, 0, 0.6); border: 1px solid rgba(139, 92, 246, 0.3); padding: 9px 18px; border-radius: 12px; text-align: center;">
+        <p class="mono" style="font-size: 7px; color: #a78bfa; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 2px;">UNCLAIMED</p>
+        <p class="pixel-font glow-emerald" id="unclaimed-counter" style="font-size: 11px;">0.0000 SFN</p>
       </div>
     </div>
 
-    <button onclick="claimMining()" class="btn-premium" style="width: 100%; padding: 16px; border-radius: 16px; font-size: 12px; text-transform: uppercase; letter-spacing: 1.5px; border: none; display: flex; flex-direction: column; align-items: center; gap: 2px;">
-      <span style="font-size: 15px;">⛏ CLAIM MINING REWARDS</span>
-      <span class="mono" style="font-size: 8px; font-weight: 600; opacity: 0.75;">Minimum: 0.1 SFN</span>
+    <button onclick="claimMining()" class="btn-premium" style="width: 100%; padding: 13px; border-radius: 14px; font-size: 11px; text-transform: uppercase; letter-spacing: 1.2px; display: flex; flex-direction: column; align-items: center; gap: 2px;">
+      <span style="font-size: 13px;">⛏ CLAIM MINING REWARDS</span>
+      <span class="mono" style="font-size: 7px; font-weight: 600; opacity: 0.75;">Minimum: 0.1 SFN</span>
     </button>
   </div>
 
   <!-- ═══ NFT TAB ═══ -->
-  <div id="tab-nft" class="tab-content" style="display: none; flex-direction: column; gap: 12px;">
-    <div class="glass glass-violet" style="padding: 14px;">
-      <h3 class="pixel-font glow-violet" style="font-size: 10px; letter-spacing: 1px; margin-bottom: 4px;">⚡ NFT SPEED PASSES</h3>
-      <p style="font-size: 10px; color: #9ca3af; line-height: 1.5;">Boost your mining speed. Principal locked until expiry.</p>
+  <div id="tab-nft" class="tab-content" style="display: none; flex-direction: column; gap: 10px;">
+    <div class="glass glass-violet" style="padding: 12px;">
+      <h3 class="pixel-font glow-violet" style="font-size: 9px; letter-spacing: 1px; margin-bottom: 3px;">⚡ NFT SPEED PASSES</h3>
+      <p style="font-size: 9px; color: #9ca3af; line-height: 1.4;">Boost mining speed. Principal locked until expiry.</p>
     </div>
 
     <div class="nft-grid">
-      <!-- FREE MINER -->
       <div class="nft-card border-common">
         <div class="nft-rarity rarity-common">COMMON</div>
-        <img src="https://i.ibb.co.com/1JRwPMBL/Picsart-26-10-04-23-27-29-716.png" alt="SFN Free Miner" class="nft-card-img">
+        <img src="https://i.ibb.co.com/1JRwPMBL/Picsart-26-10-04-23-27-29-716.png" alt="Free" class="nft-card-img">
         <h4 class="nft-card-title">SFN FREE MINER</h4>
         <div class="nft-divider"></div>
         <div class="nft-detail-row"><span class="label">💰 Price</span><span class="value" style="color: #00ff87;">FREE</span></div>
-        <div class="nft-detail-row"><span class="label">📅 Duration</span><span class="value">Unlimited</span></div>
+        <div class="nft-detail-row"><span class="label">📅 Duration</span><span class="value">∞</span></div>
         <div class="nft-detail-row"><span class="label">⚡ Speed</span><span class="value" style="color: #00ff87;">500/D</span></div>
-        <div class="nft-detail-row"><span class="label">💎 Daily</span><span class="value">$0.05</span></div>
         <button disabled class="nft-card-btn btn-premium" style="opacity: 0.6;">✅ ACTIVE</button>
       </div>
 
-      <!-- ELITE PASS -->
       <div class="nft-card border-rare">
         <div class="nft-rarity rarity-rare">RARE</div>
-        <img src="https://i.ibb.co.com/TBL0628c/Picsart-26-10-04-23-32-21-653.png" alt="Elite Pass" class="nft-card-img">
+        <img src="https://i.ibb.co.com/TBL0628c/Picsart-26-10-04-23-32-21-653.png" alt="Elite" class="nft-card-img">
         <h4 class="nft-card-title">SFN ELITE PASS</h4>
         <div class="nft-divider"></div>
         <div class="nft-detail-row"><span class="label">💰 Price</span><span class="value" style="color: #22d3ee;">$3</span></div>
-        <div class="nft-detail-row"><span class="label">📅 Duration</span><span class="value">7 Days</span></div>
+        <div class="nft-detail-row"><span class="label">📅 Duration</span><span class="value">7D</span></div>
         <div class="nft-detail-row"><span class="label">⚡ Speed</span><span class="value" style="color: #22d3ee;">1,300/D</span></div>
-        <div class="nft-detail-row"><span class="label">💎 Daily</span><span class="value">$0.13</span></div>
         <button onclick="buyNFT('SFN Elite Pass', 3, 7, 1300)" class="nft-card-btn btn-premium btn-cyan">BUY $3</button>
       </div>
 
-      <!-- INFINITY PRO -->
       <div class="nft-card border-epic">
         <div class="nft-rarity rarity-epic">EPIC</div>
-        <img src="https://i.ibb.co.com/B54DpnBp/Picsart-26-10-04-23-32-49-110.png" alt="Infinity Pro" class="nft-card-img">
+        <img src="https://i.ibb.co.com/B54DpnBp/Picsart-26-10-04-23-32-49-110.png" alt="Infinity" class="nft-card-img">
         <h4 class="nft-card-title">SFN INFINITY PRO</h4>
         <div class="nft-divider"></div>
         <div class="nft-detail-row"><span class="label">💰 Price</span><span class="value" style="color: #a78bfa;">$5</span></div>
-        <div class="nft-detail-row"><span class="label">📅 Duration</span><span class="value">7 Days</span></div>
+        <div class="nft-detail-row"><span class="label">📅 Duration</span><span class="value">7D</span></div>
         <div class="nft-detail-row"><span class="label">⚡ Speed</span><span class="value" style="color: #a78bfa;">2,200/D</span></div>
-        <div class="nft-detail-row"><span class="label">💎 Daily</span><span class="value">$0.22</span></div>
         <button onclick="buyNFT('SFN Infinity Pro', 5, 7, 2200)" class="nft-card-btn btn-premium btn-violet">BUY $5</button>
       </div>
 
-      <!-- CENTURY -->
       <div class="nft-card border-legendary">
         <div class="nft-rarity rarity-legendary">LEGENDARY</div>
         <img src="https://i.ibb.co.com/67dZ2TwJ/Picsart-26-10-04-23-33-15-634.png" alt="Century" class="nft-card-img">
         <h4 class="nft-card-title">SFN CENTURY</h4>
         <div class="nft-divider"></div>
         <div class="nft-detail-row"><span class="label">💰 Price</span><span class="value" style="color: #fbbf24;">$10</span></div>
-        <div class="nft-detail-row"><span class="label">📅 Duration</span><span class="value">10 Days</span></div>
+        <div class="nft-detail-row"><span class="label">📅 Duration</span><span class="value">10D</span></div>
         <div class="nft-detail-row"><span class="label">⚡ Speed</span><span class="value" style="color: #fbbf24;">3,000/D</span></div>
-        <div class="nft-detail-row"><span class="label">💎 Daily</span><span class="value">$0.30</span></div>
         <button onclick="buyNFT('SFN Century', 10, 10, 3000)" class="nft-card-btn btn-premium btn-gold">BUY $10</button>
       </div>
 
-      <!-- ZENITH -->
       <div class="nft-card border-epic">
         <div class="nft-rarity rarity-epic">EPIC</div>
         <img src="https://i.ibb.co.com/rf4wwc72/Picsart-26-10-04-23-33-43-134.png" alt="Zenith" class="nft-card-img">
         <h4 class="nft-card-title">SFN ZENITH</h4>
         <div class="nft-divider"></div>
         <div class="nft-detail-row"><span class="label">💰 Price</span><span class="value" style="color: #a78bfa;">$15</span></div>
-        <div class="nft-detail-row"><span class="label">📅 Duration</span><span class="value">10 Days</span></div>
+        <div class="nft-detail-row"><span class="label">📅 Duration</span><span class="value">10D</span></div>
         <div class="nft-detail-row"><span class="label">⚡ Speed</span><span class="value" style="color: #a78bfa;">4,500/D</span></div>
-        <div class="nft-detail-row"><span class="label">💎 Daily</span><span class="value">$0.45</span></div>
         <button onclick="buyNFT('SFN Zenith', 15, 10, 4500)" class="nft-card-btn btn-premium btn-violet">BUY $15</button>
       </div>
 
-      <!-- NOVA -->
       <div class="nft-card border-rare">
         <div class="nft-rarity rarity-rare">RARE</div>
         <img src="https://i.ibb.co.com/Z7Q9KC3/Picsart-26-10-04-23-34-15-828.png" alt="Nova" class="nft-card-img">
         <h4 class="nft-card-title">SFN NOVA</h4>
         <div class="nft-divider"></div>
         <div class="nft-detail-row"><span class="label">💰 Price</span><span class="value" style="color: #22d3ee;">$20</span></div>
-        <div class="nft-detail-row"><span class="label">📅 Duration</span><span class="value">15 Days</span></div>
+        <div class="nft-detail-row"><span class="label">📅 Duration</span><span class="value">15D</span></div>
         <div class="nft-detail-row"><span class="label">⚡ Speed</span><span class="value" style="color: #22d3ee;">4,000/D</span></div>
-        <div class="nft-detail-row"><span class="label">💎 Daily</span><span class="value">$0.40</span></div>
         <button onclick="buyNFT('SFN Nova', 20, 15, 4000)" class="nft-card-btn btn-premium btn-cyan">BUY $20</button>
       </div>
 
-      <!-- PHOENIX -->
       <div class="nft-card border-legendary">
         <div class="nft-rarity rarity-legendary">LEGENDARY</div>
         <img src="https://i.ibb.co.com/mVPcD31j/Picsart-26-10-04-23-34-44-833.png" alt="Phoenix" class="nft-card-img">
         <h4 class="nft-card-title">SFN PHOENIX 🔥</h4>
         <div class="nft-divider"></div>
         <div class="nft-detail-row"><span class="label">💰 Price</span><span class="value" style="color: #fbbf24;">$25</span></div>
-        <div class="nft-detail-row"><span class="label">📅 Duration</span><span class="value">15 Days</span></div>
+        <div class="nft-detail-row"><span class="label">📅 Duration</span><span class="value">15D</span></div>
         <div class="nft-detail-row"><span class="label">⚡ Speed</span><span class="value" style="color: #fbbf24;">5,000/D</span></div>
-        <div class="nft-detail-row"><span class="label">💎 Daily</span><span class="value">$0.50</span></div>
         <button onclick="buyNFT('SFN Phoenix', 25, 15, 5000)" class="nft-card-btn btn-premium btn-gold">BUY $25</button>
       </div>
 
-      <!-- AURORA -->
       <div class="nft-card border-epic">
         <div class="nft-rarity rarity-epic">EPIC</div>
         <img src="https://i.ibb.co.com/8LCXD77H/Picsart-26-10-04-23-35-17-202.png" alt="Aurora" class="nft-card-img">
         <h4 class="nft-card-title">SFN AURORA 👑</h4>
         <div class="nft-divider"></div>
         <div class="nft-detail-row"><span class="label">💰 Price</span><span class="value" style="color: #a78bfa;">$30</span></div>
-        <div class="nft-detail-row"><span class="label">📅 Duration</span><span class="value">15 Days</span></div>
+        <div class="nft-detail-row"><span class="label">📅 Duration</span><span class="value">15D</span></div>
         <div class="nft-detail-row"><span class="label">⚡ Speed</span><span class="value" style="color: #a78bfa;">6,000/D</span></div>
-        <div class="nft-detail-row"><span class="label">💎 Daily</span><span class="value">$0.60</span></div>
         <button onclick="buyNFT('SFN Aurora', 30, 15, 6000)" class="nft-card-btn btn-premium btn-violet">BUY $30</button>
       </div>
     </div>
   </div>
 
   <!-- ═══ SPIN TAB ═══ -->
-  <div id="tab-spin" class="tab-content" style="display: none; flex-direction: column; gap: 12px;">
+  <div id="tab-spin" class="tab-content" style="display: none; flex-direction: column; gap: 10px;">
     <div class="glass" style="padding: 3px; display: flex; gap: 3px;">
       <button id="s-btn-spin" class="sub-tab active" onclick="switchSpin('spin')">🎡 SPIN</button>
       <button id="s-btn-tasks" class="sub-tab" onclick="switchSpin('tasks')">🎯 TASKS</button>
     </div>
 
-    <div id="s-sec-spin" style="display: flex; flex-direction: column; gap: 12px;">
-      <div class="glass glass-emerald" style="padding: 14px; display: flex; align-items: center; justify-content: space-between; gap: 10px;">
+    <div id="s-sec-spin" style="display: flex; flex-direction: column; gap: 10px;">
+      <div class="glass glass-emerald" style="padding: 12px; display: flex; align-items: center; justify-content: space-between; gap: 8px;">
         <div style="flex: 1;">
-          <h4 style="font-size: 12px; font-weight: 800; color: #fff; margin-bottom: 2px;">📅 Daily Bonus</h4>
-          <p class="mono" style="font-size: 10px; color: #00ff87; font-weight: 700;">+20 SFN / 24h</p>
+          <h4 style="font-size: 11px; font-weight: 800; color: #fff; margin-bottom: 2px;">📅 Daily Bonus</h4>
+          <p class="mono" style="font-size: 9px; color: #00ff87; font-weight: 700;">+20 SFN / 24h</p>
         </div>
-        <button id="claimDailyBtn" onclick="claimDailyCheckin()" class="btn-premium" style="padding: 8px 14px; border-radius: 10px; font-size: 9px; text-transform: uppercase; border: none;">CLAIM +20</button>
+        <button id="claimDailyBtn" onclick="claimDailyCheckin()" class="btn-premium" style="padding: 7px 12px; border-radius: 9px; font-size: 8px; text-transform: uppercase;">CLAIM +20</button>
       </div>
 
-      <div class="glass glass-violet" style="padding: 20px; text-align: center;">
-        <h3 class="pixel-font glow-violet" style="font-size: 10px; margin-bottom: 16px; letter-spacing: 1px;">🎡 LUCKY SPINNER</h3>
+      <div class="glass glass-violet" style="padding: 16px; text-align: center;">
+        <h3 class="pixel-font glow-violet" style="font-size: 9px; margin-bottom: 14px; letter-spacing: 1px;">🎡 LUCKY SPINNER</h3>
         <div class="wheel-container">
           <div class="wheel-pointer"></div>
-          <canvas id="wheelCanvas" width="240" height="240"></canvas>
+          <canvas id="wheelCanvas" width="210" height="210"></canvas>
         </div>
-        <div style="display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 14px; background: rgba(0,0,0,0.4); padding: 8px 14px; border-radius: 10px; border: 1px solid rgba(139, 92, 246, 0.2);">
-          <span class="mono" style="font-size: 10px; color: #a78bfa;">🎟️ Extra Spins:</span>
-          <strong class="mono" style="font-size: 11px; color: #fff;" id="extra-spin-badge">0</strong>
+        <div style="display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 12px; background: rgba(0,0,0,0.4); padding: 7px 12px; border-radius: 9px; border: 1px solid rgba(139, 92, 246, 0.2);">
+          <span class="mono" style="font-size: 9px; color: #a78bfa;">🎟️ Extra Spins:</span>
+          <strong class="mono" style="font-size: 10px; color: #fff;" id="extra-spin-badge">0</strong>
         </div>
-        <button id="spinBtn" onclick="spinWheel()" class="btn-premium btn-violet" style="width: 100%; padding: 14px; border-radius: 14px; font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; border: none; margin-top: 14px;">
+        <button id="spinBtn" onclick="spinWheel()" class="btn-premium btn-violet" style="width: 100%; padding: 12px; border-radius: 12px; font-size: 10px; text-transform: uppercase; letter-spacing: 1.2px; margin-top: 12px;">
           🎡 SPIN NOW
         </button>
       </div>
     </div>
 
-    <div id="s-sec-tasks" style="display: none; flex-direction: column; gap: 12px;">
-      <div class="glass" style="padding: 24px 18px; text-align: center;">
-        <div style="width: 64px; height: 64px; margin: 0 auto 14px; background: linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(6, 182, 212, 0.15)); border: 1px solid rgba(139, 92, 246, 0.5); border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 30px;">
-          🎯
-        </div>
-        <h3 class="pixel-font glow-violet" style="font-size: 11px; margin-bottom: 6px;">SOCIAL TASKS</h3>
-        <p style="font-size: 10px; color: #9ca3af; line-height: 1.5; margin-bottom: 14px;">
-          Complete tasks to earn bonus SFN.
-        </p>
-        <div style="background: rgba(0, 0, 0, 0.5); padding: 14px; border-radius: 14px; border: 1px solid rgba(139, 92, 246, 0.25);">
-          <div style="display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 8px;">
-            <span style="width: 7px; height: 7px; background: #00ff87; border-radius: 50%;" class="pulse-dot"></span>
-            <span class="mono" style="font-size: 9px; color: #00ff87; font-weight: 800; letter-spacing: 1.5px;">SYSTEM SCANNING</span>
+    <div id="s-sec-tasks" style="display: none; flex-direction: column; gap: 10px;">
+      <div class="glass" style="padding: 20px 16px; text-align: center;">
+        <div style="width: 56px; height: 56px; margin: 0 auto 12px; background: linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(6, 182, 212, 0.15)); border: 1px solid rgba(139, 92, 246, 0.5); border-radius: 18px; display: flex; align-items: center; justify-content: center; font-size: 26px;">🎯</div>
+        <h3 class="pixel-font glow-violet" style="font-size: 10px; margin-bottom: 5px;">SOCIAL TASKS</h3>
+        <p style="font-size: 9px; color: #9ca3af; line-height: 1.4; margin-bottom: 12px;">Complete tasks to earn bonus SFN.</p>
+        <div style="background: rgba(0, 0, 0, 0.5); padding: 12px; border-radius: 12px; border: 1px solid rgba(139, 92, 246, 0.25);">
+          <div style="display: flex; align-items: center; justify-content: center; gap: 7px; margin-bottom: 6px;">
+            <span style="width: 6px; height: 6px; background: #00ff87; border-radius: 50%;" class="pulse-dot"></span>
+            <span class="mono" style="font-size: 8px; color: #00ff87; font-weight: 800; letter-spacing: 1.5px;">SYSTEM SCANNING</span>
           </div>
-          <p style="font-size: 10px; color: #6b7280;">No tasks available yet</p>
+          <p style="font-size: 9px; color: #6b7280;">No tasks available yet</p>
         </div>
       </div>
     </div>
   </div>
 
   <!-- ═══ REFER TAB ═══ -->
-  <div id="tab-refer" class="tab-content" style="display: none; flex-direction: column; gap: 12px;">
-    <div class="glass glass-cyan" style="padding: 16px;">
-      <h3 class="pixel-font glow-cyan" style="font-size: 11px; margin-bottom: 8px; letter-spacing: 1px;">👥 INVITE & EARN</h3>
-      <p style="font-size: 11px; color: #d1d5db; line-height: 1.5;">
+  <div id="tab-refer" class="tab-content" style="display: none; flex-direction: column; gap: 10px;">
+    <div class="glass glass-cyan" style="padding: 14px;">
+      <h3 class="pixel-font glow-cyan" style="font-size: 10px; margin-bottom: 6px; letter-spacing: 1px;">👥 INVITE & EARN</h3>
+      <p style="font-size: 10px; color: #d1d5db; line-height: 1.5;">
         Earn <span style="color: #00ff87; font-weight: 800;">500 SFN</span> + <span style="color: #00ff87; font-weight: 800;">1 Free Spin</span> per referral!
       </p>
     </div>
 
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-      <div class="glass" style="padding: 14px; text-align: center;">
-        <p class="mono" style="font-size: 8px; color: #6b7280; letter-spacing: 1.2px; text-transform: uppercase; margin-bottom: 5px;">TOTAL REFERS</p>
-        <p class="pixel-font glow-emerald" id="ref-count" style="font-size: 15px;">0</p>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+      <div class="glass" style="padding: 11px; text-align: center;">
+        <p class="mono" style="font-size: 7px; color: #6b7280; letter-spacing: 1.2px; text-transform: uppercase; margin-bottom: 4px;">TOTAL REFERS</p>
+        <p class="pixel-font glow-emerald" id="ref-count" style="font-size: 13px;">0</p>
       </div>
-      <div class="glass" style="padding: 14px; text-align: center;">
-        <p class="mono" style="font-size: 8px; color: #6b7280; letter-spacing: 1.2px; text-transform: uppercase; margin-bottom: 5px;">EARNINGS</p>
-        <p class="pixel-font glow-cyan" id="ref-earnings" style="font-size: 14px;">0</p>
-      </div>
-    </div>
-
-    <div class="glass glass-violet" style="padding: 16px;">
-      <h4 class="mono" style="font-size: 10px; color: #a78bfa; font-weight: 800; letter-spacing: 1.5px; margin-bottom: 12px;">🔓 WITHDRAW UNLOCK TIERS</h4>
-      <div style="display: flex; flex-direction: column; gap: 8px;">
-        <div style="display: flex; align-items: center; justify-content: space-between; padding: 9px 12px; background: rgba(0, 0, 0, 0.4); border-radius: 10px; border: 1px solid rgba(251, 191, 36, 0.3);">
-          <div style="display: flex; align-items: center; gap: 8px;">
-            <span style="font-size: 14px;">⏱️</span>
-            <span style="font-size: 10px; color: #d1d5db; font-weight: 700;">5 Referrals</span>
-          </div>
-          <span class="mono" style="font-size: 9px; color: #fbbf24; font-weight: 800;">7 DAYS</span>
-        </div>
-        <div style="display: flex; align-items: center; justify-content: space-between; padding: 9px 12px; background: rgba(0, 0, 0, 0.4); border-radius: 10px; border: 1px solid rgba(6, 182, 212, 0.3);">
-          <div style="display: flex; align-items: center; gap: 8px;">
-            <span style="font-size: 14px;">⏱️</span>
-            <span style="font-size: 10px; color: #d1d5db; font-weight: 700;">10 Referrals</span>
-          </div>
-          <span class="mono" style="font-size: 9px; color: #22d3ee; font-weight: 800;">3 DAYS</span>
-        </div>
-        <div style="display: flex; align-items: center; justify-content: space-between; padding: 9px 12px; background: rgba(0, 255, 135, 0.08); border-radius: 10px; border: 1px solid rgba(0, 255, 135, 0.5);">
-          <div style="display: flex; align-items: center; gap: 8px;">
-            <span style="font-size: 14px;">⚡</span>
-            <span style="font-size: 10px; color: #fff; font-weight: 800;">20 Referrals</span>
-          </div>
-          <span class="mono" style="font-size: 9px; color: #00ff87; font-weight: 800;">INSTANT</span>
-        </div>
+      <div class="glass" style="padding: 11px; text-align: center;">
+        <p class="mono" style="font-size: 7px; color: #6b7280; letter-spacing: 1.2px; text-transform: uppercase; margin-bottom: 4px;">EARNINGS</p>
+        <p class="pixel-font glow-cyan" id="ref-earnings" style="font-size: 12px;">0</p>
       </div>
     </div>
 
-    <div class="glass" style="padding: 14px;">
-      <div style="display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 10px;">
+    <div class="glass glass-violet" style="padding: 13px;">
+      <h4 class="mono" style="font-size: 9px; color: #a78bfa; font-weight: 800; letter-spacing: 1.5px; margin-bottom: 10px;">🔓 WITHDRAW UNLOCK TIERS</h4>
+      <div style="display: flex; flex-direction: column; gap: 6px;">
+        <div style="display: flex; align-items: center; justify-content: space-between; padding: 8px 10px; background: rgba(0, 0, 0, 0.4); border-radius: 9px; border: 1px solid rgba(251, 191, 36, 0.3);">
+          <div style="display: flex; align-items: center; gap: 7px;">
+            <span style="font-size: 13px;">⏱️</span>
+            <span style="font-size: 9px; color: #d1d5db; font-weight: 700;">5 Referrals</span>
+          </div>
+          <span class="mono" style="font-size: 8px; color: #fbbf24; font-weight: 800;">7 DAYS</span>
+        </div>
+        <div style="display: flex; align-items: center; justify-content: space-between; padding: 8px 10px; background: rgba(0, 0, 0, 0.4); border-radius: 9px; border: 1px solid rgba(6, 182, 212, 0.3);">
+          <div style="display: flex; align-items: center; gap: 7px;">
+            <span style="font-size: 13px;">⏱️</span>
+            <span style="font-size: 9px; color: #d1d5db; font-weight: 700;">10 Referrals</span>
+          </div>
+          <span class="mono" style="font-size: 8px; color: #22d3ee; font-weight: 800;">3 DAYS</span>
+        </div>
+        <div style="display: flex; align-items: center; justify-content: space-between; padding: 8px 10px; background: rgba(0, 255, 135, 0.08); border-radius: 9px; border: 1px solid rgba(0, 255, 135, 0.5);">
+          <div style="display: flex; align-items: center; gap: 7px;">
+            <span style="font-size: 13px;">⚡</span>
+            <span style="font-size: 9px; color: #fff; font-weight: 800;">20 Referrals</span>
+          </div>
+          <span class="mono" style="font-size: 8px; color: #00ff87; font-weight: 800;">INSTANT</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="glass" style="padding: 11px;">
+      <div style="display: flex; justify-content: space-between; margin-bottom: 7px; font-size: 9px;">
         <span style="color: #d1d5db; font-weight: 700;">Progress to Instant</span>
-        <span class="mono" style="color: #00ff87; font-weight: 800;"><span id="ref-progress-num">0</span> / 20</span>
+        <span class="mono" style="color: #00ff87; font-weight: 800;"><span id="ref-progress-num">0</span>/20</span>
       </div>
       <div class="progress-bar">
         <div class="progress-fill" id="ref-progress-bar" style="width: 0%;"></div>
       </div>
     </div>
 
-    <div class="glass" style="padding: 14px;">
-      <label class="mono" style="font-size: 9px; color: #a78bfa; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; display: block; margin-bottom: 8px;">🔗 REFERRAL LINK</label>
-      <div style="display: flex; gap: 6px;">
-        <input type="text" id="referral-link-input" readonly value="https://t.me/SFN_MiningBot?start=620001" class="input-premium" style="font-size: 10px; padding: 10px;">
-        <button onclick="copyReferralLink()" class="btn-premium" style="padding: 0 14px; border-radius: 12px; font-size: 10px; text-transform: uppercase; border: none; white-space: nowrap;">COPY</button>
+    <div class="glass" style="padding: 11px;">
+      <label class="mono" style="font-size: 8px; color: #a78bfa; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; display: block; margin-bottom: 6px;">🔗 REFERRAL LINK</label>
+      <div style="display: flex; gap: 5px;">
+        <input type="text" id="referral-link-input" readonly value="https://t.me/SFN_MiningBot?start=620001" class="input-premium" style="font-size: 9px; padding: 9px;">
+        <button onclick="copyReferralLink()" class="btn-premium" style="padding: 0 12px; border-radius: 11px; font-size: 9px; text-transform: uppercase; white-space: nowrap;">COPY</button>
       </div>
     </div>
   </div>
 
   <!-- ═══ WALLET TAB ═══ -->
-  <div id="tab-wallet" class="tab-content" style="display: none; flex-direction: column; gap: 12px;">
+  <div id="tab-wallet" class="tab-content" style="display: none; flex-direction: column; gap: 10px;">
     <div class="glass" style="padding: 3px; display: flex; gap: 3px;">
       <button id="w-btn-deposit" class="sub-tab active" onclick="switchWallet('deposit')">💳 DEPOSIT</button>
       <button id="w-btn-withdraw" class="sub-tab" onclick="switchWallet('withdraw')">💸 WITHDRAW</button>
       <button id="w-btn-history" class="sub-tab" onclick="switchWallet('history')">📜 HISTORY</button>
     </div>
 
-    <div id="w-sec-deposit" style="display: flex; flex-direction: column; gap: 12px;">
-      <div class="glass glass-violet" style="padding: 14px;">
-        <label class="mono" style="font-size: 9px; color: #a78bfa; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; display: block; margin-bottom: 8px;">SELECT NETWORK</label>
-        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px;">
-          <div id="net-BEP20" class="net-card active" onclick="selectDepNetwork('BEP20')"><p style="font-size: 11px; font-weight: 900; color: #fff;">BEP20</p><p class="mono" style="font-size: 8px; color: #00ff87; margin-top: 1px;">BSC</p></div>
-          <div id="net-TRC20" class="net-card" onclick="selectDepNetwork('TRC20')"><p style="font-size: 11px; font-weight: 900; color: #fff;">TRC20</p><p class="mono" style="font-size: 8px; color: #6b7280; margin-top: 1px;">TRON</p></div>
-          <div id="net-ERC20" class="net-card" onclick="selectDepNetwork('ERC20')"><p style="font-size: 11px; font-weight: 900; color: #fff;">ERC20</p><p class="mono" style="font-size: 8px; color: #6b7280; margin-top: 1px;">ETH</p></div>
-          <div id="net-POL" class="net-card" onclick="selectDepNetwork('POL')"><p style="font-size: 11px; font-weight: 900; color: #fff;">POL</p><p class="mono" style="font-size: 8px; color: #6b7280; margin-top: 1px;">POLY</p></div>
-          <div id="net-SOL" class="net-card" onclick="selectDepNetwork('SOL')"><p style="font-size: 11px; font-weight: 900; color: #fff;">SOL</p><p class="mono" style="font-size: 8px; color: #6b7280; margin-top: 1px;">SOLANA</p></div>
-          <div id="net-TON" class="net-card" onclick="selectDepNetwork('TON')"><p style="font-size: 11px; font-weight: 900; color: #fff;">TON</p><p class="mono" style="font-size: 8px; color: #6b7280; margin-top: 1px;">TON</p></div>
+    <div id="w-sec-deposit" style="display: flex; flex-direction: column; gap: 10px;">
+      <div class="glass glass-violet" style="padding: 12px;">
+        <label class="mono" style="font-size: 8px; color: #a78bfa; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; display: block; margin-bottom: 7px;">SELECT NETWORK</label>
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px;">
+          <div id="net-BEP20" class="net-card active" onclick="selectDepNetwork('BEP20')"><p style="font-size: 10px; font-weight: 900; color: #fff;">BEP20</p><p class="mono" style="font-size: 7px; color: #00ff87; margin-top: 1px;">BSC</p></div>
+          <div id="net-TRC20" class="net-card" onclick="selectDepNetwork('TRC20')"><p style="font-size: 10px; font-weight: 900; color: #fff;">TRC20</p><p class="mono" style="font-size: 7px; color: #6b7280; margin-top: 1px;">TRON</p></div>
+          <div id="net-ERC20" class="net-card" onclick="selectDepNetwork('ERC20')"><p style="font-size: 10px; font-weight: 900; color: #fff;">ERC20</p><p class="mono" style="font-size: 7px; color: #6b7280; margin-top: 1px;">ETH</p></div>
+          <div id="net-POL" class="net-card" onclick="selectDepNetwork('POL')"><p style="font-size: 10px; font-weight: 900; color: #fff;">POL</p><p class="mono" style="font-size: 7px; color: #6b7280; margin-top: 1px;">POLY</p></div>
+          <div id="net-SOL" class="net-card" onclick="selectDepNetwork('SOL')"><p style="font-size: 10px; font-weight: 900; color: #fff;">SOL</p><p class="mono" style="font-size: 7px; color: #6b7280; margin-top: 1px;">SOLANA</p></div>
+          <div id="net-TON" class="net-card" onclick="selectDepNetwork('TON')"><p style="font-size: 10px; font-weight: 900; color: #fff;">TON</p><p class="mono" style="font-size: 7px; color: #6b7280; margin-top: 1px;">TON</p></div>
         </div>
       </div>
 
-      <div class="glass" style="padding: 10px 12px;">
+      <div class="glass" style="padding: 9px 11px;">
         <div style="display: flex; justify-content: space-between; align-items: center;">
-          <span style="font-size: 10px; color: #9ca3af;">Selected:</span>
-          <span class="mono" id="network-full-name" style="font-size: 10px; color: #00ff87; font-weight: 800;">BNB Smart Chain</span>
+          <span style="font-size: 9px; color: #9ca3af;">Selected:</span>
+          <span class="mono" id="network-full-name" style="font-size: 9px; color: #00ff87; font-weight: 800;">BNB Smart Chain</span>
         </div>
       </div>
 
-      <div class="glass" style="padding: 16px; text-align: center;">
-        <div style="display: inline-block; background: #fff; padding: 10px; border-radius: 16px;">
+      <div class="glass" style="padding: 14px; text-align: center;">
+        <div style="display: inline-block; background: #fff; padding: 9px; border-radius: 14px;">
           <div style="position: relative;">
-            <img id="qr-code-img" src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=0x9dd6863ef3b2005131f78be8df916844f21c0737&ecc=H" alt="QR" style="width: 140px; height: 140px; border-radius: 10px; display: block;">
+            <img id="qr-code-img" src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=0x9dd6863ef3b2005131f78be8df916844f21c0737&ecc=H" alt="QR" style="width: 120px; height: 120px; border-radius: 8px; display: block;">
             <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #fff; padding: 3px; border-radius: 50%;">
-              <img src="https://www.image2url.com/r2/default/images/1791043985369-a9e2b85f-86b0-4636-b90a-a46e632a1d32.png" alt="SFN" style="width: 20px; height: 20px; object-fit: contain; background: #000; border-radius: 50%;">
+              <img src="https://www.image2url.com/r2/default/images/1791043985369-a9e2b85f-86b0-4636-b90a-a46e632a1d32.png" alt="SFN" style="width: 18px; height: 18px; object-fit: contain; background: #000; border-radius: 50%;">
             </div>
           </div>
         </div>
       </div>
 
-      <div class="glass" style="padding: 12px;">
-        <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
-          <span class="mono" style="font-size: 9px; color: #6b7280; letter-spacing: 1px;">DEPOSIT ADDRESS</span>
-          <span id="copy-status" class="mono" style="font-size: 9px; color: #00ff87; font-weight: 800; opacity: 0; transition: opacity 0.3s;">✓ Copied!</span>
+      <div class="glass" style="padding: 10px;">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+          <span class="mono" style="font-size: 8px; color: #6b7280; letter-spacing: 1px;">DEPOSIT ADDRESS</span>
+          <span id="copy-status" class="mono" style="font-size: 8px; color: #00ff87; font-weight: 800; opacity: 0; transition: opacity 0.3s;">✓ Copied!</span>
         </div>
-        <div style="display: flex; gap: 6px; align-items: center; background: rgba(0,0,0,0.6); padding: 10px; border-radius: 10px; border: 1px solid rgba(0, 255, 135, 0.3);">
-          <input type="text" id="admin-deposit-address" readonly value="0x9dd6863ef3b2005131f78be8df916844f21c0737" class="mono" style="flex: 1; background: transparent; border: none; color: #00ff87; font-size: 10px; outline: none; font-weight: 700;">
+        <div style="display: flex; gap: 5px; align-items: center; background: rgba(0,0,0,0.6); padding: 9px; border-radius: 9px; border: 1px solid rgba(0, 255, 135, 0.3);">
+          <input type="text" id="admin-deposit-address" readonly value="0x9dd6863ef3b2005131f78be8df916844f21c0737" class="mono" style="flex: 1; background: transparent; border: none; color: #00ff87; font-size: 9px; outline: none; font-weight: 700;">
           <button onclick="copyAdminAddress()" style="background: none; border: none; color: #9ca3af; padding: 2px;">
-            <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
+            <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
           </button>
         </div>
       </div>
 
-      <p class="mono" style="font-size: 9px; color: #fbbf24; text-align: center; padding: 0 10px;">⚠️ Send only USDT on the selected network</p>
+      <p class="mono" style="font-size: 8px; color: #fbbf24; text-align: center; padding: 0 10px;">⚠️ Send only USDT on the selected network</p>
 
       <input type="number" id="dep-amount" placeholder="Deposit Amount ($)" class="input-premium">
       <input type="text" id="dep-txid" placeholder="Transaction Hash (TXID)" class="input-premium">
 
-      <button onclick="submitDeposit()" class="btn-premium" style="width: 100%; padding: 14px; border-radius: 14px; font-size: 11px; text-transform: uppercase; letter-spacing: 1.2px; border: none;">
+      <button onclick="submitDeposit()" class="btn-premium" style="width: 100%; padding: 12px; border-radius: 12px; font-size: 10px; text-transform: uppercase; letter-spacing: 1.2px;">
         ✦ SUBMIT DEPOSIT ✦
       </button>
     </div>
 
-    <div id="w-sec-withdraw" style="display: none; flex-direction: column; gap: 12px;">
+    <div id="w-sec-withdraw" style="display: none; flex-direction: column; gap: 10px;">
       <div id="withdraw-lock-banner" class="lock-banner">
-        <div style="display: flex; align-items: center; gap: 10px;">
-          <span style="font-size: 20px;" id="lock-icon">🔒</span>
+        <div style="display: flex; align-items: center; gap: 9px;">
+          <span style="font-size: 18px;" id="lock-icon">🔒</span>
           <div style="flex: 1;">
-            <p id="lock-title" style="font-size: 11px; font-weight: 800; color: #fbbf24; margin-bottom: 2px;">Withdraw Locked</p>
-            <p id="lock-subtitle" class="mono" style="font-size: 9px; color: #d1d5db;">Complete 5 referrals to unlock</p>
+            <p id="lock-title" style="font-size: 10px; font-weight: 800; color: #fbbf24; margin-bottom: 2px;">Withdraw Locked</p>
+            <p id="lock-subtitle" class="mono" style="font-size: 8px; color: #d1d5db;">Complete 5 referrals to unlock</p>
           </div>
         </div>
-        <div class="progress-bar" style="margin-top: 10px;">
+        <div class="progress-bar" style="margin-top: 9px;">
           <div class="progress-fill" id="lock-progress" style="width: 0%;"></div>
         </div>
       </div>
 
-      <div class="glass" style="padding: 12px;">
-        <label class="mono" style="font-size: 9px; color: #a78bfa; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; display: block; margin-bottom: 6px;">SELECT NETWORK</label>
-        <div onclick="openNetworkModal()" style="display: flex; align-items: center; justify-content: space-between; background: rgba(0,0,0,0.6); padding: 12px; border-radius: 10px; border: 1px solid rgba(139, 92, 246, 0.3); cursor: pointer;">
-          <span id="wd-network-selected" style="font-size: 11px; color: #fff;">BNB Smart Chain (BEP20)</span>
+      <div class="glass" style="padding: 10px;">
+        <label class="mono" style="font-size: 8px; color: #a78bfa; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; display: block; margin-bottom: 5px;">SELECT NETWORK</label>
+        <div onclick="openNetworkModal()" style="display: flex; align-items: center; justify-content: space-between; background: rgba(0,0,0,0.6); padding: 10px; border-radius: 9px; border: 1px solid rgba(139, 92, 246, 0.3); cursor: pointer;">
+          <span id="wd-network-selected" style="font-size: 10px; color: #fff;">BNB Smart Chain (BEP20)</span>
           <span style="color: #a78bfa; font-weight: 800;">▼</span>
         </div>
       </div>
@@ -1143,34 +854,34 @@ body {
       <input type="text" id="wd-address" placeholder="Destination Address" class="input-premium">
       <input type="number" id="wd-amount" placeholder="Withdraw Amount ($)" class="input-premium">
 
-      <div class="glass" style="padding: 12px; background: rgba(139, 92, 246, 0.05);">
-        <p class="mono" style="font-size: 9px; color: #a78bfa; font-weight: 800; margin-bottom: 5px;">🔒 PAYOUT RULES</p>
-        <p style="font-size: 10px; color: #d1d5db; line-height: 1.5;">Min: $0.30. Unlock: 5 ref = 7d · 10 ref = 3d · 20 ref = instant.</p>
+      <div class="glass" style="padding: 10px; background: rgba(139, 92, 246, 0.05);">
+        <p class="mono" style="font-size: 8px; color: #a78bfa; font-weight: 800; margin-bottom: 4px;">🔒 PAYOUT RULES</p>
+        <p style="font-size: 9px; color: #d1d5db; line-height: 1.4;">Min: $0.30. Unlock: 5 ref = 7d · 10 ref = 3d · 20 ref = instant.</p>
       </div>
 
-      <button onclick="submitWithdraw()" class="btn-premium btn-violet" style="width: 100%; padding: 14px; border-radius: 14px; font-size: 11px; text-transform: uppercase; letter-spacing: 1.2px; border: none;">
+      <button onclick="submitWithdraw()" class="btn-premium btn-violet" style="width: 100%; padding: 12px; border-radius: 12px; font-size: 10px; text-transform: uppercase; letter-spacing: 1.2px;">
         ✦ REQUEST WITHDRAWAL ✦
       </button>
     </div>
 
     <div id="w-sec-history" style="display: none;">
-      <div class="glass" style="padding: 14px;">
-        <h4 class="mono" style="font-size: 10px; color: #a78bfa; font-weight: 800; letter-spacing: 1.5px; margin-bottom: 12px;">📜 TRANSACTION HISTORY</h4>
-        <div id="transaction-history-list" style="display: flex; flex-direction: column; gap: 6px; max-height: 340px; overflow-y: auto;"></div>
+      <div class="glass" style="padding: 12px;">
+        <h4 class="mono" style="font-size: 9px; color: #a78bfa; font-weight: 800; letter-spacing: 1.5px; margin-bottom: 10px;">📜 TRANSACTION HISTORY</h4>
+        <div id="transaction-history-list" style="display: flex; flex-direction: column; gap: 5px; max-height: 340px; overflow-y: auto;"></div>
       </div>
     </div>
   </div>
 
   <!-- ═══ SUPPORT TAB ═══ -->
   <div id="tab-support" class="tab-content" style="display: none;">
-    <div class="glass glass-emerald" style="padding: 16px;">
-      <h3 class="pixel-font glow-emerald" style="font-size: 11px; margin-bottom: 6px;">💬 24/7 HELP DESK</h3>
-      <p style="font-size: 11px; color: #9ca3af; margin-bottom: 14px;">Need help? Our team responds within minutes.</p>
-      <a href="https://t.me/SFN_Support24_7" target="_blank" style="display: flex; align-items: center; gap: 12px; padding: 14px; background: rgba(0, 0, 0, 0.5); border-radius: 14px; border: 1px solid rgba(0, 255, 135, 0.3); text-decoration: none;">
-        <span style="font-size: 24px;">💬</span>
+    <div class="glass glass-emerald" style="padding: 14px;">
+      <h3 class="pixel-font glow-emerald" style="font-size: 10px; margin-bottom: 5px;">💬 24/7 HELP DESK</h3>
+      <p style="font-size: 10px; color: #9ca3af; margin-bottom: 12px;">Need help? Our team responds within minutes.</p>
+      <a href="https://t.me/SFN_Support24_7" target="_blank" style="display: flex; align-items: center; gap: 10px; padding: 12px; background: rgba(0, 0, 0, 0.5); border-radius: 12px; border: 1px solid rgba(0, 255, 135, 0.3); text-decoration: none;">
+        <span style="font-size: 22px;">💬</span>
         <div>
-          <h4 style="font-size: 12px; font-weight: 800; color: #fff; margin-bottom: 2px;">Official Support</h4>
-          <p class="mono" style="font-size: 9px; color: #00ff87;">@SFN_Support24_7</p>
+          <h4 style="font-size: 11px; font-weight: 800; color: #fff; margin-bottom: 2px;">Official Support</h4>
+          <p class="mono" style="font-size: 8px; color: #00ff87;">@SFN_Support24_7</p>
         </div>
       </a>
     </div>
@@ -1179,7 +890,7 @@ body {
 </div>
 
 <!-- ═══ BOTTOM NAV ═══ -->
-<div id="bottom-nav" style="position: fixed; bottom: 0; left: 0; right: 0; max-width: 448px; margin: 0 auto; background: rgba(10, 5, 20, 0.96); border-top: 1px solid rgba(139, 92, 246, 0.3); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); padding: 8px 0 max(8px, env(safe-area-inset-bottom)); display: flex; justify-content: space-between; align-items: center; z-index: 100;">
+<div id="bottom-nav" style="position: fixed; bottom: 0; left: 0; right: 0; max-width: 448px; margin: 0 auto; background: rgba(10, 5, 20, 0.96); border-top: 1px solid rgba(139, 92, 246, 0.3); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); padding: 6px 0 max(6px, env(safe-area-inset-bottom)); display: flex; justify-content: space-between; align-items: center; z-index: 100;">
   <button onclick="navSwitch('claim')" id="nav-claim" class="nav-btn nav-active"><span class="nav-icon">⛏️</span> Mining</button>
   <button onclick="navSwitch('nft')" id="nav-nft" class="nav-btn"><span class="nav-icon">⚡</span> NFT</button>
   <button onclick="navSwitch('spin')" id="nav-spin" class="nav-btn"><span class="nav-icon">🎡</span> Spin</button>
@@ -1188,16 +899,15 @@ body {
   <button onclick="navSwitch('support')" id="nav-support" class="nav-btn"><span class="nav-icon">💬</span> Support</button>
 </div>
 
-<!-- PART 2 — JavaScript comes next -->
+<!-- PART 2 JS will go here -->
   <script>
 // ═══════════════════════════════════════════════════════════
 // CONFIG
 // ═══════════════════════════════════════════════════════════
 const BACKEND_URL = "https://sfn-backend.onrender.com";
-const SUPPORT_URL = "https://t.me/SFN_Support24_7";
 
 // ═══════════════════════════════════════════════════════════
-// TELEGRAM
+// TELEGRAM INIT
 // ═══════════════════════════════════════════════════════════
 const tg = window.Telegram?.WebApp;
 const tgUser = tg?.initDataUnsafe?.user;
@@ -1223,10 +933,10 @@ if (tgUser) {
         const photoEl = document.getElementById('user-photo');
         if (photoEl) photoEl.src = tgUser.photo_url;
     }
-    tg.ready();
-    tg.expand();
-    if (tg.setHeaderColor) tg.setHeaderColor('#0a0514');
-    if (tg.setBackgroundColor) tg.setBackgroundColor('#030108');
+    try { tg.ready(); } catch(e) {}
+    try { tg.expand(); } catch(e) {}
+    try { if (tg.setHeaderColor) tg.setHeaderColor('#0a0514'); } catch(e) {}
+    try { if (tg.setBackgroundColor) tg.setBackgroundColor('#030108'); } catch(e) {}
 } else if (!userUID) {
     userUID = '62' + Math.floor(100000 + Math.random() * 900000);
     localStorage.setItem('sfn_user_uid', userUID);
@@ -1246,14 +956,12 @@ let referEarnings = 0;
 let extraSpins = 0;
 let txHistory = [];
 let activeNFT = { name: 'SFN Free Miner', speed: 500, expiresAt: null, isFree: true };
-let lockedBalance = 0;
 let serverUnclaimed = 0;
 let lastServerSync = Date.now();
 let localUnclaimed = 0;
 let currentDepNetwork = 'BEP20';
 let currentWdNetwork = "BNB Smart Chain (BEP20)";
 let userCreatedAt = null;
-let isAppVisible = true;
 
 // ═══════════════════════════════════════════════════════════
 // NETWORK DATA
@@ -1270,18 +978,19 @@ const networkData = {
 const networksList = ["BNB Smart Chain (BEP20)","Solana (SOL)","Polygon (POL)","TON Network","TRON (TRC20)","Ethereum (ERC20)"];
 
 // ═══════════════════════════════════════════════════════════
-// PAGE VISIBILITY (pause animations when hidden)
+// VISIBILITY (pause animations when hidden)
 // ═══════════════════════════════════════════════════════════
+let isAppVisible = true;
 document.addEventListener('visibilitychange', () => {
     isAppVisible = !document.hidden;
-    document.body.style.animationPlayState = isAppVisible ? 'running' : 'paused';
+    const paused = isAppVisible ? 'running' : 'paused';
     document.querySelectorAll('.fire-spark, .scan-line, .ring-layer-1, .ring-layer-2, .miner-float, .bg-particle, .splash-glow, .splash-ring-1').forEach(el => {
-        el.style.animationPlayState = isAppVisible ? 'running' : 'paused';
+        el.style.animationPlayState = paused;
     });
 });
 
 // ═══════════════════════════════════════════════════════════
-// PARTICLES (6 only, lightweight)
+// PARTICLES
 // ═══════════════════════════════════════════════════════════
 function initParticles() {
     const field = document.getElementById('particle-field');
@@ -1292,7 +1001,7 @@ function initParticles() {
         p.className = 'bg-particle';
         p.style.left = Math.random() * 100 + '%';
         p.style.bottom = '-10px';
-        p.style.animationDuration = (12 + Math.random() * 10) + 's';
+        p.style.animationDuration = (14 + Math.random() * 10) + 's';
         p.style.animationDelay = (Math.random() * 10) + 's';
         const c = colors[Math.floor(Math.random() * 3)];
         p.style.background = c;
@@ -1332,7 +1041,7 @@ function showBanScreen() {
     const app = document.getElementById('app-content');
     const nav = document.getElementById('bottom-nav');
     if (banScreen) banScreen.classList.add('show');
-    if (splash) splash.style.display = 'none';
+    if (splash) splash.classList.add('hidden');
     if (gate) gate.style.display = 'none';
     if (app) app.style.display = 'none';
     if (nav) nav.style.display = 'none';
@@ -1340,7 +1049,7 @@ function showBanScreen() {
 }
 
 // ═══════════════════════════════════════════════════════════
-// TOAST (throttled)
+// TOAST
 // ═══════════════════════════════════════════════════════════
 let toastTimer = null;
 function showPremiumToast(message, emoji = '⛏️', color = 'emerald') {
@@ -1357,18 +1066,18 @@ function showPremiumToast(message, emoji = '⛏️', color = 'emerald') {
     toastTimer = setTimeout(() => {
         toast.style.animation = 'toastOut 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
         setTimeout(() => { toast.style.display = 'none'; }, 300);
-    }, 2800);
+    }, 2600);
 }
 
 // ═══════════════════════════════════════════════════════════
-// CONFETTI (GPU friendly, auto cleanup)
+// CONFETTI
 // ═══════════════════════════════════════════════════════════
 let confettiActive = false;
 function fireConfetti(palette = 'emerald') {
     if (confettiActive) return;
     confettiActive = true;
     const palettes = {
-        emerald: { colors: ['#00ff87', '#059669', '#10b981', '#34d399'], emojis: ['⛏️', '💰', '💎', '🪙'] },
+        emerald: { colors: ['#00ff87', '#059669', '#10b981'], emojis: ['⛏️', '💰', '💎'] },
         violet: { colors: ['#a855f7', '#8b5cf6', '#c084fc'], emojis: ['🎡', '🎉', '✨'] },
         cyan: { colors: ['#22d3ee', '#06b6d4', '#67e8f9'], emojis: ['📅', '💙', '⭐'] },
         gold: { colors: ['#fbbf24', '#d97706', '#fcd34d'], emojis: ['💳', '💰', '👑'] },
@@ -1381,7 +1090,7 @@ function fireConfetti(palette = 'emerald') {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
     const particles = [];
-    for (let i = 0; i < 50; i++) {
+    for (let i = 0; i < 40; i++) {
         particles.push({
             x: Math.random() * canvas.width,
             y: -20 - Math.random() * 80,
@@ -1398,7 +1107,7 @@ function fireConfetti(palette = 'emerald') {
     function animate() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         const elapsed = Date.now() - startTime;
-        if (elapsed > 3000) {
+        if (elapsed > 2800) {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             confettiActive = false;
             return;
@@ -1426,7 +1135,7 @@ function fireConfetti(palette = 'emerald') {
 }
 
 // ═══════════════════════════════════════════════════════════
-// API CALL
+// API
 // ═══════════════════════════════════════════════════════════
 async function apiCall(endpoint, data) {
     try {
@@ -1473,7 +1182,6 @@ async function loadUserData() {
         referCount = u.refer_count || 0;
         referEarnings = u.refer_earnings || 0;
         extraSpins = u.extra_spins || 0;
-        lockedBalance = u.locked_balance || 0;
         serverLastCheckin = u.last_checkin;
         serverLastSpin = u.last_spin;
         isVerifiedServer = u.verified || false;
@@ -1485,29 +1193,55 @@ async function loadUserData() {
             activeNFT = { name: 'SFN Free Miner', speed: 500, expiresAt: null, isFree: true };
         }
 
+        // ✅ VERIFIED CHECK — আগে verified ছিল কিনা দেখো
         if (isVerifiedServer) {
             localStorage.setItem('sfn_verified', 'true');
+            localStorage.setItem('sfn_tg_id', userTGID);
             updateVerifyBadge(true);
             const gate = document.getElementById('channel-gate');
-            if (gate) gate.classList.remove('show');
+            if (gate) {
+                gate.classList.remove('show');
+                gate.style.display = 'none';
+            }
             const app = document.getElementById('app-content');
             if (app) app.style.display = 'block';
         } else {
-            localStorage.removeItem('sfn_verified');
-            updateVerifyBadge(false);
+            // Server এ verified নেই — localStorage এ checked দেখো
+            const wasVerified = localStorage.getItem('sfn_verified') === 'true';
+            if (wasVerified) {
+                // আগে verified ছিল, তাই verification দেখাব না
+                updateVerifyBadge(true);
+                const gate = document.getElementById('channel-gate');
+                if (gate) {
+                    gate.classList.remove('show');
+                    gate.style.display = 'none';
+                }
+                const app = document.getElementById('app-content');
+                if (app) app.style.display = 'block';
+            } else {
+                updateVerifyBadge(false);
+                const gate = document.getElementById('channel-gate');
+                if (gate) {
+                    gate.classList.add('show');
+                    gate.style.display = 'flex';
+                }
+            }
         }
         updateBalanceUI();
         updateNFTUI();
         updateWithdrawLockUI();
         checkCooldowns();
+        // Remove skeletons
+        document.querySelectorAll('.skeleton').forEach(el => el.classList.remove('skeleton'));
     }
 }
 
 function updateBalanceUI() {
     const tb = document.getElementById('total-balance');
     if (tb) {
+        tb.classList.remove('skeleton');
         const oldVal = parseFloat(tb.innerText.replace(/,/g, '')) || 0;
-        animateNumber(tb, oldVal, balance, 700);
+        animateNumber(tb, oldVal, balance, 600);
     }
     const uv = document.getElementById('usd-val');
     if (uv) uv.innerText = `$${(balance / 10000).toFixed(4)} USD`;
@@ -1534,10 +1268,6 @@ function animateNumber(el, from, to, duration) {
         const val = from + (to - from) * eased;
         el.innerText = val.toFixed(2);
         if (t < 1) requestAnimationFrame(step);
-        else {
-            el.classList.add('number-pop');
-            setTimeout(() => el.classList.remove('number-pop'), 400);
-        }
     }
     requestAnimationFrame(step);
 }
@@ -1617,7 +1347,7 @@ function updateWithdrawLockUI() {
 }
 
 // ═══════════════════════════════════════════════════════════
-// MINING SYNC
+// MINING
 // ═══════════════════════════════════════════════════════════
 async function syncMiningFromServer() {
     if (!userTGID || isBannedServer || !isAppVisible) return;
@@ -1677,7 +1407,7 @@ async function claimDailyCheckin() {
 }
 
 // ═══════════════════════════════════════════════════════════
-// SPIN WHEEL
+// WHEEL
 // ═══════════════════════════════════════════════════════════
 const wheelCanvas = document.getElementById('wheelCanvas');
 const wheelCtx = wheelCanvas ? wheelCanvas.getContext('2d') : null;
@@ -1690,7 +1420,7 @@ function drawWheel() {
     if (!wheelCtx) return;
     const slices = rewards.length;
     const sliceAngle = (2 * Math.PI) / slices;
-    const cx = 120, cy = 120, r = 115;
+    const cx = 105, cy = 105, r = 100;
     for (let i = 0; i < slices; i++) {
         const angle = i * sliceAngle;
         wheelCtx.beginPath();
@@ -1706,16 +1436,16 @@ function drawWheel() {
         wheelCtx.rotate(angle + sliceAngle / 2);
         wheelCtx.textAlign = "right";
         wheelCtx.fillStyle = i % 2 === 0 ? "#00ff87" : "#a78bfa";
-        wheelCtx.font = "bold 13px 'JetBrains Mono', monospace";
-        wheelCtx.fillText(rewards[i] + " SFN", r - 12, 4);
+        wheelCtx.font = "bold 11px 'JetBrains Mono', monospace";
+        wheelCtx.fillText(rewards[i] + " SFN", r - 10, 4);
         wheelCtx.restore();
     }
     wheelCtx.beginPath();
-    wheelCtx.arc(cx, cy, 26, 0, 2 * Math.PI);
+    wheelCtx.arc(cx, cy, 22, 0, 2 * Math.PI);
     wheelCtx.fillStyle = '#0a0514';
     wheelCtx.fill();
     wheelCtx.strokeStyle = '#00ff87';
-    wheelCtx.lineWidth = 3;
+    wheelCtx.lineWidth = 2.5;
     wheelCtx.stroke();
 }
 
@@ -1826,14 +1556,16 @@ function verifyAndUnlock() {
         if (data.banned) return;
         if (data.verified) {
             localStorage.setItem('sfn_verified', 'true');
+            localStorage.setItem('sfn_tg_id', userTGID);
             updateVerifyBadge(true);
             vs.innerText = "✅ Verified!";
             fireConfetti('emerald');
             setTimeout(() => {
                 document.getElementById('channel-gate').classList.remove('show');
+                document.getElementById('channel-gate').style.display = 'none';
                 document.getElementById('app-content').style.display = 'block';
                 loadUserData();
-            }, 900);
+            }, 700);
         } else {
             const missing = [];
             if (data.missing && data.missing.payment) missing.push("Payment");
@@ -1859,7 +1591,7 @@ function updateVerifyBadge(isVerified) {
 }
 
 // ═══════════════════════════════════════════════════════════
-// NETWORK & DEPOSIT
+// NETWORK
 // ═══════════════════════════════════════════════════════════
 function selectDepNetwork(key) {
     const net = networkData[key];
@@ -1892,9 +1624,9 @@ function openNetworkModal() {
     let html = '';
     networksList.forEach(net => {
         const isSelected = net === currentWdNetwork;
-        html += `<div onclick="selectWdNetwork('${net}')" style="padding: 12px 14px; background: ${isSelected ? 'rgba(0, 255, 135, 0.1)' : 'rgba(0,0,0,0.5)'}; border-radius: 12px; border: 1px solid ${isSelected ? 'rgba(0, 255, 135, 0.5)' : 'rgba(255,255,255,0.08)'}; display: flex; align-items: center; justify-content: space-between; cursor: pointer; transition: all 0.25s;">
-            <span style="font-size: 11px; font-weight: 800; color: ${isSelected ? '#00ff87' : '#fff'};">${net}</span>
-            <span style="width: 18px; height: 18px; border-radius: 50%; border: 1.5px solid ${isSelected ? '#00ff87' : '#6b7280'}; background: ${isSelected ? '#00ff87' : 'transparent'}; display: flex; align-items: center; justify-content: center; font-size: 11px; color: #000; font-weight: 900;">${isSelected ? '✓' : ''}</span>
+        html += `<div onclick="selectWdNetwork('${net}')" style="padding: 11px 13px; background: ${isSelected ? 'rgba(0, 255, 135, 0.1)' : 'rgba(0,0,0,0.5)'}; border-radius: 11px; border: 1px solid ${isSelected ? 'rgba(0, 255, 135, 0.5)' : 'rgba(255,255,255,0.08)'}; display: flex; align-items: center; justify-content: space-between; cursor: pointer;">
+            <span style="font-size: 10px; font-weight: 800; color: ${isSelected ? '#00ff87' : '#fff'};">${net}</span>
+            <span style="width: 16px; height: 16px; border-radius: 50%; border: 1.5px solid ${isSelected ? '#00ff87' : '#6b7280'}; background: ${isSelected ? '#00ff87' : 'transparent'}; display: flex; align-items: center; justify-content: center; font-size: 10px; color: #000; font-weight: 900;">${isSelected ? '✓' : ''}</span>
         </div>`;
     });
     listEl.innerHTML = html;
@@ -1912,7 +1644,7 @@ function selectWdNetwork(net) {
 }
 
 // ═══════════════════════════════════════════════════════════
-// NAVIGATION
+// NAV
 // ═══════════════════════════════════════════════════════════
 function navSwitch(tab) {
     ['claim', 'nft', 'spin', 'refer', 'wallet', 'support'].forEach(t => {
@@ -1963,20 +1695,14 @@ function copyReferralLink() {
 }
 
 // ═══════════════════════════════════════════════════════════
-// DEPOSIT & WITHDRAW
+// DEPOSIT / WITHDRAW
 // ═══════════════════════════════════════════════════════════
 async function submitDeposit() {
     const amount = parseFloat(document.getElementById('dep-amount').value);
     const txid = document.getElementById('dep-txid').value.trim();
     const net = networkData[currentDepNetwork];
-    if (!amount || amount < 0.5) {
-        showPremiumToast('Minimum: $0.50', '⚠️', 'red');
-        return;
-    }
-    if (!txid) {
-        showPremiumToast('Enter TXID', '⚠️', 'red');
-        return;
-    }
+    if (!amount || amount < 0.5) { showPremiumToast('Minimum: $0.50', '⚠️', 'red'); return; }
+    if (!txid) { showPremiumToast('Enter TXID', '⚠️', 'red'); return; }
     const data = await apiCall('/submit_deposit', { tg_id: userTGID, amount, network: net.name, txid });
     if (data.success) {
         document.getElementById('dep-amount').value = '';
@@ -1991,14 +1717,8 @@ async function submitDeposit() {
 async function submitWithdraw() {
     const address = document.getElementById('wd-address').value.trim();
     const amount = parseFloat(document.getElementById('wd-amount').value);
-    if (!amount || amount < 0.30) {
-        showPremiumToast('Minimum: $0.30', '⚠️', 'red');
-        return;
-    }
-    if (!address) {
-        showPremiumToast('Enter address', '⚠️', 'red');
-        return;
-    }
+    if (!amount || amount < 0.30) { showPremiumToast('Minimum: $0.30', '⚠️', 'red'); return; }
+    if (!address) { showPremiumToast('Enter address', '⚠️', 'red'); return; }
     const data = await apiCall('/submit_withdraw', { tg_id: userTGID, amount, network: currentWdNetwork, address });
     if (data.success) {
         document.getElementById('wd-amount').value = '';
@@ -2023,7 +1743,7 @@ function renderHistoryUI() {
     const listEl = document.getElementById('transaction-history-list');
     if (!listEl) return;
     if (txHistory.length === 0) {
-        listEl.innerHTML = `<p class="mono" style="text-align: center; font-size: 10px; color: #6b7280; padding: 20px;">No transactions yet</p>`;
+        listEl.innerHTML = `<p class="mono" style="text-align: center; font-size: 9px; color: #6b7280; padding: 18px;">No transactions yet</p>`;
         return;
     }
     let html = '';
@@ -2034,55 +1754,84 @@ function renderHistoryUI() {
         if (tx.status === 'Success') { statusColor = '#00ff87'; statusBg = 'rgba(0, 255, 135, 0.15)'; }
         if (tx.status === 'Failed' || tx.status === 'Rejected') { statusColor = '#ef4444'; statusBg = 'rgba(239, 68, 68, 0.15)'; }
         if (tx.status === 'Processing') { statusColor = '#22d3ee'; statusBg = 'rgba(34, 211, 238, 0.15)'; }
-        html += `<div style="background: rgba(0,0,0,0.5); padding: 10px 12px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.06); display: flex; align-items: center; justify-content: space-between;">
+        html += `<div style="background: rgba(0,0,0,0.5); padding: 9px 11px; border-radius: 11px; border: 1px solid rgba(255,255,255,0.06); display: flex; align-items: center; justify-content: space-between;">
             <div>
-                <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 3px;">
-                    <span style="font-size: 11px; font-weight: 800; color: ${isDep ? '#00ff87' : '#fb923c'};">${tx.type}</span>
-                    <span class="mono" style="font-size: 11px; color: #fff; font-weight: 800;">$${tx.amount}</span>
+                <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 2px;">
+                    <span style="font-size: 10px; font-weight: 800; color: ${isDep ? '#00ff87' : '#fb923c'};">${tx.type}</span>
+                    <span class="mono" style="font-size: 10px; color: #fff; font-weight: 800;">$${tx.amount}</span>
                 </div>
-                <p class="mono" style="font-size: 8px; color: #6b7280;">${tx.network || ''} · ${(tx.date || '').substring(0, 16)}</p>
+                <p class="mono" style="font-size: 7px; color: #6b7280;">${tx.network || ''} · ${(tx.date || '').substring(0, 16)}</p>
             </div>
-            <span class="mono" style="font-size: 8px; padding: 3px 8px; border-radius: 6px; font-weight: 800; color: ${statusColor}; background: ${statusBg}; border: 1px solid ${statusColor}44;">${tx.status}</span>
+            <span class="mono" style="font-size: 7px; padding: 2px 7px; border-radius: 5px; font-weight: 800; color: ${statusColor}; background: ${statusBg};">${tx.status}</span>
         </div>`;
     });
     listEl.innerHTML = html;
 }
 
 // ═══════════════════════════════════════════════════════════
-// BUY NFT (placeholder — backend implement later)
+// BUY NFT
 // ═══════════════════════════════════════════════════════════
 async function buyNFT(name, price, days, speed) {
     showPremiumToast('Contact support to buy', '💎', 'violet');
 }
 
 // ═══════════════════════════════════════════════════════════
-// APP STARTUP
+// ⭐ APP STARTUP (FIXED)
 // ═══════════════════════════════════════════════════════════
 window.addEventListener('DOMContentLoaded', async () => {
+    // 1️⃣ Instant setup
     initParticles();
-
-    // 1️⃣ Ban check
-    const isBanned = await checkBanStatus();
-    if (isBanned) return;
-
-    // 2️⃣ Draw wheel
     drawWheel();
 
-    // 3️⃣ Hide splash after 4s
+    // 2️⃣ ⭐ VERIFIED CHECK — আগে verified ছিল কিনা
+    const wasVerified = localStorage.getItem('sfn_verified') === 'true';
+    const savedTGID = localStorage.getItem('sfn_tg_id');
+    const sameUser = savedTGID === userTGID;
+
+    if (wasVerified && sameUser) {
+        // ✅ আগে verified ছিল → সরাসরি Mining page
+        const gate = document.getElementById('channel-gate');
+        if (gate) {
+            gate.classList.remove('show');
+            gate.style.display = 'none';
+        }
+        const app = document.getElementById('app-content');
+        if (app) app.style.display = 'block';
+        updateVerifyBadge(true);
+    } else {
+        // ⏳ নতুন user → verification page দেখাও
+        const gate = document.getElementById('channel-gate');
+        if (gate) {
+            gate.classList.add('show');
+            gate.style.display = 'flex';
+        }
+        const app = document.getElementById('app-content');
+        if (app) app.style.display = 'none';
+    }
+
+    // 3️⃣ Splash screen — ৩ সেকেন্ড fixed সময়
     setTimeout(() => {
         const splash = document.getElementById('splash-screen');
         if (splash) {
             splash.style.opacity = '0';
-            setTimeout(() => splash.style.display = 'none', 500);
+            setTimeout(() => splash.classList.add('hidden'), 500);
         }
-    }, 4000);
+    }, 3000);
 
-    // 4️⃣ Load user data
-    await syncUser();
-    await loadUserData();
-    checkCooldowns();
+    // 4️⃣ Parallel data loading (fast!)
+    try {
+        const [banned] = await Promise.all([
+            checkBanStatus(),
+            syncUser()
+        ]);
+        if (banned) return;
+        await loadUserData();
+        checkCooldowns();
+    } catch (e) {
+        console.error('Startup error:', e);
+    }
 
-    // 5️⃣ Live updates (throttled)
+    // 5️⃣ Live updates
     setInterval(syncMiningFromServer, 12000);
     setInterval(updateMiningUI, 1500);
     updateMiningUI();
@@ -2091,4 +1840,4 @@ window.addEventListener('DOMContentLoaded', async () => {
 });
 </script>
 </body>
-  </html>
+</html>
