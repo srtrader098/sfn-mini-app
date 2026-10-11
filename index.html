@@ -103,8 +103,6 @@ body{background:#030108;color:#fff;font-family:'Space Grotesk',sans-serif;min-he
 @keyframes slideUpModal{from{transform:translate3d(0,100%,0)}to{transform:translate3d(0,0,0)}}
 .progress-bar{height:5px;border-radius:3px;background:rgba(255,255,255,.08);overflow:hidden}
 .progress-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,#00ff87 0%,#22d3ee 100%);box-shadow:0 0 10px rgba(0,255,135,.6);transition:width .5s ease}
-.skeleton{background:linear-gradient(90deg,rgba(255,255,255,.06) 25%,rgba(139,92,246,.15) 50%,rgba(255,255,255,.06) 75%);background-size:200% 100%;animation:shimmer 1.5s infinite;border-radius:6px;color:transparent !important}
-@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
 #confetti-canvas{position:fixed;inset:0;pointer-events:none;z-index:500}
 .badge-verified{background:linear-gradient(135deg,rgba(0,255,135,.15),rgba(6,182,212,.15));border:1px solid rgba(0,255,135,.5);color:#00ff87}
 .badge-unverified{background:linear-gradient(135deg,rgba(251,191,36,.15),rgba(217,119,6,.15));border:1px solid rgba(251,191,36,.5);color:#fbbf24}
@@ -154,7 +152,6 @@ body{background:#030108;color:#fff;font-family:'Space Grotesk',sans-serif;min-he
 <span id="toast-message" style="font-size:11px">Claimed!</span>
 </div>
 
-<!-- SPLASH SCREEN -->
 <div id="splash-screen">
 <img src="https://www.image2url.com/r2/default/images/1791043985369-a9e2b85f-86b0-4636-b90a-a46e632a1d32.png" alt="SFN" class="splash-logo">
 <h1 class="pixel-font glow-emerald" style="font-size:14px;margin-bottom:6px;letter-spacing:1.5px;text-align:center">START FARMING NOW</h1>
@@ -162,7 +159,7 @@ body{background:#030108;color:#fff;font-family:'Space Grotesk',sans-serif;min-he
 <div style="width:180px;height:3px;background:rgba(0,0,0,.6);border-radius:2px;overflow:hidden;border:1px solid rgba(0,255,135,.3)">
 <div style="height:100%;background:linear-gradient(90deg,#00ff87,#22d3ee,#8b5cf6);border-radius:2px;animation:splashProgress 3s linear forwards"></div>
 </div>
-<div class="mono" style="font-size:8px;color:#6b7280;margin-top:14px;letter-spacing:1.5px"><span class="typewriter-text">Loading secure nodes...</span></div>
+<div class="mono" style="font-size:8px;color:#6b7280;margin-top:14px;letter-spacing:1.5px"><span id="splash-status" class="typewriter-text">Loading secure nodes...</span></div>
 </div>
 
 <div id="channel-gate" class="modal-overlay" style="align-items:center;padding:14px;display:none">
@@ -415,6 +412,7 @@ body{background:#030108;color:#fff;font-family:'Space Grotesk',sans-serif;min-he
 <button onclick="navSwitch('wallet')" id="nav-wallet" class="nav-btn"><span class="nav-icon">💸</span> Wallet</button>
 <button onclick="navSwitch('support')" id="nav-support" class="nav-btn"><span class="nav-icon">💬</span> Support</button>
 </div>
+
 <script>
 const BACKEND_URL="https://sfn-backend.onrender.com";
 const tg=window.Telegram?.WebApp;
@@ -459,12 +457,6 @@ SOL:{name:'Solana (SOL)',address:'5oyoF1SQq6fYgZUTaaHit457hpW2CJwcjH1e76Nhs1Jp'}
 TON:{name:'TON Network',address:'UQDO-DM0d14Uh-q1D_ze3SqRDj2AbBlI1YL2UQMlp2N16Tf5'}};
 const networksList=["BNB Smart Chain (BEP20)","Solana (SOL)","Polygon (POL)","TON Network","TRON (TRC20)","Ethereum (ERC20)"];
 
-function clearAllLocalData(){
-    localStorage.removeItem('sfn_verified');
-    localStorage.removeItem('sfn_cache');
-    // Keep userTGID/userUID so we still know who they are
-}
-
 function loadCache(){try{const c=JSON.parse(localStorage.getItem('sfn_cache')||'{}');if(c.balance!==undefined){balance=c.balance||0;referCount=c.referCount||0;referEarnings=c.referEarnings||0;extraSpins=c.extraSpins||0;serverUnclaimed=c.serverUnclaimed||0;maxUnclaimedSeen=c.serverUnclaimed||0;lastServerSync=Date.now();updateBalanceUI();updateNFTUI()}}catch(e){}}
 function saveCache(){try{localStorage.setItem('sfn_cache',JSON.stringify({balance,referCount,referEarnings,extraSpins,serverUnclaimed,lastSyncTime:Date.now()}))}catch(e){}}
 
@@ -488,21 +480,23 @@ function fireConfetti(palette='emerald'){if(confettiActive)return;confettiActive
 
 async function apiCall(endpoint,data){try{const response=await fetch(`${BACKEND_URL}${endpoint}`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});const json=await response.json();if(response.status===403&&json.banned){showBanScreen();return json}return json}catch(err){return{success:false,error:'Network error'}}}
 
-async function syncUser(){if(!userTGID)return;const r=await apiCall('/sync_user',{tg_id:userTGID,first_name:tgUser?.first_name||'',last_name:tgUser?.last_name||'',username:tgUser?.username||'',photo_url:tgUser?.photo_url||''});return r}
+async function syncUser(){if(!userTGID)return;await apiCall('/sync_user',{tg_id:userTGID,first_name:tgUser?.first_name||'',last_name:tgUser?.last_name||'',username:tgUser?.username||'',photo_url:tgUser?.photo_url||''})}
 
 async function loadUserData(){
     if(!userTGID)return;
     const data=await apiCall('/get_user_data',{tg_id:userTGID});
     if(data.banned)return;
     
-    // ⭐⭐ CRITICAL FIX: If user not found (deleted from admin), clear cache & show gate
-    if(!data.success && (data.error==="User not found" || data.error==="Missing tg_id")){
-        clearAllLocalData();
-        updateVerifyBadge(false);
-        const g=document.getElementById('channel-gate');
-        const a=document.getElementById('app-content');
+    if(!data.success){
+        // User not found — clear cache
+        localStorage.removeItem('sfn_verified');
+        localStorage.removeItem('sfn_cache');
+        localStorage.removeItem('sfn_tg_id');
+        localStorage.removeItem('sfn_user_uid');
+        const g=document.getElementById('channel-gate');const a=document.getElementById('app-content');
         if(g){g.classList.add('show');g.style.display='flex'}
         if(a)a.style.display='none';
+        updateVerifyBadge(false);
         return;
     }
     
@@ -512,9 +506,7 @@ async function loadUserData(){
         if(serverVal>=maxUnclaimedSeen){serverUnclaimed=serverVal;maxUnclaimedSeen=serverVal}
         lastServerSync=Date.now();localUnclaimed=serverUnclaimed;referCount=u.refer_count||0;referEarnings=u.refer_earnings||0;extraSpins=u.extra_spins||0;serverLastCheckin=u.last_checkin;serverLastSpin=u.last_spin;isVerifiedServer=u.verified||false;userCreatedAt=u.created_at;
         if(u.active_nft&&u.active_nft!=='SFN Free Miner'){activeNFT={name:u.active_nft,speed:u.mining_speed||500,expiresAt:u.nft_expiry?new Date(u.nft_expiry).getTime():null,isFree:false}}else{activeNFT={name:'SFN Free Miner',speed:500,expiresAt:null,isFree:true}}
-        
-        const g=document.getElementById('channel-gate');
-        const a=document.getElementById('app-content');
+        const g=document.getElementById('channel-gate');const a=document.getElementById('app-content');
         if(isVerifiedServer){
             localStorage.setItem('sfn_verified','true');localStorage.setItem('sfn_tg_id',userTGID);updateVerifyBadge(true);
             if(g){g.classList.remove('show');g.style.display='none'}
@@ -524,7 +516,7 @@ async function loadUserData(){
             if(g){g.classList.add('show');g.style.display='flex'}
             if(a)a.style.display='none';
         }
-        updateBalanceUI();updateNFTUI();updateWithdrawLockUI();checkCooldowns();saveCache()
+        updateBalanceUI();updateNFTUI();updateWithdrawLockUI();checkCooldowns();saveCache();
     }
 }
 
@@ -603,49 +595,70 @@ function closeNftBuyModal(){const modal=document.getElementById('nft-buy-modal')
 
 function proceedNftBuy(){const name=document.getElementById('nft-buy-name').innerText;const price=parseFloat(document.getElementById('nft-buy-amount').value);if(!price||price<0.5){showPremiumToast('Invalid amount','⚠️','red');return}closeNftBuyModal();navSwitch('wallet');switchWallet('deposit');setTimeout(()=>{const amountEl=document.getElementById('dep-amount');const txidEl=document.getElementById('dep-txid');if(amountEl)amountEl.value=price;if(txidEl){txidEl.placeholder='Paste TXID for '+name;txidEl.focus()}showPremiumToast('Deposit $'+price+' then submit TXID','💳','gold')},400)}
 
+// ⭐⭐⭐ STARTUP — waits for server before showing any page
 window.addEventListener('DOMContentLoaded',async()=>{
     initParticles();
     drawWheel();
     
-    // ⭐ Clear cache if different user
-    const existingSavedTGID=localStorage.getItem('sfn_tg_id');
-    if(existingSavedTGID && userTGID && existingSavedTGID !== userTGID){
-        clearAllLocalData();
-    }
-    
-    loadCache();
-    updateMiningUI();
-    setInterval(updateMiningUI,1500);
-    
-    const wasVerified=localStorage.getItem('sfn_verified')==='true';
-    const savedTGID=localStorage.getItem('sfn_tg_id');
-    const isSameUser = savedTGID && userTGID && savedTGID === userTGID;
-    
-    const gate=document.getElementById('channel-gate');
-    const app=document.getElementById('app-content');
-    
-    if(wasVerified && isSameUser){
-        if(gate){gate.classList.remove('show');gate.style.display='none'}
-        if(app)app.style.display='block';
-        updateVerifyBadge(true);
-    }else{
-        if(gate){gate.classList.add('show');gate.style.display='flex'}
-        if(app)app.style.display='none';
-        updateVerifyBadge(false);
-    }
-    
-    setTimeout(()=>{const s=document.getElementById('splash-screen');if(s&&!s.classList.contains('hidden')){s.style.opacity='0';setTimeout(()=>s.classList.add('hidden'),300)}},3000);
-    
-    try{
+    const splashTimeout = setTimeout(()=>{
+        const st = document.getElementById('splash-status');
+        if(st) st.innerText = 'Syncing with server...';
+    }, 4000);
+
+    const longerTimeout = setTimeout(()=>{
+        const st = document.getElementById('splash-status');
+        if(st) st.innerText = 'Almost there... please wait';
+    }, 15000);
+
+    try {
         await syncUser();
-        await loadUserData();
+        const data = await apiCall('/get_user_data',{tg_id:userTGID});
+        
+        clearTimeout(splashTimeout);
+        clearTimeout(longerTimeout);
+        
+        if(data.banned){
+            showBanScreen();
+            return;
+        }
+        
+        if(!data.success && data.error === "User not found"){
+            await syncUser();
+            await loadUserData();
+        } else if(data.success){
+            await loadUserData();
+        } else {
+            const g=document.getElementById('channel-gate');
+            const a=document.getElementById('app-content');
+            if(g){g.classList.add('show');g.style.display='flex'}
+            if(a)a.style.display='none';
+        }
+        
         checkCooldowns();
         saveCache();
-    }catch(e){console.error('Load error:',e)}
+    } catch(e){
+        console.error('Startup error:', e);
+        clearTimeout(splashTimeout);
+        clearTimeout(longerTimeout);
+        const g=document.getElementById('channel-gate');
+        const a=document.getElementById('app-content');
+        if(g){g.classList.add('show');g.style.display='flex'}
+        if(a)a.style.display='none';
+    }
     
-    setInterval(syncMiningFromServer,15000);
-    setInterval(checkCooldowns,2000);
-    setInterval(checkBanStatus,90000);
+    setTimeout(()=>{
+        const s = document.getElementById('splash-screen');
+        if(s && !s.classList.contains('hidden')){
+            s.style.opacity = '0';
+            setTimeout(()=>s.classList.add('hidden'), 400);
+        }
+    }, 500);
+    
+    updateMiningUI();
+    setInterval(updateMiningUI, 1500);
+    setInterval(syncMiningFromServer, 15000);
+    setInterval(checkCooldowns, 2000);
+    setInterval(checkBanStatus, 90000);
 });
 </script>
 </body>
