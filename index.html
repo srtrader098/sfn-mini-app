@@ -34,11 +34,12 @@ body{background:#030108;color:#fff;font-family:'Space Grotesk',sans-serif;min-he
 .typewriter-text{overflow:hidden;white-space:nowrap;border-right:2px solid #00ff87;animation:typewriter 2s steps(30) forwards,blink .8s step-end infinite;display:inline-block}
 #splash-screen{position:fixed;inset:0;background:#030108;z-index:200;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;transition:opacity .5s}
 #splash-screen.hidden{display:none}
-.splash-logo-wrap{position:relative;width:120px;height:120px;margin-bottom:22px}
-.splash-logo-glow{position:absolute;top:calc(50% - 47px);left:calc(50% - 47px);width:94px;height:94px;background:radial-gradient(circle,rgba(139,92,246,.5),transparent 60%);border-radius:50%;filter:blur(14px);pointer-events:none;animation:splashGlow 2.5s infinite ease-in-out}
-.splash-logo-ring{position:absolute;top:calc(50% - 46px);left:calc(50% - 46px);width:92px;height:92px;border-radius:50%;border:1.5px dashed rgba(0,255,135,.65);pointer-events:none;animation:splashRotate 20s linear infinite}
-.splash-logo-ring-2{position:absolute;top:calc(50% - 50px);left:calc(50% - 50px);width:100px;height:100px;border-radius:50%;border:1px dashed rgba(139,92,246,.4);pointer-events:none;animation:splashRotate 30s linear infinite reverse}
-.splash-logo-img{position:absolute;top:calc(50% - 48px);left:calc(50% - 48px);width:96px;height:96px;object-fit:contain;mix-blend-mode:screen;z-index:10;filter:drop-shadow(0 0 18px rgba(0,255,135,.85))}
+/* ⭐ PERFECT SPLASH — ring tight around logo */
+.splash-logo-wrap{position:relative;width:140px;height:140px;margin-bottom:22px}
+.splash-logo-img{position:absolute;top:calc(50% - 55px);left:calc(50% - 55px);width:110px;height:110px;object-fit:contain;mix-blend-mode:screen;z-index:10;filter:drop-shadow(0 0 18px rgba(0,255,135,.85))}
+.splash-logo-glow{position:absolute;top:calc(50% - 58px);left:calc(50% - 58px);width:116px;height:116px;background:radial-gradient(circle,rgba(139,92,246,.5),transparent 60%);border-radius:50%;filter:blur(14px);pointer-events:none;animation:splashGlow 2.5s infinite ease-in-out}
+.splash-logo-ring{position:absolute;top:calc(50% - 60px);left:calc(50% - 60px);width:120px;height:120px;border-radius:50%;border:1.5px dashed rgba(0,255,135,.65);pointer-events:none;animation:splashRotate 20s linear infinite}
+.splash-logo-ring-2{position:absolute;top:calc(50% - 66px);left:calc(50% - 66px);width:132px;height:132px;border-radius:50%;border:1px dashed rgba(139,92,246,.4);pointer-events:none;animation:splashRotate 30s linear infinite reverse}
 @keyframes banPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
 @keyframes banRingSpin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
 @keyframes banFloat{0%,100%{transform:translateY(0px)}50%{transform:translateY(-8px)}}
@@ -460,7 +461,6 @@ let serverUnclaimed=0,lastServerSync=Date.now(),localUnclaimed=0;
 let currentDepNetwork='BEP20',currentWdNetwork="BNB Smart Chain (BEP20)";
 let userCreatedAt=null,isAppVisible=true;
 
-// ⭐ Names now MATCH networksList exactly
 const networkData={
 BEP20:{name:'BNB Smart Chain (BEP20)',address:'0x9dd6863ef3b2005131f78be8df916844f21c0737'},
 ERC20:{name:'Ethereum (ERC20)',address:'0x9dd6863ef3b2005131f78be8df916844f21c0737'},
@@ -470,7 +470,6 @@ SOL:{name:'Solana (SOL)',address:'5oyoF1SQq6fYgZUTaaHit457hpW2CJwcjH1e76Nhs1Jp'}
 TON:{name:'TON Network',address:'UQDO-DM0d14Uh-q1D_ze3SqRDj2AbBlI1YL2UQMlp2N16Tf5'}};
 const networksList=["BNB Smart Chain (BEP20)","Solana (SOL)","Polygon (POL)","TON Network","TRON (TRC20)","Ethereum (ERC20)"];
 
-// ⭐ Fixed: lastServerSync=now so mining starts from cached value
 function loadCache(){try{const c=JSON.parse(localStorage.getItem('sfn_cache')||'{}');if(c.balance!==undefined){balance=c.balance||0;referCount=c.referCount||0;referEarnings=c.referEarnings||0;extraSpins=c.extraSpins||0;serverUnclaimed=c.serverUnclaimed||0;lastServerSync=Date.now();updateBalanceUI();updateNFTUI()}}catch(e){}}
 function saveCache(){try{localStorage.setItem('sfn_cache',JSON.stringify({balance,referCount,referEarnings,extraSpins,serverUnclaimed,lastSyncTime:Date.now()}))}catch(e){}}
 
@@ -580,10 +579,9 @@ window.addEventListener('DOMContentLoaded',async()=>{
     initParticles();
     drawWheel();
     loadCache();
-    
-    // ⭐⭐ INSTANT mining start — call updateMiningUI right away
+    // ⭐ INSTANT mining — no wait for server
     updateMiningUI();
-    setInterval(updateMiningUI, 1500); // start interval immediately
+    setInterval(updateMiningUI,1500);
     
     const wasVerified=localStorage.getItem('sfn_verified')==='true';
     const savedTGID=localStorage.getItem('sfn_tg_id');
