@@ -11,7 +11,6 @@
 * { user-select: none; -webkit-tap-highlight-color: transparent; box-sizing: border-box; margin: 0; padding: 0; }
 html, body { overflow-x: hidden; }
 
-/* ═══════ BACKGROUND ═══════ */
 body {
   background: #030108;
   color: #fff;
@@ -28,7 +27,6 @@ body {
 .pixel-font { font-family: 'Press Start 2P', monospace; }
 .mono { font-family: 'JetBrains Mono', monospace; }
 
-/* ═══════ GLASS ═══════ */
 .glass {
   background: linear-gradient(145deg, rgba(20, 12, 35, 0.88) 0%, rgba(10, 6, 20, 0.92) 100%);
   border: 1px solid rgba(139, 92, 246, 0.25);
@@ -39,7 +37,6 @@ body {
   position: relative;
   overflow: hidden;
 }
-
 .glass-emerald { border-color: rgba(0, 255, 135, 0.35); }
 .glass-violet { border-color: rgba(139, 92, 246, 0.4); }
 .glass-cyan { border-color: rgba(6, 182, 212, 0.4); }
@@ -48,7 +45,6 @@ body {
 .glow-violet { color: #a78bfa; text-shadow: 0 0 12px rgba(139, 92, 246, 0.7); }
 .glow-cyan { color: #22d3ee; text-shadow: 0 0 12px rgba(6, 182, 212, 0.7); }
 
-/* ═══════ BUTTONS ═══════ */
 .btn-premium {
   background: linear-gradient(135deg, #00ff87 0%, #059669 100%);
   color: #000;
@@ -66,11 +62,12 @@ body {
 .btn-cyan { background: linear-gradient(135deg, #22d3ee 0%, #0891b2 100%); box-shadow: 0 4px 16px rgba(6, 182, 212, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3); }
 .btn-gold { background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%); box-shadow: 0 4px 16px rgba(251, 191, 36, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3); }
 
-/* ═══════ SPLASH ═══════ */
-@keyframes splashGlow { 0%, 100% { transform: scale(1); opacity: 0.6; } 50% { transform: scale(1.1); opacity: 1; } }
+/* ═══ SPLASH (FIXED — ring hugs logo) ═══ */
+@keyframes splashGlow { 0%, 100% { transform: scale(1); opacity: 0.6; } 50% { transform: scale(1.08); opacity: 1; } }
 @keyframes splashRotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 @keyframes typewriter { from { width: 0; } to { width: 100%; } }
 @keyframes blink { 50% { border-color: transparent; } }
+@keyframes splashProgress { 0% { width: 0%; } 100% { width: 100%; } }
 
 .splash-glow { animation: splashGlow 2.5s infinite ease-in-out; will-change: transform, opacity; }
 .splash-ring-1 { animation: splashRotate 20s linear infinite; will-change: transform; }
@@ -90,7 +87,66 @@ body {
 }
 #splash-screen.hidden { display: none; }
 
-/* ═══════ BAN SCREEN ═══════ */
+/* Splash logo wrapper — ring perfectly hugs logo */
+.splash-logo-wrap {
+  position: relative;
+  width: 140px;
+  height: 140px;
+  margin-bottom: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.splash-logo-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 130px;
+  height: 130px;
+  background: radial-gradient(circle, rgba(139,92,246,0.6), transparent 60%);
+  border-radius: 50%;
+  filter: blur(20px);
+  pointer-events: none;
+}
+
+.splash-logo-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  border: 2px dashed rgba(0, 255, 135, 0.55);
+  pointer-events: none;
+}
+
+.splash-logo-ring-2 {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 145px;
+  height: 145px;
+  border-radius: 50%;
+  border: 1px dashed rgba(139, 92, 246, 0.4);
+  pointer-events: none;
+  animation: splashRotate 30s linear infinite reverse;
+}
+
+.splash-logo-img {
+  width: 110px;
+  height: 110px;
+  object-fit: contain;
+  mix-blend-mode: screen;
+  position: relative;
+  z-index: 10;
+  filter: drop-shadow(0 0 20px rgba(0, 255, 135, 0.85));
+}
+
+/* ═══ BAN SCREEN ═══ */
 @keyframes banPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
 @keyframes banRingSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 @keyframes banFloat { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-8px); } }
@@ -116,7 +172,7 @@ body {
 }
 #ban-screen.show { display: flex; }
 
-/* ═══════ MINER ANIMATIONS ═══════ */
+/* ═══ MINER ANIMATIONS ═══ */
 @keyframes rotateRing1 { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 @keyframes rotateRing2 { from { transform: rotate(360deg); } to { transform: rotate(0deg); } }
 @keyframes minerFloat {
@@ -157,7 +213,6 @@ body {
 }
 .pulse-dot { animation: pulseDot 2s ease-in-out infinite; }
 
-/* ═══════ PARTICLES ═══════ */
 @keyframes particleRise {
   0% { transform: translate3d(0, 0, 0); opacity: 0; }
   10% { opacity: 0.6; }
@@ -173,7 +228,6 @@ body {
   will-change: transform, opacity;
 }
 
-/* ═══════ NAV ═══════ */
 .nav-btn {
   display: flex; flex-direction: column; align-items: center; gap: 2px;
   color: #6b7280; font-size: 7px; font-weight: 800;
@@ -190,7 +244,6 @@ body {
   width: 20px; height: 2px; background: #00ff87; border-radius: 2px; box-shadow: 0 0 10px #00ff87;
 }
 
-/* ═══════ TAB ═══════ */
 @keyframes tabFadeIn { from { opacity: 0; transform: translate3d(0, 6px, 0); } to { opacity: 1; transform: translate3d(0, 0, 0); } }
 .tab-content { animation: tabFadeIn 0.3s ease-out; }
 
@@ -206,7 +259,6 @@ body {
   color: #000; box-shadow: 0 3px 12px rgba(0, 255, 135, 0.4);
 }
 
-/* ═══════ NFT CARDS ═══════ */
 .nft-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 .nft-card {
   background: linear-gradient(145deg, rgba(20, 12, 35, 0.9) 0%, rgba(10, 6, 20, 0.95) 100%);
@@ -237,7 +289,6 @@ body {
 .nft-detail-row .value { color: #fff; font-weight: 800; font-family: 'JetBrains Mono', monospace; font-size: 9px; }
 .nft-card-btn { width: 100%; margin-top: 6px; padding: 8px; border-radius: 10px; font-size: 9px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.4px; border: none; }
 
-/* ═══════ WHEEL ═══════ */
 .wheel-container { position: relative; width: 210px; height: 210px; margin: 0 auto; }
 .wheel-pointer {
   position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
@@ -253,7 +304,6 @@ body {
   will-change: transform;
 }
 
-/* ═══════ TOAST ═══════ */
 @keyframes toastIn { from { transform: translate3d(-50%, -30px, 0) scale(0.9); opacity: 0; } to { transform: translate3d(-50%, 0, 0) scale(1); opacity: 1; } }
 @keyframes toastOut { from { transform: translate3d(-50%, 0, 0) scale(1); opacity: 1; } to { transform: translate3d(-50%, -30px, 0) scale(0.9); opacity: 0; } }
 
@@ -274,7 +324,6 @@ body {
 .toast-red { background: linear-gradient(135deg, #ef4444 0%, #991b1b 100%); color: #fff; }
 .toast-blue { background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); color: #fff; }
 
-/* ═══════ MODAL ═══════ */
 .modal-overlay {
   position: fixed; inset: 0;
   background: rgba(0, 0, 0, 0.85);
@@ -295,11 +344,9 @@ body {
 }
 @keyframes slideUpModal { from { transform: translate3d(0, 100%, 0); } to { transform: translate3d(0, 0, 0); } }
 
-/* ═══════ PROGRESS ═══════ */
 .progress-bar { height: 5px; border-radius: 3px; background: rgba(255, 255, 255, 0.08); overflow: hidden; }
 .progress-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, #00ff87 0%, #22d3ee 100%); box-shadow: 0 0 10px rgba(0, 255, 135, 0.6); transition: width 0.5s ease; }
 
-/* ═══════ SKELETON ═══════ */
 @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
 .skeleton {
   background: linear-gradient(90deg, rgba(255,255,255,0.06) 25%, rgba(139,92,246,0.15) 50%, rgba(255,255,255,0.06) 75%);
@@ -311,7 +358,6 @@ body {
 
 #confetti-canvas { position: fixed; inset: 0; pointer-events: none; z-index: 500; }
 
-/* ═══════ BADGES ═══════ */
 .badge-verified {
   background: linear-gradient(135deg, rgba(0, 255, 135, 0.15), rgba(6, 182, 212, 0.15));
   border: 1px solid rgba(0, 255, 135, 0.5); color: #00ff87;
@@ -321,7 +367,6 @@ body {
   border: 1px solid rgba(251, 191, 36, 0.5); color: #fbbf24;
 }
 
-/* ═══════ INPUTS ═══════ */
 .input-premium {
   width: 100%; background: rgba(0, 0, 0, 0.5);
   border: 1px solid rgba(139, 92, 246, 0.3);
@@ -404,12 +449,13 @@ body {
   <span id="toast-message" style="font-size: 11px;">Claimed!</span>
 </div>
 
-<!-- ═══ SPLASH ═══ -->
+<!-- ═══ SPLASH (FIXED) ═══ -->
 <div id="splash-screen">
-  <div style="position: relative; width: 120px; height: 120px; margin-bottom: 22px; display: flex; align-items: center; justify-content: center;">
-    <div style="position: absolute; inset: 0; background: radial-gradient(circle, rgba(139,92,246,0.5), transparent 70%); border-radius: 50%; filter: blur(15px);" class="splash-glow"></div>
-    <div style="position: absolute; inset: 0; border-radius: 50%; border: 2px dashed rgba(0, 255, 135, 0.4);" class="splash-ring-1"></div>
-    <img src="https://www.image2url.com/r2/default/images/1791043985369-a9e2b85f-86b0-4636-b90a-a46e632a1d32.png" alt="SFN" style="width: 100%; height: 100%; object-fit: contain; mix-blend-mode: screen; position: relative; z-index: 10; filter: drop-shadow(0 0 20px rgba(0, 255, 135, 0.8));">
+  <div class="splash-logo-wrap">
+    <div class="splash-logo-glow splash-glow"></div>
+    <div class="splash-logo-ring splash-ring-1"></div>
+    <div class="splash-logo-ring-2"></div>
+    <img src="https://www.image2url.com/r2/default/images/1791043985369-a9e2b85f-86b0-4636-b90a-a46e632a1d32.png" alt="SFN" class="splash-logo-img">
   </div>
   <h1 class="pixel-font glow-emerald" style="font-size: 14px; margin-bottom: 6px; letter-spacing: 1.5px; text-align: center;">START FARMING NOW</h1>
   <p class="mono" style="font-size: 8px; color: rgba(167, 139, 250, 0.9); letter-spacing: 3px; margin-bottom: 22px; text-align: center;">INITIALIZING MINING ENGINE</p>
@@ -421,39 +467,23 @@ body {
   </div>
 </div>
 
-<style>
-@keyframes splashProgress { 0% { width: 0%; } 100% { width: 100%; } }
-</style>
-
 <!-- ═══ VERIFICATION GATE ═══ -->
 <div id="channel-gate" class="modal-overlay" style="align-items: center; padding: 14px; display: none;">
   <div class="glass glass-emerald" style="padding: 22px; text-align: center; max-width: 340px; width: 100%;">
-    <div style="width: 58px; height: 58px; margin: 0 auto 14px; background: linear-gradient(135deg, rgba(0, 255, 135, 0.15), rgba(6, 182, 212, 0.15)); border: 1px solid rgba(0, 255, 135, 0.5); border-radius: 18px; display: flex; align-items: center; justify-content: center; font-size: 28px;">
-      🔒
-    </div>
+    <div style="width: 58px; height: 58px; margin: 0 auto 14px; background: linear-gradient(135deg, rgba(0, 255, 135, 0.15), rgba(6, 182, 212, 0.15)); border: 1px solid rgba(0, 255, 135, 0.5); border-radius: 18px; display: flex; align-items: center; justify-content: center; font-size: 28px;">🔒</div>
     <h2 class="pixel-font glow-emerald" style="font-size: 11px; margin-bottom: 6px; letter-spacing: 1px;">ACCESS VERIFICATION</h2>
-    <p style="font-size: 10px; color: #9ca3af; line-height: 1.5; margin-bottom: 14px;">
-      Join our channels to unlock mining rewards.
-    </p>
+    <p style="font-size: 10px; color: #9ca3af; line-height: 1.5; margin-bottom: 14px;">Join our channels to unlock mining rewards.</p>
     <div style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px;">
       <a href="https://t.me/SFN_Payment" target="_blank" style="display: flex; align-items: center; justify-content: space-between; padding: 11px 13px; background: rgba(0, 0, 0, 0.5); border-radius: 11px; border: 1px solid rgba(255, 255, 255, 0.08); text-decoration: none;">
-        <div style="display: flex; align-items: center; gap: 8px;">
-          <span style="font-size: 16px;">💳</span>
-          <span style="font-size: 10px; color: #e5e7eb; font-weight: 700;">Payment Proof</span>
-        </div>
+        <div style="display: flex; align-items: center; gap: 8px;"><span style="font-size: 16px;">💳</span><span style="font-size: 10px; color: #e5e7eb; font-weight: 700;">Payment Proof</span></div>
         <span class="mono" style="font-size: 8px; color: #00ff87; font-weight: 800;">JOIN ↗</span>
       </a>
       <a href="https://t.me/SFN_News" target="_blank" style="display: flex; align-items: center; justify-content: space-between; padding: 11px 13px; background: rgba(0, 0, 0, 0.5); border-radius: 11px; border: 1px solid rgba(255, 255, 255, 0.08); text-decoration: none;">
-        <div style="display: flex; align-items: center; gap: 8px;">
-          <span style="font-size: 16px;">📢</span>
-          <span style="font-size: 10px; color: #e5e7eb; font-weight: 700;">Official News</span>
-        </div>
+        <div style="display: flex; align-items: center; gap: 8px;"><span style="font-size: 16px;">📢</span><span style="font-size: 10px; color: #e5e7eb; font-weight: 700;">Official News</span></div>
         <span class="mono" style="font-size: 8px; color: #00ff87; font-weight: 800;">JOIN ↗</span>
       </a>
     </div>
-    <button id="verifyBtn" class="btn-premium" style="width: 100%; padding: 13px; border-radius: 11px; font-size: 10px; text-transform: uppercase; letter-spacing: 1.2px;" onclick="verifyAndUnlock()">
-      ✦ VERIFY & UNLOCK ✦
-    </button>
+    <button id="verifyBtn" class="btn-premium" style="width: 100%; padding: 13px; border-radius: 11px; font-size: 10px; text-transform: uppercase; letter-spacing: 1.2px;" onclick="verifyAndUnlock()">✦ VERIFY & UNLOCK ✦</button>
     <p id="verifyStatus" class="mono" style="font-size: 9px; margin-top: 8px; color: #a78bfa; min-height: 12px;"></p>
   </div>
 </div>
@@ -472,7 +502,6 @@ body {
 <!-- ═══ MAIN APP ═══ -->
 <div id="app-content" style="display: none; position: relative; z-index: 5;">
 
-  <!-- HEADER -->
   <div class="glass" style="padding: 10px 12px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
     <div style="display: flex; align-items: center; gap: 9px;">
       <div style="position: relative;">
@@ -481,9 +510,7 @@ body {
       </div>
       <div>
         <h3 style="font-size: 11px; font-weight: 800; color: #fff;" id="user-name">SFN User</h3>
-        <p class="mono" style="font-size: 8px; color: #6b7280; margin-top: 1px;">
-          UID: <span style="color: #00ff87; font-weight: 800;">#<span id="user-uid">62000001</span></span>
-        </p>
+        <p class="mono" style="font-size: 8px; color: #6b7280; margin-top: 1px;">UID: <span style="color: #00ff87; font-weight: 800;">#<span id="user-uid">62000001</span></span></p>
       </div>
     </div>
     <div id="verify-badge-wrapper" class="badge-unverified" style="display: flex; align-items: center; gap: 4px; padding: 4px 9px; border-radius: 14px;">
@@ -491,7 +518,6 @@ body {
     </div>
   </div>
 
-  <!-- BALANCE -->
   <div class="glass glass-violet" style="padding: 14px; text-align: center; margin-bottom: 10px; position: relative; overflow: hidden;">
     <div style="position: absolute; top: -50%; right: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(139, 92, 246, 0.12), transparent 60%); pointer-events: none;"></div>
     <div style="position: relative; z-index: 2;">
@@ -501,14 +527,10 @@ body {
         <h1 class="pixel-font glow-emerald skeleton" id="total-balance" style="font-size: 16px;">0.00</h1>
         <span class="mono" style="font-size: 10px; color: #00ff87; font-weight: 800; align-self: flex-end; margin-bottom: 2px;">SFN</span>
       </div>
-      <p class="mono" style="font-size: 8px; color: #6b7280;">
-        ≈ <span style="color: #22d3ee; font-weight: 800;" id="usd-val">$0.00 USD</span>
-        <span style="color: #4b5563;">· 10,000 SFN = $1</span>
-      </p>
+      <p class="mono" style="font-size: 8px; color: #6b7280;">≈ <span style="color: #22d3ee; font-weight: 800;" id="usd-val">$0.00 USD</span> <span style="color: #4b5563;">· 10,000 SFN = $1</span></p>
     </div>
   </div>
 
-  <!-- ═══ MINING TAB ═══ -->
   <div id="tab-claim" class="tab-content" style="display: flex; flex-direction: column; gap: 10px;">
     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 7px;">
       <div class="glass" style="padding: 9px; display: flex; align-items: center; gap: 7px;">
@@ -555,7 +577,6 @@ body {
     </button>
   </div>
 
-  <!-- ═══ NFT TAB ═══ -->
   <div id="tab-nft" class="tab-content" style="display: none; flex-direction: column; gap: 10px;">
     <div class="glass glass-violet" style="padding: 12px;">
       <h3 class="pixel-font glow-violet" style="font-size: 9px; letter-spacing: 1px; margin-bottom: 3px;">⚡ NFT SPEED PASSES</h3>
@@ -653,13 +674,11 @@ body {
     </div>
   </div>
 
-  <!-- ═══ SPIN TAB ═══ -->
   <div id="tab-spin" class="tab-content" style="display: none; flex-direction: column; gap: 10px;">
     <div class="glass" style="padding: 3px; display: flex; gap: 3px;">
       <button id="s-btn-spin" class="sub-tab active" onclick="switchSpin('spin')">🎡 SPIN</button>
       <button id="s-btn-tasks" class="sub-tab" onclick="switchSpin('tasks')">🎯 TASKS</button>
     </div>
-
     <div id="s-sec-spin" style="display: flex; flex-direction: column; gap: 10px;">
       <div class="glass glass-emerald" style="padding: 12px; display: flex; align-items: center; justify-content: space-between; gap: 8px;">
         <div style="flex: 1;">
@@ -668,7 +687,6 @@ body {
         </div>
         <button id="claimDailyBtn" onclick="claimDailyCheckin()" class="btn-premium" style="padding: 7px 12px; border-radius: 9px; font-size: 8px; text-transform: uppercase;">CLAIM +20</button>
       </div>
-
       <div class="glass glass-violet" style="padding: 16px; text-align: center;">
         <h3 class="pixel-font glow-violet" style="font-size: 9px; margin-bottom: 14px; letter-spacing: 1px;">🎡 LUCKY SPINNER</h3>
         <div class="wheel-container">
@@ -679,12 +697,9 @@ body {
           <span class="mono" style="font-size: 9px; color: #a78bfa;">🎟️ Extra Spins:</span>
           <strong class="mono" style="font-size: 10px; color: #fff;" id="extra-spin-badge">0</strong>
         </div>
-        <button id="spinBtn" onclick="spinWheel()" class="btn-premium btn-violet" style="width: 100%; padding: 12px; border-radius: 12px; font-size: 10px; text-transform: uppercase; letter-spacing: 1.2px; margin-top: 12px;">
-          🎡 SPIN NOW
-        </button>
+        <button id="spinBtn" onclick="spinWheel()" class="btn-premium btn-violet" style="width: 100%; padding: 12px; border-radius: 12px; font-size: 10px; text-transform: uppercase; letter-spacing: 1.2px; margin-top: 12px;">🎡 SPIN NOW</button>
       </div>
     </div>
-
     <div id="s-sec-tasks" style="display: none; flex-direction: column; gap: 10px;">
       <div class="glass" style="padding: 20px 16px; text-align: center;">
         <div style="width: 56px; height: 56px; margin: 0 auto 12px; background: linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(6, 182, 212, 0.15)); border: 1px solid rgba(139, 92, 246, 0.5); border-radius: 18px; display: flex; align-items: center; justify-content: center; font-size: 26px;">🎯</div>
@@ -701,15 +716,11 @@ body {
     </div>
   </div>
 
-  <!-- ═══ REFER TAB ═══ -->
   <div id="tab-refer" class="tab-content" style="display: none; flex-direction: column; gap: 10px;">
     <div class="glass glass-cyan" style="padding: 14px;">
       <h3 class="pixel-font glow-cyan" style="font-size: 10px; margin-bottom: 6px; letter-spacing: 1px;">👥 INVITE & EARN</h3>
-      <p style="font-size: 10px; color: #d1d5db; line-height: 1.5;">
-        Earn <span style="color: #00ff87; font-weight: 800;">500 SFN</span> + <span style="color: #00ff87; font-weight: 800;">1 Free Spin</span> per referral!
-      </p>
+      <p style="font-size: 10px; color: #d1d5db; line-height: 1.5;">Earn <span style="color: #00ff87; font-weight: 800;">500 SFN</span> + <span style="color: #00ff87; font-weight: 800;">1 Free Spin</span> per referral!</p>
     </div>
-
     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
       <div class="glass" style="padding: 11px; text-align: center;">
         <p class="mono" style="font-size: 7px; color: #6b7280; letter-spacing: 1.2px; text-transform: uppercase; margin-bottom: 4px;">TOTAL REFERS</p>
@@ -720,44 +731,30 @@ body {
         <p class="pixel-font glow-cyan" id="ref-earnings" style="font-size: 12px;">0</p>
       </div>
     </div>
-
     <div class="glass glass-violet" style="padding: 13px;">
       <h4 class="mono" style="font-size: 9px; color: #a78bfa; font-weight: 800; letter-spacing: 1.5px; margin-bottom: 10px;">🔓 WITHDRAW UNLOCK TIERS</h4>
       <div style="display: flex; flex-direction: column; gap: 6px;">
         <div style="display: flex; align-items: center; justify-content: space-between; padding: 8px 10px; background: rgba(0, 0, 0, 0.4); border-radius: 9px; border: 1px solid rgba(251, 191, 36, 0.3);">
-          <div style="display: flex; align-items: center; gap: 7px;">
-            <span style="font-size: 13px;">⏱️</span>
-            <span style="font-size: 9px; color: #d1d5db; font-weight: 700;">5 Referrals</span>
-          </div>
+          <div style="display: flex; align-items: center; gap: 7px;"><span style="font-size: 13px;">⏱️</span><span style="font-size: 9px; color: #d1d5db; font-weight: 700;">5 Referrals</span></div>
           <span class="mono" style="font-size: 8px; color: #fbbf24; font-weight: 800;">7 DAYS</span>
         </div>
         <div style="display: flex; align-items: center; justify-content: space-between; padding: 8px 10px; background: rgba(0, 0, 0, 0.4); border-radius: 9px; border: 1px solid rgba(6, 182, 212, 0.3);">
-          <div style="display: flex; align-items: center; gap: 7px;">
-            <span style="font-size: 13px;">⏱️</span>
-            <span style="font-size: 9px; color: #d1d5db; font-weight: 700;">10 Referrals</span>
-          </div>
+          <div style="display: flex; align-items: center; gap: 7px;"><span style="font-size: 13px;">⏱️</span><span style="font-size: 9px; color: #d1d5db; font-weight: 700;">10 Referrals</span></div>
           <span class="mono" style="font-size: 8px; color: #22d3ee; font-weight: 800;">3 DAYS</span>
         </div>
         <div style="display: flex; align-items: center; justify-content: space-between; padding: 8px 10px; background: rgba(0, 255, 135, 0.08); border-radius: 9px; border: 1px solid rgba(0, 255, 135, 0.5);">
-          <div style="display: flex; align-items: center; gap: 7px;">
-            <span style="font-size: 13px;">⚡</span>
-            <span style="font-size: 9px; color: #fff; font-weight: 800;">20 Referrals</span>
-          </div>
+          <div style="display: flex; align-items: center; gap: 7px;"><span style="font-size: 13px;">⚡</span><span style="font-size: 9px; color: #fff; font-weight: 800;">20 Referrals</span></div>
           <span class="mono" style="font-size: 8px; color: #00ff87; font-weight: 800;">INSTANT</span>
         </div>
       </div>
     </div>
-
     <div class="glass" style="padding: 11px;">
       <div style="display: flex; justify-content: space-between; margin-bottom: 7px; font-size: 9px;">
         <span style="color: #d1d5db; font-weight: 700;">Progress to Instant</span>
         <span class="mono" style="color: #00ff87; font-weight: 800;"><span id="ref-progress-num">0</span>/20</span>
       </div>
-      <div class="progress-bar">
-        <div class="progress-fill" id="ref-progress-bar" style="width: 0%;"></div>
-      </div>
+      <div class="progress-bar"><div class="progress-fill" id="ref-progress-bar" style="width: 0%;"></div></div>
     </div>
-
     <div class="glass" style="padding: 11px;">
       <label class="mono" style="font-size: 8px; color: #a78bfa; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; display: block; margin-bottom: 6px;">🔗 REFERRAL LINK</label>
       <div style="display: flex; gap: 5px;">
@@ -767,7 +764,6 @@ body {
     </div>
   </div>
 
-  <!-- ═══ WALLET TAB ═══ -->
   <div id="tab-wallet" class="tab-content" style="display: none; flex-direction: column; gap: 10px;">
     <div class="glass" style="padding: 3px; display: flex; gap: 3px;">
       <button id="w-btn-deposit" class="sub-tab active" onclick="switchWallet('deposit')">💳 DEPOSIT</button>
@@ -787,14 +783,12 @@ body {
           <div id="net-TON" class="net-card" onclick="selectDepNetwork('TON')"><p style="font-size: 10px; font-weight: 900; color: #fff;">TON</p><p class="mono" style="font-size: 7px; color: #6b7280; margin-top: 1px;">TON</p></div>
         </div>
       </div>
-
       <div class="glass" style="padding: 9px 11px;">
         <div style="display: flex; justify-content: space-between; align-items: center;">
           <span style="font-size: 9px; color: #9ca3af;">Selected:</span>
           <span class="mono" id="network-full-name" style="font-size: 9px; color: #00ff87; font-weight: 800;">BNB Smart Chain</span>
         </div>
       </div>
-
       <div class="glass" style="padding: 14px; text-align: center;">
         <div style="display: inline-block; background: #fff; padding: 9px; border-radius: 14px;">
           <div style="position: relative;">
@@ -805,7 +799,6 @@ body {
           </div>
         </div>
       </div>
-
       <div class="glass" style="padding: 10px;">
         <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
           <span class="mono" style="font-size: 8px; color: #6b7280; letter-spacing: 1px;">DEPOSIT ADDRESS</span>
@@ -818,15 +811,10 @@ body {
           </button>
         </div>
       </div>
-
       <p class="mono" style="font-size: 8px; color: #fbbf24; text-align: center; padding: 0 10px;">⚠️ Send only USDT on the selected network</p>
-
       <input type="number" id="dep-amount" placeholder="Deposit Amount ($)" class="input-premium">
       <input type="text" id="dep-txid" placeholder="Transaction Hash (TXID)" class="input-premium">
-
-      <button onclick="submitDeposit()" class="btn-premium" style="width: 100%; padding: 12px; border-radius: 12px; font-size: 10px; text-transform: uppercase; letter-spacing: 1.2px;">
-        ✦ SUBMIT DEPOSIT ✦
-      </button>
+      <button onclick="submitDeposit()" class="btn-premium" style="width: 100%; padding: 12px; border-radius: 12px; font-size: 10px; text-transform: uppercase; letter-spacing: 1.2px;">✦ SUBMIT DEPOSIT ✦</button>
     </div>
 
     <div id="w-sec-withdraw" style="display: none; flex-direction: column; gap: 10px;">
@@ -838,11 +826,8 @@ body {
             <p id="lock-subtitle" class="mono" style="font-size: 8px; color: #d1d5db;">Complete 5 referrals to unlock</p>
           </div>
         </div>
-        <div class="progress-bar" style="margin-top: 9px;">
-          <div class="progress-fill" id="lock-progress" style="width: 0%;"></div>
-        </div>
+        <div class="progress-bar" style="margin-top: 9px;"><div class="progress-fill" id="lock-progress" style="width: 0%;"></div></div>
       </div>
-
       <div class="glass" style="padding: 10px;">
         <label class="mono" style="font-size: 8px; color: #a78bfa; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; display: block; margin-bottom: 5px;">SELECT NETWORK</label>
         <div onclick="openNetworkModal()" style="display: flex; align-items: center; justify-content: space-between; background: rgba(0,0,0,0.6); padding: 10px; border-radius: 9px; border: 1px solid rgba(139, 92, 246, 0.3); cursor: pointer;">
@@ -850,18 +835,13 @@ body {
           <span style="color: #a78bfa; font-weight: 800;">▼</span>
         </div>
       </div>
-
       <input type="text" id="wd-address" placeholder="Destination Address" class="input-premium">
       <input type="number" id="wd-amount" placeholder="Withdraw Amount ($)" class="input-premium">
-
       <div class="glass" style="padding: 10px; background: rgba(139, 92, 246, 0.05);">
         <p class="mono" style="font-size: 8px; color: #a78bfa; font-weight: 800; margin-bottom: 4px;">🔒 PAYOUT RULES</p>
         <p style="font-size: 9px; color: #d1d5db; line-height: 1.4;">Min: $0.30. Unlock: 5 ref = 7d · 10 ref = 3d · 20 ref = instant.</p>
       </div>
-
-      <button onclick="submitWithdraw()" class="btn-premium btn-violet" style="width: 100%; padding: 12px; border-radius: 12px; font-size: 10px; text-transform: uppercase; letter-spacing: 1.2px;">
-        ✦ REQUEST WITHDRAWAL ✦
-      </button>
+      <button onclick="submitWithdraw()" class="btn-premium btn-violet" style="width: 100%; padding: 12px; border-radius: 12px; font-size: 10px; text-transform: uppercase; letter-spacing: 1.2px;">✦ REQUEST WITHDRAWAL ✦</button>
     </div>
 
     <div id="w-sec-history" style="display: none;">
@@ -872,7 +852,6 @@ body {
     </div>
   </div>
 
-  <!-- ═══ SUPPORT TAB ═══ -->
   <div id="tab-support" class="tab-content" style="display: none;">
     <div class="glass glass-emerald" style="padding: 14px;">
       <h3 class="pixel-font glow-emerald" style="font-size: 10px; margin-bottom: 5px;">💬 24/7 HELP DESK</h3>
@@ -889,7 +868,6 @@ body {
 
 </div>
 
-<!-- ═══ BOTTOM NAV ═══ -->
 <div id="bottom-nav" style="position: fixed; bottom: 0; left: 0; right: 0; max-width: 448px; margin: 0 auto; background: rgba(10, 5, 20, 0.96); border-top: 1px solid rgba(139, 92, 246, 0.3); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); padding: 6px 0 max(6px, env(safe-area-inset-bottom)); display: flex; justify-content: space-between; align-items: center; z-index: 100;">
   <button onclick="navSwitch('claim')" id="nav-claim" class="nav-btn nav-active"><span class="nav-icon">⛏️</span> Mining</button>
   <button onclick="navSwitch('nft')" id="nav-nft" class="nav-btn"><span class="nav-icon">⚡</span> NFT</button>
@@ -899,6 +877,7 @@ body {
   <button onclick="navSwitch('support')" id="nav-support" class="nav-btn"><span class="nav-icon">💬</span> Support</button>
 </div>
 
+<!-- PART 2 JS — Old one stays -->
 <!-- PART 2 JS will go here -->
   <script>
 // ═══════════════════════════════════════════════════════════
