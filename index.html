@@ -62,15 +62,13 @@ body {
 .btn-cyan { background: linear-gradient(135deg, #22d3ee 0%, #0891b2 100%); box-shadow: 0 4px 16px rgba(6, 182, 212, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3); }
 .btn-gold { background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%); box-shadow: 0 4px 16px rgba(251, 191, 36, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3); }
 
-/* ═══ SPLASH (FIXED — ring hugs logo) ═══ */
+/* ═══ SPLASH ═══ */
 @keyframes splashGlow { 0%, 100% { transform: scale(1); opacity: 0.6; } 50% { transform: scale(1.08); opacity: 1; } }
 @keyframes splashRotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 @keyframes typewriter { from { width: 0; } to { width: 100%; } }
 @keyframes blink { 50% { border-color: transparent; } }
 @keyframes splashProgress { 0% { width: 0%; } 100% { width: 100%; } }
 
-.splash-glow { animation: splashGlow 2.5s infinite ease-in-out; will-change: transform, opacity; }
-.splash-ring-1 { animation: splashRotate 20s linear infinite; will-change: transform; }
 .typewriter-text { overflow: hidden; white-space: nowrap; border-right: 2px solid #00ff87; animation: typewriter 2s steps(30) forwards, blink 0.8s step-end infinite; display: inline-block; }
 
 #splash-screen {
@@ -87,61 +85,62 @@ body {
 }
 #splash-screen.hidden { display: none; }
 
-/* Splash logo wrapper — ring perfectly hugs logo */
+/* ⭐ Splash logo — FIXED with calc() for perfect centering */
 .splash-logo-wrap {
   position: relative;
-  width: 140px;
-  height: 140px;
+  width: 150px;
+  height: 150px;
   margin-bottom: 22px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .splash-logo-glow {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  top: calc(50% - 65px);
+  left: calc(50% - 65px);
   width: 130px;
   height: 130px;
-  background: radial-gradient(circle, rgba(139,92,246,0.6), transparent 60%);
+  background: radial-gradient(circle, rgba(139,92,246,0.55), transparent 62%);
   border-radius: 50%;
-  filter: blur(20px);
+  filter: blur(18px);
   pointer-events: none;
+  animation: splashGlow 2.5s infinite ease-in-out;
+  will-change: transform, opacity;
 }
 
 .splash-logo-ring {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  top: calc(50% - 65px);
+  left: calc(50% - 65px);
   width: 130px;
   height: 130px;
   border-radius: 50%;
   border: 2px dashed rgba(0, 255, 135, 0.55);
   pointer-events: none;
+  animation: splashRotate 20s linear infinite;
+  will-change: transform;
 }
 
 .splash-logo-ring-2 {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  top: calc(50% - 72.5px);
+  left: calc(50% - 72.5px);
   width: 145px;
   height: 145px;
   border-radius: 50%;
   border: 1px dashed rgba(139, 92, 246, 0.4);
   pointer-events: none;
   animation: splashRotate 30s linear infinite reverse;
+  will-change: transform;
 }
 
 .splash-logo-img {
+  position: absolute;
+  top: calc(50% - 55px);
+  left: calc(50% - 55px);
   width: 110px;
   height: 110px;
   object-fit: contain;
   mix-blend-mode: screen;
-  position: relative;
   z-index: 10;
   filter: drop-shadow(0 0 20px rgba(0, 255, 135, 0.85));
 }
@@ -172,7 +171,7 @@ body {
 }
 #ban-screen.show { display: flex; }
 
-/* ═══ MINER ANIMATIONS ═══ */
+/* ═══ MINER ═══ */
 @keyframes rotateRing1 { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 @keyframes rotateRing2 { from { transform: rotate(360deg); } to { transform: rotate(0deg); } }
 @keyframes minerFloat {
@@ -403,10 +402,6 @@ body {
   background: linear-gradient(135deg, rgba(0, 255, 135, 0.1), rgba(6, 182, 212, 0.1));
   border-color: rgba(0, 255, 135, 0.5);
 }
-
-@media (prefers-reduced-motion: reduce) {
-  * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
-}
 </style>
 </head>
 <body class="max-w-md mx-auto relative min-h-screen">
@@ -452,8 +447,8 @@ body {
 <!-- ═══ SPLASH (FIXED) ═══ -->
 <div id="splash-screen">
   <div class="splash-logo-wrap">
-    <div class="splash-logo-glow splash-glow"></div>
-    <div class="splash-logo-ring splash-ring-1"></div>
+    <div class="splash-logo-glow"></div>
+    <div class="splash-logo-ring"></div>
     <div class="splash-logo-ring-2"></div>
     <img src="https://www.image2url.com/r2/default/images/1791043985369-a9e2b85f-86b0-4636-b90a-a46e632a1d32.png" alt="SFN" class="splash-logo-img">
   </div>
@@ -524,7 +519,7 @@ body {
       <p class="mono" style="font-size: 8px; color: #a78bfa; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 6px;">◆ TOTAL BALANCE ◆</p>
       <div style="display: flex; align-items: center; justify-content: center; gap: 7px; margin-bottom: 5px;">
         <span style="font-size: 18px; filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.7));">🪙</span>
-        <h1 class="pixel-font glow-emerald skeleton" id="total-balance" style="font-size: 16px;">0.00</h1>
+        <h1 class="pixel-font glow-emerald" id="total-balance" style="font-size: 16px;">0.00</h1>
         <span class="mono" style="font-size: 10px; color: #00ff87; font-weight: 800; align-self: flex-end; margin-bottom: 2px;">SFN</span>
       </div>
       <p class="mono" style="font-size: 8px; color: #6b7280;">≈ <span style="color: #22d3ee; font-weight: 800;" id="usd-val">$0.00 USD</span> <span style="color: #4b5563;">· 10,000 SFN = $1</span></p>
@@ -582,7 +577,6 @@ body {
       <h3 class="pixel-font glow-violet" style="font-size: 9px; letter-spacing: 1px; margin-bottom: 3px;">⚡ NFT SPEED PASSES</h3>
       <p style="font-size: 9px; color: #9ca3af; line-height: 1.4;">Boost mining speed. Principal locked until expiry.</p>
     </div>
-
     <div class="nft-grid">
       <div class="nft-card border-common">
         <div class="nft-rarity rarity-common">COMMON</div>
@@ -594,7 +588,6 @@ body {
         <div class="nft-detail-row"><span class="label">⚡ Speed</span><span class="value" style="color: #00ff87;">500/D</span></div>
         <button disabled class="nft-card-btn btn-premium" style="opacity: 0.6;">✅ ACTIVE</button>
       </div>
-
       <div class="nft-card border-rare">
         <div class="nft-rarity rarity-rare">RARE</div>
         <img src="https://i.ibb.co.com/TBL0628c/Picsart-26-10-04-23-32-21-653.png" alt="Elite" class="nft-card-img">
@@ -605,7 +598,6 @@ body {
         <div class="nft-detail-row"><span class="label">⚡ Speed</span><span class="value" style="color: #22d3ee;">1,300/D</span></div>
         <button onclick="buyNFT('SFN Elite Pass', 3, 7, 1300)" class="nft-card-btn btn-premium btn-cyan">BUY $3</button>
       </div>
-
       <div class="nft-card border-epic">
         <div class="nft-rarity rarity-epic">EPIC</div>
         <img src="https://i.ibb.co.com/B54DpnBp/Picsart-26-10-04-23-32-49-110.png" alt="Infinity" class="nft-card-img">
@@ -616,7 +608,6 @@ body {
         <div class="nft-detail-row"><span class="label">⚡ Speed</span><span class="value" style="color: #a78bfa;">2,200/D</span></div>
         <button onclick="buyNFT('SFN Infinity Pro', 5, 7, 2200)" class="nft-card-btn btn-premium btn-violet">BUY $5</button>
       </div>
-
       <div class="nft-card border-legendary">
         <div class="nft-rarity rarity-legendary">LEGENDARY</div>
         <img src="https://i.ibb.co.com/67dZ2TwJ/Picsart-26-10-04-23-33-15-634.png" alt="Century" class="nft-card-img">
@@ -627,7 +618,6 @@ body {
         <div class="nft-detail-row"><span class="label">⚡ Speed</span><span class="value" style="color: #fbbf24;">3,000/D</span></div>
         <button onclick="buyNFT('SFN Century', 10, 10, 3000)" class="nft-card-btn btn-premium btn-gold">BUY $10</button>
       </div>
-
       <div class="nft-card border-epic">
         <div class="nft-rarity rarity-epic">EPIC</div>
         <img src="https://i.ibb.co.com/rf4wwc72/Picsart-26-10-04-23-33-43-134.png" alt="Zenith" class="nft-card-img">
@@ -638,7 +628,6 @@ body {
         <div class="nft-detail-row"><span class="label">⚡ Speed</span><span class="value" style="color: #a78bfa;">4,500/D</span></div>
         <button onclick="buyNFT('SFN Zenith', 15, 10, 4500)" class="nft-card-btn btn-premium btn-violet">BUY $15</button>
       </div>
-
       <div class="nft-card border-rare">
         <div class="nft-rarity rarity-rare">RARE</div>
         <img src="https://i.ibb.co.com/Z7Q9KC3/Picsart-26-10-04-23-34-15-828.png" alt="Nova" class="nft-card-img">
@@ -649,7 +638,6 @@ body {
         <div class="nft-detail-row"><span class="label">⚡ Speed</span><span class="value" style="color: #22d3ee;">4,000/D</span></div>
         <button onclick="buyNFT('SFN Nova', 20, 15, 4000)" class="nft-card-btn btn-premium btn-cyan">BUY $20</button>
       </div>
-
       <div class="nft-card border-legendary">
         <div class="nft-rarity rarity-legendary">LEGENDARY</div>
         <img src="https://i.ibb.co.com/mVPcD31j/Picsart-26-10-04-23-34-44-833.png" alt="Phoenix" class="nft-card-img">
@@ -660,7 +648,6 @@ body {
         <div class="nft-detail-row"><span class="label">⚡ Speed</span><span class="value" style="color: #fbbf24;">5,000/D</span></div>
         <button onclick="buyNFT('SFN Phoenix', 25, 15, 5000)" class="nft-card-btn btn-premium btn-gold">BUY $25</button>
       </div>
-
       <div class="nft-card border-epic">
         <div class="nft-rarity rarity-epic">EPIC</div>
         <img src="https://i.ibb.co.com/8LCXD77H/Picsart-26-10-04-23-35-17-202.png" alt="Aurora" class="nft-card-img">
@@ -770,7 +757,6 @@ body {
       <button id="w-btn-withdraw" class="sub-tab" onclick="switchWallet('withdraw')">💸 WITHDRAW</button>
       <button id="w-btn-history" class="sub-tab" onclick="switchWallet('history')">📜 HISTORY</button>
     </div>
-
     <div id="w-sec-deposit" style="display: flex; flex-direction: column; gap: 10px;">
       <div class="glass glass-violet" style="padding: 12px;">
         <label class="mono" style="font-size: 8px; color: #a78bfa; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; display: block; margin-bottom: 7px;">SELECT NETWORK</label>
@@ -816,7 +802,6 @@ body {
       <input type="text" id="dep-txid" placeholder="Transaction Hash (TXID)" class="input-premium">
       <button onclick="submitDeposit()" class="btn-premium" style="width: 100%; padding: 12px; border-radius: 12px; font-size: 10px; text-transform: uppercase; letter-spacing: 1.2px;">✦ SUBMIT DEPOSIT ✦</button>
     </div>
-
     <div id="w-sec-withdraw" style="display: none; flex-direction: column; gap: 10px;">
       <div id="withdraw-lock-banner" class="lock-banner">
         <div style="display: flex; align-items: center; gap: 9px;">
@@ -843,7 +828,6 @@ body {
       </div>
       <button onclick="submitWithdraw()" class="btn-premium btn-violet" style="width: 100%; padding: 12px; border-radius: 12px; font-size: 10px; text-transform: uppercase; letter-spacing: 1.2px;">✦ REQUEST WITHDRAWAL ✦</button>
     </div>
-
     <div id="w-sec-history" style="display: none;">
       <div class="glass" style="padding: 12px;">
         <h4 class="mono" style="font-size: 9px; color: #a78bfa; font-weight: 800; letter-spacing: 1.5px; margin-bottom: 10px;">📜 TRANSACTION HISTORY</h4>
@@ -876,10 +860,7 @@ body {
   <button onclick="navSwitch('wallet')" id="nav-wallet" class="nav-btn"><span class="nav-icon">💸</span> Wallet</button>
   <button onclick="navSwitch('support')" id="nav-support" class="nav-btn"><span class="nav-icon">💬</span> Support</button>
 </div>
-
-<!-- PART 2 JS — Old one stays -->
-<!-- PART 2 JS will go here -->
-  <script>
+<script>
 // ═══════════════════════════════════════════════════════════
 // CONFIG
 // ═══════════════════════════════════════════════════════════
@@ -941,6 +922,7 @@ let localUnclaimed = 0;
 let currentDepNetwork = 'BEP20';
 let currentWdNetwork = "BNB Smart Chain (BEP20)";
 let userCreatedAt = null;
+let isAppVisible = true;
 
 // ═══════════════════════════════════════════════════════════
 // NETWORK DATA
@@ -959,12 +941,11 @@ const networksList = ["BNB Smart Chain (BEP20)","Solana (SOL)","Polygon (POL)","
 // ═══════════════════════════════════════════════════════════
 // VISIBILITY (pause animations when hidden)
 // ═══════════════════════════════════════════════════════════
-let isAppVisible = true;
 document.addEventListener('visibilitychange', () => {
     isAppVisible = !document.hidden;
-    const paused = isAppVisible ? 'running' : 'paused';
-    document.querySelectorAll('.fire-spark, .scan-line, .ring-layer-1, .ring-layer-2, .miner-float, .bg-particle, .splash-glow, .splash-ring-1').forEach(el => {
-        el.style.animationPlayState = paused;
+    const state = isAppVisible ? 'running' : 'paused';
+    document.querySelectorAll('.fire-spark, .scan-line, .ring-layer-1, .ring-layer-2, .miner-float, .bg-particle, .splash-logo-glow, .splash-logo-ring, .splash-logo-ring-2').forEach(el => {
+        el.style.animationPlayState = state;
     });
 });
 
@@ -1114,7 +1095,7 @@ function fireConfetti(palette = 'emerald') {
 }
 
 // ═══════════════════════════════════════════════════════════
-// API
+// API CALL
 // ═══════════════════════════════════════════════════════════
 async function apiCall(endpoint, data) {
     try {
@@ -1172,45 +1153,30 @@ async function loadUserData() {
             activeNFT = { name: 'SFN Free Miner', speed: 500, expiresAt: null, isFree: true };
         }
 
-        // ✅ VERIFIED CHECK — আগে verified ছিল কিনা দেখো
         if (isVerifiedServer) {
             localStorage.setItem('sfn_verified', 'true');
             localStorage.setItem('sfn_tg_id', userTGID);
             updateVerifyBadge(true);
             const gate = document.getElementById('channel-gate');
-            if (gate) {
-                gate.classList.remove('show');
-                gate.style.display = 'none';
-            }
+            if (gate) { gate.classList.remove('show'); gate.style.display = 'none'; }
             const app = document.getElementById('app-content');
             if (app) app.style.display = 'block';
         } else {
-            // Server এ verified নেই — localStorage এ checked দেখো
             const wasVerified = localStorage.getItem('sfn_verified') === 'true';
             if (wasVerified) {
-                // আগে verified ছিল, তাই verification দেখাব না
                 updateVerifyBadge(true);
                 const gate = document.getElementById('channel-gate');
-                if (gate) {
-                    gate.classList.remove('show');
-                    gate.style.display = 'none';
-                }
+                if (gate) { gate.classList.remove('show'); gate.style.display = 'none'; }
                 const app = document.getElementById('app-content');
                 if (app) app.style.display = 'block';
             } else {
                 updateVerifyBadge(false);
-                const gate = document.getElementById('channel-gate');
-                if (gate) {
-                    gate.classList.add('show');
-                    gate.style.display = 'flex';
-                }
             }
         }
         updateBalanceUI();
         updateNFTUI();
         updateWithdrawLockUI();
         checkCooldowns();
-        // Remove skeletons
         document.querySelectorAll('.skeleton').forEach(el => el.classList.remove('skeleton'));
     }
 }
@@ -1326,7 +1292,7 @@ function updateWithdrawLockUI() {
 }
 
 // ═══════════════════════════════════════════════════════════
-// MINING
+// MINING SYNC
 // ═══════════════════════════════════════════════════════════
 async function syncMiningFromServer() {
     if (!userTGID || isBannedServer || !isAppVisible) return;
@@ -1386,7 +1352,7 @@ async function claimDailyCheckin() {
 }
 
 // ═══════════════════════════════════════════════════════════
-// WHEEL
+// SPIN WHEEL
 // ═══════════════════════════════════════════════════════════
 const wheelCanvas = document.getElementById('wheelCanvas');
 const wheelCtx = wheelCanvas ? wheelCanvas.getContext('2d') : null;
@@ -1570,7 +1536,7 @@ function updateVerifyBadge(isVerified) {
 }
 
 // ═══════════════════════════════════════════════════════════
-// NETWORK
+// NETWORK & DEPOSIT
 // ═══════════════════════════════════════════════════════════
 function selectDepNetwork(key) {
     const net = networkData[key];
@@ -1623,7 +1589,7 @@ function selectWdNetwork(net) {
 }
 
 // ═══════════════════════════════════════════════════════════
-// NAV
+// NAVIGATION
 // ═══════════════════════════════════════════════════════════
 function navSwitch(tab) {
     ['claim', 'nft', 'spin', 'refer', 'wallet', 'support'].forEach(t => {
@@ -1674,7 +1640,7 @@ function copyReferralLink() {
 }
 
 // ═══════════════════════════════════════════════════════════
-// DEPOSIT / WITHDRAW
+// DEPOSIT & WITHDRAW
 // ═══════════════════════════════════════════════════════════
 async function submitDeposit() {
     const amount = parseFloat(document.getElementById('dep-amount').value);
@@ -1755,40 +1721,31 @@ async function buyNFT(name, price, days, speed) {
 }
 
 // ═══════════════════════════════════════════════════════════
-// ⭐ APP STARTUP (FIXED)
+// APP STARTUP
 // ═══════════════════════════════════════════════════════════
 window.addEventListener('DOMContentLoaded', async () => {
-    // 1️⃣ Instant setup
     initParticles();
     drawWheel();
 
-    // 2️⃣ ⭐ VERIFIED CHECK — আগে verified ছিল কিনা
+    // ⭐ Verified check from localStorage
     const wasVerified = localStorage.getItem('sfn_verified') === 'true';
     const savedTGID = localStorage.getItem('sfn_tg_id');
     const sameUser = savedTGID === userTGID;
 
     if (wasVerified && sameUser) {
-        // ✅ আগে verified ছিল → সরাসরি Mining page
         const gate = document.getElementById('channel-gate');
-        if (gate) {
-            gate.classList.remove('show');
-            gate.style.display = 'none';
-        }
+        if (gate) { gate.classList.remove('show'); gate.style.display = 'none'; }
         const app = document.getElementById('app-content');
         if (app) app.style.display = 'block';
         updateVerifyBadge(true);
     } else {
-        // ⏳ নতুন user → verification page দেখাও
         const gate = document.getElementById('channel-gate');
-        if (gate) {
-            gate.classList.add('show');
-            gate.style.display = 'flex';
-        }
+        if (gate) { gate.classList.add('show'); gate.style.display = 'flex'; }
         const app = document.getElementById('app-content');
         if (app) app.style.display = 'none';
     }
 
-    // 3️⃣ Splash screen — ৩ সেকেন্ড fixed সময়
+    // Hide splash after 3s
     setTimeout(() => {
         const splash = document.getElementById('splash-screen');
         if (splash) {
@@ -1797,7 +1754,7 @@ window.addEventListener('DOMContentLoaded', async () => {
         }
     }, 3000);
 
-    // 4️⃣ Parallel data loading (fast!)
+    // Parallel data loading
     try {
         const [banned] = await Promise.all([
             checkBanStatus(),
@@ -1810,7 +1767,7 @@ window.addEventListener('DOMContentLoaded', async () => {
         console.error('Startup error:', e);
     }
 
-    // 5️⃣ Live updates
+    // Live updates
     setInterval(syncMiningFromServer, 12000);
     setInterval(updateMiningUI, 1500);
     updateMiningUI();
@@ -1819,4 +1776,4 @@ window.addEventListener('DOMContentLoaded', async () => {
 });
 </script>
 </body>
-</html>
+  </html>
