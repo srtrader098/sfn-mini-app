@@ -34,11 +34,11 @@ body{background:#030108;color:#fff;font-family:'Space Grotesk',sans-serif;min-he
 .typewriter-text{overflow:hidden;white-space:nowrap;border-right:2px solid #00ff87;animation:typewriter 2s steps(30) forwards,blink .8s step-end infinite;display:inline-block}
 #splash-screen{position:fixed;inset:0;background:#030108;z-index:200;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;transition:opacity .5s}
 #splash-screen.hidden{display:none}
-.splash-logo-wrap{position:relative;width:140px;height:140px;margin-bottom:22px}
-.splash-logo-glow{position:absolute;top:calc(50% - 55px);left:calc(50% - 55px);width:110px;height:110px;background:radial-gradient(circle,rgba(139,92,246,.5),transparent 60%);border-radius:50%;filter:blur(16px);pointer-events:none;animation:splashGlow 2.5s infinite ease-in-out}
-.splash-logo-ring{position:absolute;top:calc(50% - 54px);left:calc(50% - 54px);width:108px;height:108px;border-radius:50%;border:1.5px dashed rgba(0,255,135,.65);pointer-events:none;animation:splashRotate 20s linear infinite}
-.splash-logo-ring-2{position:absolute;top:calc(50% - 58px);left:calc(50% - 58px);width:116px;height:116px;border-radius:50%;border:1px dashed rgba(139,92,246,.4);pointer-events:none;animation:splashRotate 30s linear infinite reverse}
-.splash-logo-img{position:absolute;top:calc(50% - 52px);left:calc(50% - 52px);width:104px;height:104px;object-fit:contain;mix-blend-mode:screen;z-index:10;filter:drop-shadow(0 0 18px rgba(0,255,135,.85))}
+.splash-logo-wrap{position:relative;width:120px;height:120px;margin-bottom:22px}
+.splash-logo-glow{position:absolute;top:calc(50% - 47px);left:calc(50% - 47px);width:94px;height:94px;background:radial-gradient(circle,rgba(139,92,246,.5),transparent 60%);border-radius:50%;filter:blur(14px);pointer-events:none;animation:splashGlow 2.5s infinite ease-in-out}
+.splash-logo-ring{position:absolute;top:calc(50% - 46px);left:calc(50% - 46px);width:92px;height:92px;border-radius:50%;border:1.5px dashed rgba(0,255,135,.65);pointer-events:none;animation:splashRotate 20s linear infinite}
+.splash-logo-ring-2{position:absolute;top:calc(50% - 50px);left:calc(50% - 50px);width:100px;height:100px;border-radius:50%;border:1px dashed rgba(139,92,246,.4);pointer-events:none;animation:splashRotate 30s linear infinite reverse}
+.splash-logo-img{position:absolute;top:calc(50% - 48px);left:calc(50% - 48px);width:96px;height:96px;object-fit:contain;mix-blend-mode:screen;z-index:10;filter:drop-shadow(0 0 18px rgba(0,255,135,.85))}
 @keyframes banPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
 @keyframes banRingSpin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
 @keyframes banFloat{0%,100%{transform:translateY(0px)}50%{transform:translateY(-8px)}}
@@ -426,8 +426,7 @@ body{background:#030108;color:#fff;font-family:'Space Grotesk',sans-serif;min-he
 <button onclick="navSwitch('support')" id="nav-support" class="nav-btn"><span class="nav-icon">💬</span> Support</button>
 </div>
 
-<!-- PART 2 JS -->
-  <script>
+<script>
 const BACKEND_URL="https://sfn-backend.onrender.com";
 const tg=window.Telegram?.WebApp;
 const tgUser=tg?.initDataUnsafe?.user;
@@ -461,16 +460,18 @@ let serverUnclaimed=0,lastServerSync=Date.now(),localUnclaimed=0;
 let currentDepNetwork='BEP20',currentWdNetwork="BNB Smart Chain (BEP20)";
 let userCreatedAt=null,isAppVisible=true;
 
+// ⭐ Names now MATCH networksList exactly
 const networkData={
 BEP20:{name:'BNB Smart Chain (BEP20)',address:'0x9dd6863ef3b2005131f78be8df916844f21c0737'},
 ERC20:{name:'Ethereum (ERC20)',address:'0x9dd6863ef3b2005131f78be8df916844f21c0737'},
-POL:{name:'Polygon Network',address:'0x9dd6863ef3b2005131f78be8df916844f21c0737'},
+POL:{name:'Polygon (POL)',address:'0x9dd6863ef3b2005131f78be8df916844f21c0737'},
 TRC20:{name:'TRON (TRC20)',address:'TF89gLmZKvcRGBgUoiHTu3xjUn3uC8pyEd'},
-SOL:{name:'Solana Network',address:'5oyoF1SQq6fYgZUTaaHit457hpW2CJwcjH1e76Nhs1Jp'},
+SOL:{name:'Solana (SOL)',address:'5oyoF1SQq6fYgZUTaaHit457hpW2CJwcjH1e76Nhs1Jp'},
 TON:{name:'TON Network',address:'UQDO-DM0d14Uh-q1D_ze3SqRDj2AbBlI1YL2UQMlp2N16Tf5'}};
 const networksList=["BNB Smart Chain (BEP20)","Solana (SOL)","Polygon (POL)","TON Network","TRON (TRC20)","Ethereum (ERC20)"];
 
-function loadCache(){try{const c=JSON.parse(localStorage.getItem('sfn_cache')||'{}');if(c.balance!==undefined){balance=c.balance||0;referCount=c.referCount||0;referEarnings=c.referEarnings||0;extraSpins=c.extraSpins||0;serverUnclaimed=c.serverUnclaimed||0;if(c.lastSyncTime)lastServerSync=c.lastSyncTime;updateBalanceUI();updateNFTUI();updateMiningUI()}}catch(e){}}
+// ⭐ Fixed: lastServerSync=now so mining starts from cached value
+function loadCache(){try{const c=JSON.parse(localStorage.getItem('sfn_cache')||'{}');if(c.balance!==undefined){balance=c.balance||0;referCount=c.referCount||0;referEarnings=c.referEarnings||0;extraSpins=c.extraSpins||0;serverUnclaimed=c.serverUnclaimed||0;lastServerSync=Date.now();updateBalanceUI();updateNFTUI()}}catch(e){}}
 function saveCache(){try{localStorage.setItem('sfn_cache',JSON.stringify({balance,referCount,referEarnings,extraSpins,serverUnclaimed,lastSyncTime:Date.now()}))}catch(e){}}
 
 document.addEventListener('visibilitychange',()=>{
@@ -537,9 +538,7 @@ function verifyAndUnlock(){if(!userTGID){document.getElementById('verifyStatus')
 
 function updateVerifyBadge(isVerified){const wrapper=document.getElementById('verify-badge-wrapper');const badge=document.getElementById('verify-badge');if(!badge)return;if(isVerified){wrapper.className='badge-verified';badge.innerText="✅ VERIFIED"}else{wrapper.className='badge-unverified';badge.innerText="⚠️ UNVERIFIED"}}
 
-// DEPOSIT STEP SYSTEM
 let networkModalMode='withdraw';
-
 function openDepNetworkModal(){networkModalMode='deposit';const listEl=document.getElementById('network-options-list');const currentName=networkData[currentDepNetwork].name;let html='';networksList.forEach(net=>{const isSelected=net===currentName;html+=`<div onclick="selectNetworkFromModal('${net}')" style="padding:11px 13px;background:${isSelected?'rgba(0,255,135,.1)':'rgba(0,0,0,.5)'};border-radius:11px;border:1px solid ${isSelected?'rgba(0,255,135,.5)':'rgba(255,255,255,.08)'};display:flex;align-items:center;justify-content:space-between;cursor:pointer"><span style="font-size:10px;font-weight:800;color:${isSelected?'#00ff87':'#fff'}">${net}</span><span style="width:16px;height:16px;border-radius:50%;border:1.5px solid ${isSelected?'#00ff87':'#6b7280'};background:${isSelected?'#00ff87':'transparent'};display:flex;align-items:center;justify-content:center;font-size:10px;color:#000;font-weight:900">${isSelected?'✓':''}</span></div>`});listEl.innerHTML=html;document.getElementById('network-modal').classList.add('show')}
 
 function selectNetworkFromModal(net){if(networkModalMode==='deposit'){for(const[key,val]of Object.entries(networkData)){if(val.name===net){currentDepNetwork=key;document.getElementById('dep-network-selected').innerText=val.name;break}}}else{currentWdNetwork=net;document.getElementById('wd-network-selected').innerText=net}closeNetworkModal();networkModalMode='withdraw'}
@@ -578,35 +577,37 @@ function closeNftBuyModal(){const modal=document.getElementById('nft-buy-modal')
 function proceedNftBuy(){const name=document.getElementById('nft-buy-name').innerText;const price=parseFloat(document.getElementById('nft-buy-amount').value);if(!price||price<0.5){showPremiumToast('Invalid amount','⚠️','red');return}closeNftBuyModal();navSwitch('wallet');switchWallet('deposit');setTimeout(()=>{const amountEl=document.getElementById('dep-amount');const txidEl=document.getElementById('dep-txid');if(amountEl)amountEl.value=price;if(txidEl){txidEl.placeholder='Paste TXID for '+name;txidEl.focus()}showPremiumToast('Deposit $'+price+' then submit TXID','💳','gold')},400)}
 
 window.addEventListener('DOMContentLoaded',async()=>{
-initParticles();
-drawWheel();
-loadCache();
-
-const wasVerified=localStorage.getItem('sfn_verified')==='true';
-const savedTGID=localStorage.getItem('sfn_tg_id');
-if(wasVerified&&savedTGID===userTGID){
-const gate=document.getElementById('channel-gate');if(gate){gate.classList.remove('show');gate.style.display='none'}
-const app=document.getElementById('app-content');if(app)app.style.display='block';
-updateVerifyBadge(true);
-}else{
-const gate=document.getElementById('channel-gate');if(gate){gate.classList.add('show');gate.style.display='flex'}
-const app=document.getElementById('app-content');if(app)app.style.display='none';
-}
-
-setTimeout(()=>{const s=document.getElementById('splash-screen');if(s&&!s.classList.contains('hidden')){s.style.opacity='0';setTimeout(()=>s.classList.add('hidden'),300)}},5000);
-
-try{
-await syncUser();
-await loadUserData();
-checkCooldowns();
-saveCache();
-}catch(e){console.error('Load error:',e)}
-
-setInterval(syncMiningFromServer,15000);
-setInterval(updateMiningUI,1500);
-updateMiningUI();
-setInterval(checkCooldowns,2000);
-setInterval(checkBanStatus,90000);
+    initParticles();
+    drawWheel();
+    loadCache();
+    
+    // ⭐⭐ INSTANT mining start — call updateMiningUI right away
+    updateMiningUI();
+    setInterval(updateMiningUI, 1500); // start interval immediately
+    
+    const wasVerified=localStorage.getItem('sfn_verified')==='true';
+    const savedTGID=localStorage.getItem('sfn_tg_id');
+    if(wasVerified&&savedTGID===userTGID){
+        const gate=document.getElementById('channel-gate');if(gate){gate.classList.remove('show');gate.style.display='none'}
+        const app=document.getElementById('app-content');if(app)app.style.display='block';
+        updateVerifyBadge(true);
+    }else{
+        const gate=document.getElementById('channel-gate');if(gate){gate.classList.add('show');gate.style.display='flex'}
+        const app=document.getElementById('app-content');if(app)app.style.display='none';
+    }
+    
+    setTimeout(()=>{const s=document.getElementById('splash-screen');if(s&&!s.classList.contains('hidden')){s.style.opacity='0';setTimeout(()=>s.classList.add('hidden'),300)}},5000);
+    
+    try{
+        await syncUser();
+        await loadUserData();
+        checkCooldowns();
+        saveCache();
+    }catch(e){console.error('Load error:',e)}
+    
+    setInterval(syncMiningFromServer,15000);
+    setInterval(checkCooldowns,2000);
+    setInterval(checkBanStatus,90000);
 });
 </script>
 </body>
