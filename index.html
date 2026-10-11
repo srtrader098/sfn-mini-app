@@ -35,10 +35,10 @@ body{background:#030108;color:#fff;font-family:'Space Grotesk',sans-serif;min-he
 #splash-screen{position:fixed;inset:0;background:#030108;z-index:200;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;transition:opacity .5s}
 #splash-screen.hidden{display:none}
 .splash-logo-wrap{position:relative;width:140px;height:140px;margin-bottom:22px}
-.splash-logo-glow{position:absolute;top:calc(50% - 58px);left:calc(50% - 58px);width:116px;height:116px;background:radial-gradient(circle,rgba(139,92,246,.5),transparent 60%);border-radius:50%;filter:blur(16px);pointer-events:none;animation:splashGlow 2.5s infinite ease-in-out}
-.splash-logo-ring{position:absolute;top:calc(50% - 60px);left:calc(50% - 60px);width:120px;height:120px;border-radius:50%;border:1.5px dashed rgba(0,255,135,.6);pointer-events:none;animation:splashRotate 20s linear infinite}
-.splash-logo-ring-2{position:absolute;top:calc(50% - 67px);left:calc(50% - 67px);width:134px;height:134px;border-radius:50%;border:1px dashed rgba(139,92,246,.35);pointer-events:none;animation:splashRotate 30s linear infinite reverse}
-.splash-logo-img{position:absolute;top:calc(50% - 57px);left:calc(50% - 57px);width:114px;height:114px;object-fit:contain;mix-blend-mode:screen;z-index:10;filter:drop-shadow(0 0 18px rgba(0,255,135,.85))}
+.splash-logo-glow{position:absolute;top:calc(50% - 55px);left:calc(50% - 55px);width:110px;height:110px;background:radial-gradient(circle,rgba(139,92,246,.5),transparent 60%);border-radius:50%;filter:blur(16px);pointer-events:none;animation:splashGlow 2.5s infinite ease-in-out}
+.splash-logo-ring{position:absolute;top:calc(50% - 54px);left:calc(50% - 54px);width:108px;height:108px;border-radius:50%;border:1.5px dashed rgba(0,255,135,.65);pointer-events:none;animation:splashRotate 20s linear infinite}
+.splash-logo-ring-2{position:absolute;top:calc(50% - 58px);left:calc(50% - 58px);width:116px;height:116px;border-radius:50%;border:1px dashed rgba(139,92,246,.4);pointer-events:none;animation:splashRotate 30s linear infinite reverse}
+.splash-logo-img{position:absolute;top:calc(50% - 52px);left:calc(50% - 52px);width:104px;height:104px;object-fit:contain;mix-blend-mode:screen;z-index:10;filter:drop-shadow(0 0 18px rgba(0,255,135,.85))}
 @keyframes banPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
 @keyframes banRingSpin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
 @keyframes banFloat{0%,100%{transform:translateY(0px)}50%{transform:translateY(-8px)}}
@@ -109,8 +109,8 @@ body{background:#030108;color:#fff;font-family:'Space Grotesk',sans-serif;min-he
 @keyframes slideUpModal{from{transform:translate3d(0,100%,0)}to{transform:translate3d(0,0,0)}}
 .progress-bar{height:5px;border-radius:3px;background:rgba(255,255,255,.08);overflow:hidden}
 .progress-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,#00ff87 0%,#22d3ee 100%);box-shadow:0 0 10px rgba(0,255,135,.6);transition:width .5s ease}
-@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
 .skeleton{background:linear-gradient(90deg,rgba(255,255,255,.06) 25%,rgba(139,92,246,.15) 50%,rgba(255,255,255,.06) 75%);background-size:200% 100%;animation:shimmer 1.5s infinite;border-radius:6px;color:transparent !important}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
 #confetti-canvas{position:fixed;inset:0;pointer-events:none;z-index:500}
 .badge-verified{background:linear-gradient(135deg,rgba(0,255,135,.15),rgba(6,182,212,.15));border:1px solid rgba(0,255,135,.5);color:#00ff87}
 .badge-unverified{background:linear-gradient(135deg,rgba(251,191,36,.15),rgba(217,119,6,.15));border:1px solid rgba(251,191,36,.5);color:#fbbf24}
@@ -345,41 +345,26 @@ body{background:#030108;color:#fff;font-family:'Space Grotesk',sans-serif;min-he
 
 <div id="tab-wallet" class="tab-content" style="display:none;flex-direction:column;gap:10px">
 <div class="glass" style="padding:3px;display:flex;gap:3px"><button id="w-btn-deposit" class="sub-tab active" onclick="switchWallet('deposit')">💳 DEPOSIT</button><button id="w-btn-withdraw" class="sub-tab" onclick="switchWallet('withdraw')">💸 WITHDRAW</button><button id="w-btn-history" class="sub-tab" onclick="switchWallet('history')">📜 HISTORY</button></div>
-
-<!-- DEPOSIT STEP 1 -->
 <div id="w-sec-deposit" style="display:flex;flex-direction:column;gap:10px">
 <div id="dep-step-1" style="display:flex;flex-direction:column;gap:10px">
 <div class="glass glass-violet" style="padding:12px">
 <label class="mono" style="font-size:8px;color:#a78bfa;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;display:block;margin-bottom:7px">STEP 1 · SELECT NETWORK</label>
-<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:5px">
-<div id="net-BEP20" class="net-card active" onclick="selectDepNetwork('BEP20')"><p style="font-size:10px;font-weight:900;color:#fff">BEP20</p><p class="mono" style="font-size:7px;color:#00ff87;margin-top:1px">BSC</p></div>
-<div id="net-TRC20" class="net-card" onclick="selectDepNetwork('TRC20')"><p style="font-size:10px;font-weight:900;color:#fff">TRC20</p><p class="mono" style="font-size:7px;color:#6b7280;margin-top:1px">TRON</p></div>
-<div id="net-ERC20" class="net-card" onclick="selectDepNetwork('ERC20')"><p style="font-size:10px;font-weight:900;color:#fff">ERC20</p><p class="mono" style="font-size:7px;color:#6b7280;margin-top:1px">ETH</p></div>
-<div id="net-POL" class="net-card" onclick="selectDepNetwork('POL')"><p style="font-size:10px;font-weight:900;color:#fff">POL</p><p class="mono" style="font-size:7px;color:#6b7280;margin-top:1px">POLY</p></div>
-<div id="net-SOL" class="net-card" onclick="selectDepNetwork('SOL')"><p style="font-size:10px;font-weight:900;color:#fff">SOL</p><p class="mono" style="font-size:7px;color:#6b7280;margin-top:1px">SOLANA</p></div>
-<div id="net-TON" class="net-card" onclick="selectDepNetwork('TON')"><p style="font-size:10px;font-weight:900;color:#fff">TON</p><p class="mono" style="font-size:7px;color:#6b7280;margin-top:1px">TON</p></div>
+<div onclick="openDepNetworkModal()" style="display:flex;align-items:center;justify-content:space-between;background:rgba(0,0,0,.6);padding:11px;border-radius:9px;border:1px solid rgba(139,92,246,.3);cursor:pointer">
+<span id="dep-network-selected" style="font-size:11px;color:#fff;font-weight:700">BNB Smart Chain (BEP20)</span>
+<span style="color:#a78bfa;font-weight:800">▼</span>
 </div>
 </div>
-<div class="glass" style="padding:9px 11px"><div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:9px;color:#9ca3af">Selected:</span><span class="mono" id="network-full-name" style="font-size:9px;color:#00ff87;font-weight:800">BNB Smart Chain</span></div></div>
 <div class="glass glass-emerald" style="padding:12px">
 <label class="mono" style="font-size:8px;color:#00ff87;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;display:block;margin-bottom:7px">STEP 2 · ENTER AMOUNT</label>
 <input type="number" id="dep-amount" placeholder="Deposit Amount ($) · Min $0.50" class="input-premium">
 </div>
 <button onclick="proceedToPayment()" class="btn-premium" style="width:100%;padding:14px;border-radius:14px;font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:1.2px">✦ PROCEED TO PAYMENT ✦</button>
 </div>
-
-<!-- DEPOSIT STEP 2 -->
 <div id="dep-step-2" style="display:none;flex-direction:column;gap:10px">
 <button onclick="backToDepStep1()" style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:#9ca3af;padding:9px 14px;border-radius:11px;font-size:10px;font-weight:800;text-transform:uppercase;cursor:pointer;text-align:left;width:fit-content">← Back</button>
 <div class="glass glass-violet" style="padding:12px">
-<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
-<span style="font-size:9px;color:#9ca3af">Network:</span>
-<span id="dep-step2-network" class="mono" style="font-size:9px;color:#00ff87;font-weight:800">BNB Smart Chain</span>
-</div>
-<div style="display:flex;justify-content:space-between;align-items:center">
-<span style="font-size:9px;color:#9ca3af">Amount:</span>
-<span id="dep-step2-amount" class="mono" style="font-size:11px;color:#00ff87;font-weight:900">$0.00</span>
-</div>
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px"><span style="font-size:9px;color:#9ca3af">Network:</span><span id="dep-step2-network" class="mono" style="font-size:9px;color:#00ff87;font-weight:800">BNB Smart Chain</span></div>
+<div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:9px;color:#9ca3af">Amount:</span><span id="dep-step2-amount" class="mono" style="font-size:11px;color:#00ff87;font-weight:900">$0.00</span></div>
 </div>
 <div class="glass glass-emerald" style="padding:12px;text-align:center">
 <p class="mono" style="font-size:8px;color:#00ff87;font-weight:800;letter-spacing:1.2px;margin-bottom:10px">📷 SCAN QR OR COPY ADDRESS</p>
@@ -412,7 +397,6 @@ body{background:#030108;color:#fff;font-family:'Space Grotesk',sans-serif;min-he
 <button onclick="submitDeposit()" class="btn-premium" style="width:100%;padding:14px;border-radius:14px;font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:1.2px">✦ SUBMIT DEPOSIT ✦</button>
 </div>
 </div>
-
 <div id="w-sec-withdraw" style="display:none;flex-direction:column;gap:10px">
 <div id="withdraw-lock-banner" class="lock-banner"><div style="display:flex;align-items:center;gap:9px"><span style="font-size:18px" id="lock-icon">🔒</span><div style="flex:1"><p id="lock-title" style="font-size:10px;font-weight:800;color:#fbbf24;margin-bottom:2px">Withdraw Locked</p><p id="lock-subtitle" class="mono" style="font-size:8px;color:#d1d5db">Complete 5 referrals to unlock</p></div></div><div class="progress-bar" style="margin-top:9px"><div class="progress-fill" id="lock-progress" style="width:0%"></div></div></div>
 <div class="glass" style="padding:10px"><label class="mono" style="font-size:8px;color:#a78bfa;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;display:block;margin-bottom:5px">SELECT NETWORK</label><div onclick="openNetworkModal()" style="display:flex;align-items:center;justify-content:space-between;background:rgba(0,0,0,.6);padding:10px;border-radius:9px;border:1px solid rgba(139,92,246,.3);cursor:pointer"><span id="wd-network-selected" style="font-size:10px;color:#fff">BNB Smart Chain (BEP20)</span><span style="color:#a78bfa;font-weight:800">▼</span></div></div>
@@ -421,7 +405,6 @@ body{background:#030108;color:#fff;font-family:'Space Grotesk',sans-serif;min-he
 <div class="glass" style="padding:10px;background:rgba(139,92,246,.05)"><p class="mono" style="font-size:8px;color:#a78bfa;font-weight:800;margin-bottom:4px">🔒 PAYOUT RULES</p><p style="font-size:9px;color:#d1d5db;line-height:1.4">Min: $0.30. Unlock: 5 ref = 7d · 10 ref = 3d · 20 ref = instant.</p></div>
 <button onclick="submitWithdraw()" class="btn-premium btn-violet" style="width:100%;padding:12px;border-radius:12px;font-size:10px;text-transform:uppercase;letter-spacing:1.2px">✦ REQUEST WITHDRAWAL ✦</button>
 </div>
-
 <div id="w-sec-history" style="display:none"><div class="glass" style="padding:12px"><h4 class="mono" style="font-size:9px;color:#a78bfa;font-weight:800;letter-spacing:1.5px;margin-bottom:10px">📜 TRANSACTION HISTORY</h4><div id="transaction-history-list" style="display:flex;flex-direction:column;gap:5px;max-height:340px;overflow-y:auto"></div></div></div>
 </div>
 
@@ -443,7 +426,8 @@ body{background:#030108;color:#fff;font-family:'Space Grotesk',sans-serif;min-he
 <button onclick="navSwitch('support')" id="nav-support" class="nav-btn"><span class="nav-icon">💬</span> Support</button>
 </div>
 
-<script>
+<!-- PART 2 JS -->
+  <script>
 const BACKEND_URL="https://sfn-backend.onrender.com";
 const tg=window.Telegram?.WebApp;
 const tgUser=tg?.initDataUnsafe?.user;
@@ -486,8 +470,8 @@ SOL:{name:'Solana Network',address:'5oyoF1SQq6fYgZUTaaHit457hpW2CJwcjH1e76Nhs1Jp
 TON:{name:'TON Network',address:'UQDO-DM0d14Uh-q1D_ze3SqRDj2AbBlI1YL2UQMlp2N16Tf5'}};
 const networksList=["BNB Smart Chain (BEP20)","Solana (SOL)","Polygon (POL)","TON Network","TRON (TRC20)","Ethereum (ERC20)"];
 
-function loadCache(){try{const c=JSON.parse(localStorage.getItem('sfn_cache')||'{}');if(c.balance!==undefined){balance=c.balance||0;referCount=c.referCount||0;referEarnings=c.referEarnings||0;extraSpins=c.extraSpins||0;updateBalanceUI();updateNFTUI()}}catch(e){}}
-function saveCache(){try{localStorage.setItem('sfn_cache',JSON.stringify({balance,referCount,referEarnings,extraSpins}))}catch(e){}}
+function loadCache(){try{const c=JSON.parse(localStorage.getItem('sfn_cache')||'{}');if(c.balance!==undefined){balance=c.balance||0;referCount=c.referCount||0;referEarnings=c.referEarnings||0;extraSpins=c.extraSpins||0;serverUnclaimed=c.serverUnclaimed||0;if(c.lastSyncTime)lastServerSync=c.lastSyncTime;updateBalanceUI();updateNFTUI();updateMiningUI()}}catch(e){}}
+function saveCache(){try{localStorage.setItem('sfn_cache',JSON.stringify({balance,referCount,referEarnings,extraSpins,serverUnclaimed,lastSyncTime:Date.now()}))}catch(e){}}
 
 document.addEventListener('visibilitychange',()=>{
 isAppVisible=!document.hidden;
@@ -525,7 +509,7 @@ function updateNFTUI(){const speed=activeNFT.speed||500;const dr=document.getEle
 function updateWithdrawLockUI(){const banner=document.getElementById('withdraw-lock-banner');const icon=document.getElementById('lock-icon');const title=document.getElementById('lock-title');const sub=document.getElementById('lock-subtitle');const prog=document.getElementById('lock-progress');if(!banner)return;let daysSinceJoin=0;if(userCreatedAt){const jd=new Date(userCreatedAt.replace(' ','T'));daysSinceJoin=Math.floor((Date.now()-jd.getTime())/(1000*60*60*24))}
 if(referCount>=20){banner.classList.add('unlocked');icon.innerText='⚡';title.innerText='Instant Withdraw Unlocked';title.style.color='#00ff87';sub.innerText='You have 20+ referrals!';prog.style.width='100%'}else if(referCount>=10){if(daysSinceJoin>=3){banner.classList.add('unlocked');icon.innerText='✅';title.innerText='Withdraw Unlocked';title.style.color='#00ff87';sub.innerText='3-day wait complete';prog.style.width='100%'}else{banner.classList.remove('unlocked');icon.innerText='⏱️';title.innerText=`Unlocks in ${3-daysSinceJoin} days`;title.style.color='#22d3ee';sub.innerText='10+ referrals · 3-day wait';prog.style.width=`${(daysSinceJoin/3)*100}%`}}else if(referCount>=5){if(daysSinceJoin>=7){banner.classList.add('unlocked');icon.innerText='✅';title.innerText='Withdraw Unlocked';title.style.color='#00ff87';sub.innerText='7-day wait complete';prog.style.width='100%'}else{banner.classList.remove('unlocked');icon.innerText='⏱️';title.innerText=`Unlocks in ${7-daysSinceJoin} days`;title.style.color='#fbbf24';sub.innerText='5+ referrals · 7-day wait';prog.style.width=`${(daysSinceJoin/7)*100}%`}}else{banner.classList.remove('unlocked');icon.innerText='🔒';title.innerText='Withdraw Locked';title.style.color='#ef4444';sub.innerText=`Need ${5-referCount} more referrals`;prog.style.width=`${(referCount/5)*100}%`}}
 
-async function syncMiningFromServer(){if(!userTGID||isBannedServer||!isAppVisible)return;const data=await apiCall('/update_mining',{tg_id:userTGID});if(data.success){serverUnclaimed=data.unclaimed||0;lastServerSync=Date.now()}}
+async function syncMiningFromServer(){if(!userTGID||isBannedServer||!isAppVisible)return;const data=await apiCall('/update_mining',{tg_id:userTGID});if(data.success){serverUnclaimed=data.unclaimed||0;lastServerSync=Date.now();saveCache()}}
 
 function updateMiningUI(){if(!userTGID||isBannedServer||!isAppVisible)return;const now=Date.now();const elapsed=(now-lastServerSync)/1000;const perSec=(activeNFT.speed||500)/86400;localUnclaimed=serverUnclaimed+(perSec*elapsed);const el=document.getElementById('unclaimed-counter');if(el)el.innerText=`${localUnclaimed.toFixed(4)} SFN`}
 
@@ -554,26 +538,21 @@ function verifyAndUnlock(){if(!userTGID){document.getElementById('verifyStatus')
 function updateVerifyBadge(isVerified){const wrapper=document.getElementById('verify-badge-wrapper');const badge=document.getElementById('verify-badge');if(!badge)return;if(isVerified){wrapper.className='badge-verified';badge.innerText="✅ VERIFIED"}else{wrapper.className='badge-unverified';badge.innerText="⚠️ UNVERIFIED"}}
 
 // DEPOSIT STEP SYSTEM
-function proceedToPayment(){const amount=parseFloat(document.getElementById('dep-amount').value);if(!amount||amount<0.5){showPremiumToast('Minimum: $0.50','⚠️','red');return}
-const net=networkData[currentDepNetwork];
-document.getElementById('dep-step2-network').innerText=net.name;
-document.getElementById('dep-step2-amount').innerText='$'+amount.toFixed(2);
-document.getElementById('admin-deposit-address').value=net.address;
-document.getElementById('qr-code-img').src=`https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(net.address)}&ecc=H`;
-document.getElementById('dep-step-1').style.display='none';
-document.getElementById('dep-step-2').style.display='flex';
-window.scrollTo({top:0,behavior:'smooth'})}
+let networkModalMode='withdraw';
+
+function openDepNetworkModal(){networkModalMode='deposit';const listEl=document.getElementById('network-options-list');const currentName=networkData[currentDepNetwork].name;let html='';networksList.forEach(net=>{const isSelected=net===currentName;html+=`<div onclick="selectNetworkFromModal('${net}')" style="padding:11px 13px;background:${isSelected?'rgba(0,255,135,.1)':'rgba(0,0,0,.5)'};border-radius:11px;border:1px solid ${isSelected?'rgba(0,255,135,.5)':'rgba(255,255,255,.08)'};display:flex;align-items:center;justify-content:space-between;cursor:pointer"><span style="font-size:10px;font-weight:800;color:${isSelected?'#00ff87':'#fff'}">${net}</span><span style="width:16px;height:16px;border-radius:50%;border:1.5px solid ${isSelected?'#00ff87':'#6b7280'};background:${isSelected?'#00ff87':'transparent'};display:flex;align-items:center;justify-content:center;font-size:10px;color:#000;font-weight:900">${isSelected?'✓':''}</span></div>`});listEl.innerHTML=html;document.getElementById('network-modal').classList.add('show')}
+
+function selectNetworkFromModal(net){if(networkModalMode==='deposit'){for(const[key,val]of Object.entries(networkData)){if(val.name===net){currentDepNetwork=key;document.getElementById('dep-network-selected').innerText=val.name;break}}}else{currentWdNetwork=net;document.getElementById('wd-network-selected').innerText=net}closeNetworkModal();networkModalMode='withdraw'}
+
+function proceedToPayment(){const amount=parseFloat(document.getElementById('dep-amount').value);if(!amount||amount<0.5){showPremiumToast('Minimum: $0.50','⚠️','red');return}const net=networkData[currentDepNetwork];document.getElementById('dep-step2-network').innerText=net.name;document.getElementById('dep-step2-amount').innerText='$'+amount.toFixed(2);document.getElementById('admin-deposit-address').value=net.address;document.getElementById('qr-code-img').src=`https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(net.address)}&ecc=H`;document.getElementById('dep-step-1').style.display='none';document.getElementById('dep-step-2').style.display='flex';window.scrollTo({top:0,behavior:'smooth'})}
 
 function backToDepStep1(){document.getElementById('dep-step-2').style.display='none';document.getElementById('dep-step-1').style.display='flex'}
 
-function selectDepNetwork(key){const net=networkData[key];currentDepNetwork=key;['BEP20','TRC20','ERC20','POL','SOL','TON'].forEach(k=>{const btn=document.getElementById('net-'+k);if(btn)btn.classList.remove('active')});const activeBtn=document.getElementById('net-'+key);if(activeBtn)activeBtn.classList.add('active');const nfn=document.getElementById('network-full-name');if(nfn)nfn.innerText=net.name}
-
 function copyAdminAddress(){const addr=document.getElementById('admin-deposit-address').value;navigator.clipboard.writeText(addr).then(()=>{const el=document.getElementById('copy-status');el.style.opacity='1';setTimeout(()=>el.style.opacity='0',2000)})}
 
-function openNetworkModal(){const listEl=document.getElementById('network-options-list');let html='';networksList.forEach(net=>{const isSelected=net===currentWdNetwork;html+=`<div onclick="selectWdNetwork('${net}')" style="padding:11px 13px;background:${isSelected?'rgba(0,255,135,.1)':'rgba(0,0,0,.5)'};border-radius:11px;border:1px solid ${isSelected?'rgba(0,255,135,.5)':'rgba(255,255,255,.08)'};display:flex;align-items:center;justify-content:space-between;cursor:pointer"><span style="font-size:10px;font-weight:800;color:${isSelected?'#00ff87':'#fff'}">${net}</span><span style="width:16px;height:16px;border-radius:50%;border:1.5px solid ${isSelected?'#00ff87':'#6b7280'};background:${isSelected?'#00ff87':'transparent'};display:flex;align-items:center;justify-content:center;font-size:10px;color:#000;font-weight:900">${isSelected?'✓':''}</span></div>`});listEl.innerHTML=html;document.getElementById('network-modal').classList.add('show')}
+function openNetworkModal(){networkModalMode='withdraw';const listEl=document.getElementById('network-options-list');let html='';networksList.forEach(net=>{const isSelected=net===currentWdNetwork;html+=`<div onclick="selectNetworkFromModal('${net}')" style="padding:11px 13px;background:${isSelected?'rgba(0,255,135,.1)':'rgba(0,0,0,.5)'};border-radius:11px;border:1px solid ${isSelected?'rgba(0,255,135,.5)':'rgba(255,255,255,.08)'};display:flex;align-items:center;justify-content:space-between;cursor:pointer"><span style="font-size:10px;font-weight:800;color:${isSelected?'#00ff87':'#fff'}">${net}</span><span style="width:16px;height:16px;border-radius:50%;border:1.5px solid ${isSelected?'#00ff87':'#6b7280'};background:${isSelected?'#00ff87':'transparent'};display:flex;align-items:center;justify-content:center;font-size:10px;color:#000;font-weight:900">${isSelected?'✓':''}</span></div>`});listEl.innerHTML=html;document.getElementById('network-modal').classList.add('show')}
 
 function closeNetworkModal(){document.getElementById('network-modal').classList.remove('show')}
-function selectWdNetwork(net){currentWdNetwork=net;document.getElementById('wd-network-selected').innerText=net;closeNetworkModal()}
 
 function navSwitch(tab){['claim','nft','spin','refer','wallet','support'].forEach(t=>{const el=document.getElementById(`tab-${t}`);if(el)el.style.display='none';const nav=document.getElementById(`nav-${t}`);if(nav)nav.classList.remove('nav-active')});const tabEl=document.getElementById(`tab-${tab}`);if(tabEl){if(tab==='claim'||tab==='nft'||tab==='spin'||tab==='refer'||tab==='wallet'){tabEl.style.display='flex'}else{tabEl.style.display='block'}}const navEl=document.getElementById(`nav-${tab}`);if(navEl)navEl.classList.add('nav-active');if(tab==='wallet')loadTransactions();if(tab==='refer')updateWithdrawLockUI()}
 
@@ -598,7 +577,6 @@ function closeNftBuyModal(){const modal=document.getElementById('nft-buy-modal')
 
 function proceedNftBuy(){const name=document.getElementById('nft-buy-name').innerText;const price=parseFloat(document.getElementById('nft-buy-amount').value);if(!price||price<0.5){showPremiumToast('Invalid amount','⚠️','red');return}closeNftBuyModal();navSwitch('wallet');switchWallet('deposit');setTimeout(()=>{const amountEl=document.getElementById('dep-amount');const txidEl=document.getElementById('dep-txid');if(amountEl)amountEl.value=price;if(txidEl){txidEl.placeholder='Paste TXID for '+name;txidEl.focus()}showPremiumToast('Deposit $'+price+' then submit TXID','💳','gold')},400)}
 
-// ═══ STARTUP ═══
 window.addEventListener('DOMContentLoaded',async()=>{
 initParticles();
 drawWheel();
