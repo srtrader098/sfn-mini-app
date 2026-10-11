@@ -415,7 +415,6 @@ body{background:#030108;color:#fff;font-family:'Space Grotesk',sans-serif;min-he
 <button onclick="navSwitch('wallet')" id="nav-wallet" class="nav-btn"><span class="nav-icon">💸</span> Wallet</button>
 <button onclick="navSwitch('support')" id="nav-support" class="nav-btn"><span class="nav-icon">💬</span> Support</button>
 </div>
-
 <script>
 const BACKEND_URL="https://sfn-backend.onrender.com";
 const tg=window.Telegram?.WebApp;
@@ -460,6 +459,12 @@ SOL:{name:'Solana (SOL)',address:'5oyoF1SQq6fYgZUTaaHit457hpW2CJwcjH1e76Nhs1Jp'}
 TON:{name:'TON Network',address:'UQDO-DM0d14Uh-q1D_ze3SqRDj2AbBlI1YL2UQMlp2N16Tf5'}};
 const networksList=["BNB Smart Chain (BEP20)","Solana (SOL)","Polygon (POL)","TON Network","TRON (TRC20)","Ethereum (ERC20)"];
 
+function clearAllLocalData(){
+    localStorage.removeItem('sfn_verified');
+    localStorage.removeItem('sfn_cache');
+    // Keep userTGID/userUID so we still know who they are
+}
+
 function loadCache(){try{const c=JSON.parse(localStorage.getItem('sfn_cache')||'{}');if(c.balance!==undefined){balance=c.balance||0;referCount=c.referCount||0;referEarnings=c.referEarnings||0;extraSpins=c.extraSpins||0;serverUnclaimed=c.serverUnclaimed||0;maxUnclaimedSeen=c.serverUnclaimed||0;lastServerSync=Date.now();updateBalanceUI();updateNFTUI()}}catch(e){}}
 function saveCache(){try{localStorage.setItem('sfn_cache',JSON.stringify({balance,referCount,referEarnings,extraSpins,serverUnclaimed,lastSyncTime:Date.now()}))}catch(e){}}
 
@@ -483,15 +488,45 @@ function fireConfetti(palette='emerald'){if(confettiActive)return;confettiActive
 
 async function apiCall(endpoint,data){try{const response=await fetch(`${BACKEND_URL}${endpoint}`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});const json=await response.json();if(response.status===403&&json.banned){showBanScreen();return json}return json}catch(err){return{success:false,error:'Network error'}}}
 
-async function syncUser(){if(!userTGID)return;await apiCall('/sync_user',{tg_id:userTGID,first_name:tgUser?.first_name||'',last_name:tgUser?.last_name||'',username:tgUser?.username||'',photo_url:tgUser?.photo_url||''})}
+async function syncUser(){if(!userTGID)return;const r=await apiCall('/sync_user',{tg_id:userTGID,first_name:tgUser?.first_name||'',last_name:tgUser?.last_name||'',username:tgUser?.username||'',photo_url:tgUser?.photo_url||''});return r}
 
-async function loadUserData(){if(!userTGID)return;const data=await apiCall('/get_user_data',{tg_id:userTGID});if(data.banned)return;if(data.success){const u=data.user;balance=u.balance||0;
-const serverVal=data.unclaimed||0;
-if(serverVal>=maxUnclaimedSeen){serverUnclaimed=serverVal;maxUnclaimedSeen=serverVal}
-lastServerSync=Date.now();localUnclaimed=serverUnclaimed;referCount=u.refer_count||0;referEarnings=u.refer_earnings||0;extraSpins=u.extra_spins||0;serverLastCheckin=u.last_checkin;serverLastSpin=u.last_spin;isVerifiedServer=u.verified||false;userCreatedAt=u.created_at;
-if(u.active_nft&&u.active_nft!=='SFN Free Miner'){activeNFT={name:u.active_nft,speed:u.mining_speed||500,expiresAt:u.nft_expiry?new Date(u.nft_expiry).getTime():null,isFree:false}}else{activeNFT={name:'SFN Free Miner',speed:500,expiresAt:null,isFree:true}}
-if(isVerifiedServer){localStorage.setItem('sfn_verified','true');localStorage.setItem('sfn_tg_id',userTGID);updateVerifyBadge(true);const g=document.getElementById('channel-gate');if(g){g.classList.remove('show');g.style.display='none'}const a=document.getElementById('app-content');if(a)a.style.display='block'}else{const wasV=localStorage.getItem('sfn_verified')==='true';if(wasV){updateVerifyBadge(true);const g=document.getElementById('channel-gate');if(g){g.classList.remove('show');g.style.display='none'}const a=document.getElementById('app-content');if(a)a.style.display='block'}else{updateVerifyBadge(false)}}
-updateBalanceUI();updateNFTUI();updateWithdrawLockUI();checkCooldowns();saveCache()}}
+async function loadUserData(){
+    if(!userTGID)return;
+    const data=await apiCall('/get_user_data',{tg_id:userTGID});
+    if(data.banned)return;
+    
+    // ⭐⭐ CRITICAL FIX: If user not found (deleted from admin), clear cache & show gate
+    if(!data.success && (data.error==="User not found" || data.error==="Missing tg_id")){
+        clearAllLocalData();
+        updateVerifyBadge(false);
+        const g=document.getElementById('channel-gate');
+        const a=document.getElementById('app-content');
+        if(g){g.classList.add('show');g.style.display='flex'}
+        if(a)a.style.display='none';
+        return;
+    }
+    
+    if(data.success){
+        const u=data.user;balance=u.balance||0;
+        const serverVal=data.unclaimed||0;
+        if(serverVal>=maxUnclaimedSeen){serverUnclaimed=serverVal;maxUnclaimedSeen=serverVal}
+        lastServerSync=Date.now();localUnclaimed=serverUnclaimed;referCount=u.refer_count||0;referEarnings=u.refer_earnings||0;extraSpins=u.extra_spins||0;serverLastCheckin=u.last_checkin;serverLastSpin=u.last_spin;isVerifiedServer=u.verified||false;userCreatedAt=u.created_at;
+        if(u.active_nft&&u.active_nft!=='SFN Free Miner'){activeNFT={name:u.active_nft,speed:u.mining_speed||500,expiresAt:u.nft_expiry?new Date(u.nft_expiry).getTime():null,isFree:false}}else{activeNFT={name:'SFN Free Miner',speed:500,expiresAt:null,isFree:true}}
+        
+        const g=document.getElementById('channel-gate');
+        const a=document.getElementById('app-content');
+        if(isVerifiedServer){
+            localStorage.setItem('sfn_verified','true');localStorage.setItem('sfn_tg_id',userTGID);updateVerifyBadge(true);
+            if(g){g.classList.remove('show');g.style.display='none'}
+            if(a)a.style.display='block';
+        }else{
+            localStorage.removeItem('sfn_verified');updateVerifyBadge(false);
+            if(g){g.classList.add('show');g.style.display='flex'}
+            if(a)a.style.display='none';
+        }
+        updateBalanceUI();updateNFTUI();updateWithdrawLockUI();checkCooldowns();saveCache()
+    }
+}
 
 function updateBalanceUI(){const tb=document.getElementById('total-balance');if(tb){tb.classList.remove('skeleton');const oldVal=parseFloat(tb.innerText.replace(/,/g,''))||0;animateNumber(tb,oldVal,balance,500)}const uv=document.getElementById('usd-val');if(uv)uv.innerText=`$${(balance/10000).toFixed(4)} USD`;const rc=document.getElementById('ref-count');if(rc)rc.innerText=`${referCount}`;const re=document.getElementById('ref-earnings');if(re)re.innerText=`${referEarnings.toFixed(0)}`;const rpn=document.getElementById('ref-progress-num');if(rpn)rpn.innerText=referCount;const rpb=document.getElementById('ref-progress-bar');if(rpb)rpb.style.width=`${Math.min((referCount/20)*100,100)}%`;const esb=document.getElementById('extra-spin-badge');if(esb)esb.innerText=extraSpins}
 
@@ -571,19 +606,32 @@ function proceedNftBuy(){const name=document.getElementById('nft-buy-name').inne
 window.addEventListener('DOMContentLoaded',async()=>{
     initParticles();
     drawWheel();
+    
+    // ⭐ Clear cache if different user
+    const existingSavedTGID=localStorage.getItem('sfn_tg_id');
+    if(existingSavedTGID && userTGID && existingSavedTGID !== userTGID){
+        clearAllLocalData();
+    }
+    
     loadCache();
     updateMiningUI();
     setInterval(updateMiningUI,1500);
     
     const wasVerified=localStorage.getItem('sfn_verified')==='true';
     const savedTGID=localStorage.getItem('sfn_tg_id');
-    if(wasVerified&&savedTGID===userTGID){
-        const gate=document.getElementById('channel-gate');if(gate){gate.classList.remove('show');gate.style.display='none'}
-        const app=document.getElementById('app-content');if(app)app.style.display='block';
+    const isSameUser = savedTGID && userTGID && savedTGID === userTGID;
+    
+    const gate=document.getElementById('channel-gate');
+    const app=document.getElementById('app-content');
+    
+    if(wasVerified && isSameUser){
+        if(gate){gate.classList.remove('show');gate.style.display='none'}
+        if(app)app.style.display='block';
         updateVerifyBadge(true);
     }else{
-        const gate=document.getElementById('channel-gate');if(gate){gate.classList.add('show');gate.style.display='flex'}
-        const app=document.getElementById('app-content');if(app)app.style.display='none';
+        if(gate){gate.classList.add('show');gate.style.display='flex'}
+        if(app)app.style.display='none';
+        updateVerifyBadge(false);
     }
     
     setTimeout(()=>{const s=document.getElementById('splash-screen');if(s&&!s.classList.contains('hidden')){s.style.opacity='0';setTimeout(()=>s.classList.add('hidden'),300)}},3000);
