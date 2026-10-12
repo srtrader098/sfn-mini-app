@@ -123,46 +123,46 @@ body{background:#030108;color:#fff;font-family:'Space Grotesk',sans-serif;min-he
 .skeleton{background:linear-gradient(90deg,rgba(255,255,255,.06) 25%,rgba(139,92,246,.15) 50%,rgba(255,255,255,.06) 75%);background-size:200% 100%;animation:shimmer 1.5s infinite;border-radius:8px;color:transparent!important}
 @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
 
-/* ⭐ PREMIUM TASK CARDS */
-.task-card{position:relative;background:linear-gradient(145deg,rgba(20,12,35,.95) 0%,rgba(10,6,20,.98) 100%);border-radius:18px;padding:16px;overflow:hidden;margin-bottom:12px;transition:transform .2s ease}
+/* ⭐ COMPACT PREMIUM TASK CARDS */
+.task-card{position:relative;background:linear-gradient(145deg,rgba(20,12,35,.95) 0%,rgba(10,6,20,.98) 100%);border-radius:14px;padding:12px;overflow:hidden;margin-bottom:8px;border:1px solid rgba(139,92,246,.25);transition:transform .15s ease}
 .task-card:active{transform:scale(.99)}
-.task-card.completed{opacity:.7}
-.task-glow{position:absolute;top:-40%;right:-30%;width:180px;height:180px;border-radius:50%;filter:blur(60px);pointer-events:none;opacity:.4}
-.task-glow.telegram{background:radial-gradient(circle,#0088cc,#229ED9)}
+.task-card.completed{opacity:.65}
+.task-glow{position:absolute;top:-30%;right:-20%;width:140px;height:140px;border-radius:50%;filter:blur(50px);pointer-events:none;opacity:.35}
+.task-glow.telegram{background:radial-gradient(circle,#229ED9,#0088cc)}
 .task-glow.youtube{background:radial-gradient(circle,#ff0000,#cc0000)}
-.task-glow.twitter{background:radial-gradient(circle,#1da1f2,#000000)}
+.task-glow.twitter{background:radial-gradient(circle,#1da1f2,#000)}
 .task-glow.facebook{background:radial-gradient(circle,#1877f2,#0a58ca)}
 .task-glow.instagram{background:radial-gradient(circle,#e1306c,#833ab4)}
 .task-glow.tiktok{background:radial-gradient(circle,#ff0050,#00f2ea)}
 .task-glow.discord{background:radial-gradient(circle,#5865f2,#404eed)}
 .task-glow.whatsapp{background:radial-gradient(circle,#25d366,#128c7e)}
 .task-glow.generic{background:radial-gradient(circle,#a855f7,#7c3aed)}
-.task-brand{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;position:relative;z-index:2;box-shadow:0 4px 15px rgba(0,0,0,.4)}
+.task-brand{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;position:relative;z-index:2}
 .task-brand.telegram{background:linear-gradient(135deg,#229ED9,#0088cc)}
 .task-brand.youtube{background:linear-gradient(135deg,#ff0000,#cc0000)}
-.task-brand.twitter{background:linear-gradient(135deg,#000000,#1da1f2)}
+.task-brand.twitter{background:linear-gradient(135deg,#000,#1da1f2)}
 .task-brand.facebook{background:linear-gradient(135deg,#1877f2,#0a58ca)}
 .task-brand.instagram{background:linear-gradient(135deg,#feda75,#fa7e1e,#d62976,#962fbf,#4f5bd5)}
-.task-brand.tiktok{background:linear-gradient(135deg,#000000,#ff0050)}
+.task-brand.tiktok{background:linear-gradient(135deg,#000,#ff0050)}
 .task-brand.discord{background:linear-gradient(135deg,#5865f2,#404eed)}
 .task-brand.whatsapp{background:linear-gradient(135deg,#25d366,#128c7e)}
 .task-brand.generic{background:linear-gradient(135deg,#a855f7,#7c3aed)}
-.task-brand svg{width:28px;height:28px;fill:#fff}
-.task-badge{padding:4px 10px;border-radius:8px;font-size:10px;font-weight:800;white-space:nowrap;letter-spacing:.3px}
-.task-badge.reward{background:linear-gradient(135deg,rgba(251,191,36,.15),rgba(217,119,6,.15));color:#fbbf24;border:1px solid rgba(251,191,36,.4)}
-.task-badge.done{background:linear-gradient(135deg,rgba(0,255,135,.15),rgba(5,150,105,.15));color:#00ff87;border:1px solid rgba(0,255,135,.4)}
-.task-btn{width:100%;padding:12px;border-radius:12px;font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:.8px;border:none;transition:transform .12s ease;position:relative;z-index:2}
+.task-brand svg{width:20px;height:20px;fill:#fff}
+.task-badge{padding:3px 8px;border-radius:6px;font-size:9px;font-weight:800;white-space:nowrap}
+.task-badge.reward{background:rgba(251,191,36,.15);color:#fbbf24;border:1px solid rgba(251,191,36,.4)}
+.task-badge.done{background:rgba(0,255,135,.15);color:#00ff87;border:1px solid rgba(0,255,135,.4)}
+.task-btn{width:100%;padding:9px;border-radius:10px;font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.5px;border:none;transition:transform .12s}
 .task-btn:active{transform:scale(.97)}
-.task-btn.telegram{background:linear-gradient(135deg,#229ED9,#0088cc);color:#fff;box-shadow:0 4px 16px rgba(34,158,217,.4)}
-.task-btn.youtube{background:linear-gradient(135deg,#ff0000,#cc0000);color:#fff;box-shadow:0 4px 16px rgba(255,0,0,.4)}
-.task-btn.twitter{background:linear-gradient(135deg,#000000,#1da1f2);color:#fff;box-shadow:0 4px 16px rgba(29,161,242,.4)}
-.task-btn.facebook{background:linear-gradient(135deg,#1877f2,#0a58ca);color:#fff;box-shadow:0 4px 16px rgba(24,119,242,.4)}
-.task-btn.instagram{background:linear-gradient(135deg,#feda75,#fa7e1e,#d62976,#962fbf,#4f5bd5);color:#fff;box-shadow:0 4px 16px rgba(214,41,118,.4)}
-.task-btn.tiktok{background:linear-gradient(135deg,#000000,#ff0050);color:#fff;box-shadow:0 4px 16px rgba(255,0,80,.4)}
-.task-btn.discord{background:linear-gradient(135deg,#5865f2,#404eed);color:#fff;box-shadow:0 4px 16px rgba(88,101,242,.4)}
-.task-btn.whatsapp{background:linear-gradient(135deg,#25d366,#128c7e);color:#fff;box-shadow:0 4px 16px rgba(37,211,102,.4)}
-.task-btn.generic{background:linear-gradient(135deg,#a855f7,#7c3aed);color:#fff;box-shadow:0 4px 16px rgba(168,85,247,.4)}
-.task-btn:disabled{background:rgba(255,255,255,.05);color:#6b7280;box-shadow:none;border:1px solid rgba(255,255,255,.08)}
+.task-btn.telegram{background:linear-gradient(135deg,#229ED9,#0088cc);color:#fff}
+.task-btn.youtube{background:linear-gradient(135deg,#ff0000,#cc0000);color:#fff}
+.task-btn.twitter{background:linear-gradient(135deg,#000,#1da1f2);color:#fff}
+.task-btn.facebook{background:linear-gradient(135deg,#1877f2,#0a58ca);color:#fff}
+.task-btn.instagram{background:linear-gradient(135deg,#feda75,#fa7e1e,#d62976,#962fbf,#4f5bd5);color:#fff}
+.task-btn.tiktok{background:linear-gradient(135deg,#000,#ff0050);color:#fff}
+.task-btn.discord{background:linear-gradient(135deg,#5865f2,#404eed);color:#fff}
+.task-btn.whatsapp{background:linear-gradient(135deg,#25d366,#128c7e);color:#fff}
+.task-btn.generic{background:linear-gradient(135deg,#a855f7,#7c3aed);color:#fff}
+.task-btn:disabled{background:rgba(255,255,255,.05);color:#6b7280;border:1px solid rgba(255,255,255,.08)}
 </style>
 </head>
 <body class="max-w-md mx-auto relative min-h-screen">
@@ -491,7 +491,6 @@ SOL:{name:'Solana (SOL)',address:'5oyoF1SQq6fYgZUTaaHit457hpW2CJwcjH1e76Nhs1Jp'}
 TON:{name:'TON Network',address:'UQDO-DM0d14Uh-q1D_ze3SqRDj2AbBlI1YL2UQMlp2N16Tf5'}};
 const networksList=["BNB Smart Chain (BEP20)","Solana (SOL)","Polygon (POL)","TON Network","TRON (TRC20)","Ethereum (ERC20)"];
 
-// ⭐ Brand SVGs
 const BRAND_SVGS = {
     telegram: '<svg viewBox="0 0 24 24"><path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z"/></svg>',
     youtube: '<svg viewBox="0 0 24 24"><path d="M23.5 6.19a3.02 3.02 0 0 0-2.12-2.14C19.5 3.55 12 3.55 12 3.55s-7.5 0-9.38.5A3.02 3.02 0 0 0 .5 6.19C0 8.07 0 12 0 12s0 3.93.5 5.81a3.02 3.02 0 0 0 2.12 2.14c1.88.5 9.38.5 9.38.5s7.5 0 9.38-.5a3.02 3.02 0 0 0 2.12-2.14C24 15.93 24 12 24 12s0-3.93-.5-5.81zM9.55 15.57V8.43L15.82 12l-6.27 3.57z"/></svg>',
@@ -507,7 +506,7 @@ const BRAND_SVGS = {
 function detectPlatform(link){
     if(!link) return 'generic';
     const l = link.toLowerCase();
-    if(l.includes('t.me')||l.includes('telegram')||l.includes('telegram.me')) return 'telegram';
+    if(l.includes('t.me')||l.includes('telegram')) return 'telegram';
     if(l.includes('youtube')||l.includes('youtu.be')) return 'youtube';
     if(l.includes('twitter')||l.includes('x.com')) return 'twitter';
     if(l.includes('facebook')||l.includes('fb.com')) return 'facebook';
@@ -622,18 +621,17 @@ if(extraSpins>0){spinBtn.innerText=`🎡 SPIN (${extraSpins})`;spinBtn.disabled=
 
 function switchSpin(type){document.getElementById('s-sec-spin').style.display='none';document.getElementById('s-sec-tasks').style.display='none';document.getElementById('s-btn-spin').classList.remove('active');document.getElementById('s-btn-tasks').classList.remove('active');if(type==='spin'){document.getElementById('s-sec-spin').style.display='flex';document.getElementById('s-btn-spin').classList.add('active')}else{document.getElementById('s-sec-tasks').style.display='flex';document.getElementById('s-btn-tasks').classList.add('active');loadSocialTasks()}}
 
-// ⭐ PREMIUM TASK CARDS
 async function loadSocialTasks(){
     const container=document.getElementById('tasks-container');
     if(!container)return;
-    container.innerHTML='<div class="skeleton" style="height:140px;margin-bottom:10px"></div><div class="skeleton" style="height:140px"></div>';
+    container.innerHTML='<div class="skeleton" style="height:100px;margin-bottom:8px"></div><div class="skeleton" style="height:100px"></div>';
     if(!userTGID){container.innerHTML='<p class="mono" style="text-align:center;font-size:10px;color:#6b7280;padding:20px">Please open from Telegram</p>';return}
     const r=await apiCall('/get_social_tasks',{tg_id:userTGID});
     if(!r.success||!r.tasks||r.tasks.length===0){
-        container.innerHTML=`<div class="glass" style="padding:28px 20px;text-align:center">
-            <div style="font-size:44px;margin-bottom:12px;opacity:.6">📭</div>
-            <p style="font-size:12px;color:#9ca3af;margin-bottom:4px;font-weight:700">No tasks available</p>
-            <p style="font-size:10px;color:#6b7280">New tasks will appear soon</p>
+        container.innerHTML=`<div class="glass" style="padding:24px 20px;text-align:center">
+            <div style="font-size:36px;margin-bottom:8px;opacity:.6">📭</div>
+            <p style="font-size:11px;color:#9ca3af;margin-bottom:4px;font-weight:700">No tasks available</p>
+            <p style="font-size:9px;color:#6b7280">New tasks will appear soon</p>
         </div>`;
         return;
     }
@@ -641,29 +639,24 @@ async function loadSocialTasks(){
         const platform = t.is_telegram ? 'telegram' : detectPlatform(t.link);
         const completed = t.completed;
         const brandName = getBrandName(platform);
-        const autoText = t.is_telegram ? '⚡ Auto-verify on join' : '✓ Instant reward on click';
-        const btnLabel = (t.button_text||'GO') + ' →';
+        const autoText = t.is_telegram ? '⚡ Auto-verify on join' : '✓ Instant reward';
         return `<div class="task-card${completed?' completed':''}">
             <div class="task-glow ${platform}"></div>
-            <div style="position:relative;z-index:2;display:flex;align-items:flex-start;gap:12px;margin-bottom:12px">
-                <div class="task-brand ${platform}">
-                    ${BRAND_SVGS[platform]||BRAND_SVGS.generic}
-                </div>
+            <div style="position:relative;z-index:2;display:flex;align-items:center;gap:10px;margin-bottom:8px">
+                <div class="task-brand ${platform}">${BRAND_SVGS[platform]||BRAND_SVGS.generic}</div>
                 <div style="flex:1;min-width:0">
-                    <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px">
-                        <span style="font-size:8px;font-weight:900;color:#a78bfa;letter-spacing:1.5px;background:rgba(139,92,246,.12);border:1px solid rgba(139,92,246,.3);padding:2px 7px;border-radius:6px">${brandName}</span>
+                    <div style="display:flex;align-items:center;gap:6px;margin-bottom:2px">
+                        <span style="font-size:8px;font-weight:900;color:#a78bfa;letter-spacing:1px;background:rgba(139,92,246,.12);border:1px solid rgba(139,92,246,.3);padding:1px 6px;border-radius:5px">${brandName}</span>
+                        <span style="font-size:8px;color:${t.is_telegram?'#00ff87':'#fbbf24'};font-weight:700">${autoText}</span>
                     </div>
-                    <p style="font-size:13px;font-weight:800;color:#fff;line-height:1.3;margin-bottom:4px">${t.title}</p>
-                    <p style="font-size:10px;color:#9ca3af;line-height:1.4">${t.description||''}</p>
+                    <p style="font-size:12px;font-weight:800;color:#fff;line-height:1.3;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${t.title}</p>
                 </div>
-                <div class="task-badge ${completed?'done':'reward'}">${completed?'✅ DONE':'+'+t.reward+' SFN'}</div>
+                <div class="task-badge ${completed?'done':'reward'}">${completed?'✅ DONE':'+'+t.reward}</div>
             </div>
-            <div style="position:relative;z-index:2;background:rgba(0,0,0,.3);padding:7px 10px;border-radius:8px;margin-bottom:10px">
-                <p class="mono" style="font-size:9px;color:${t.is_telegram?'#00ff87':'#fbbf24'};font-weight:700">${autoText}</p>
-            </div>
+            ${t.description?`<p style="position:relative;z-index:2;font-size:10px;color:#9ca3af;line-height:1.4;margin-bottom:8px">${t.description}</p>`:''}
             ${completed
-                ? `<button class="task-btn" disabled style="width:100%">✅ COMPLETED</button>`
-                : `<button onclick="doTask(${t.id},'${(t.link||'').replace(/'/g,"\\'")}',${t.is_telegram})" class="task-btn ${platform}">${btnLabel}</button>`
+                ? `<button class="task-btn" disabled>✅ COMPLETED</button>`
+                : `<button onclick="doTask(${t.id},'${(t.link||'').replace(/'/g,"\\'")}',${t.is_telegram})" class="task-btn ${platform}">${t.button_text||'GO'} →</button>`
             }
         </div>`;
     }).join('');
@@ -674,7 +667,7 @@ async function doTask(taskId,link,isTelegram){
         try{if(tg&&tg.openLink)tg.openLink(link);else window.open(link,'_blank')}catch(e){window.open(link,'_blank')}
     }
     if(isTelegram){
-        showPremiumToast('⏳ Verifying membership...','🔍','cyan');
+        showPremiumToast('⏳ Verifying...','🔍','cyan');
         setTimeout(async()=>{
             const r=await apiCall('/complete_task',{tg_id:userTGID,task_id:taskId});
             if(r.success){
@@ -684,7 +677,7 @@ async function doTask(taskId,link,isTelegram){
                 loadSocialTasks();
             }else{
                 if((r.error||'').toLowerCase().includes('join')){
-                    showPremiumToast('❌ Please join the channel first!','⚠️','red');
+                    showPremiumToast('❌ Join the channel first!','⚠️','red');
                 }else if((r.error||'').toLowerCase().includes('already')){
                     showPremiumToast('Already completed','⚠️','red');
                     loadSocialTasks();
@@ -708,7 +701,7 @@ async function doTask(taskId,link,isTelegram){
     }
 }
 
-function verifyAndUnlock(){if(!userTGID){document.getElementById('verifyStatus').innerText="❌ Please open from Telegram!";return}const btn=document.getElementById('verifyBtn');const vs=document.getElementById('verifyStatus');btn.disabled=true;btn.innerText="VERIFYING...";vs.innerText="🔍 Checking channels...";apiCall('/verify',{user_id:parseInt(userTGID)}).then(data=>{if(data.banned)return;if(data.verified){localStorage.setItem('sfn_verified','true');localStorage.setItem('sfn_tg_id',userTGID);updateVerifyBadge(true);vs.innerText="✅ Verified!";fireConfetti('emerald');setTimeout(()=>{document.getElementById('channel-gate').classList.remove('show');document.getElementById('channel-gate').style.display='none';document.getElementById('app-content').style.display='block';loadUserData()},700)}else{const missing=[];if(data.missing&&data.missing.payment)missing.push("Payment");if(data.missing&&data.missing.news)missing.push("News");vs.innerText=`❌ Missing: ${missing.join(", ")}`;btn.disabled=false;btn.innerText="✦ TRY AGAIN ✦"}})}
+function verifyAndUnlock(){if(!userTGID){document.getElementById('verifyStatus').innerText="❌ Please open from Telegram!";return}const btn=document.getElementById('verifyBtn');const vs=document.getElementById('verifyStatus');btn.disabled=true;btn.innerText="VERIFYING...";vs.innerText="🔍 Checking...";apiCall('/verify',{user_id:parseInt(userTGID)}).then(data=>{if(data.banned)return;if(data.verified){localStorage.setItem('sfn_verified','true');localStorage.setItem('sfn_tg_id',userTGID);updateVerifyBadge(true);vs.innerText="✅ Verified!";fireConfetti('emerald');setTimeout(()=>{document.getElementById('channel-gate').classList.remove('show');document.getElementById('channel-gate').style.display='none';document.getElementById('app-content').style.display='block';loadUserData()},700)}else{const missing=[];if(data.missing&&data.missing.payment)missing.push("Payment");if(data.missing&&data.missing.news)missing.push("News");vs.innerText=`❌ Join: ${missing.join(", ")}`;btn.disabled=false;btn.innerText="✦ TRY AGAIN ✦"}})}
 
 function updateVerifyBadge(isVerified){const wrapper=document.getElementById('verify-badge-wrapper'),badge=document.getElementById('verify-badge');if(!badge)return;if(isVerified){wrapper.className='badge-verified';badge.innerText="✅ VERIFIED"}else{wrapper.className='badge-unverified';badge.innerText="⚠️ UNVERIFIED"}}
 
@@ -734,7 +727,6 @@ if(type==='deposit'){document.getElementById('w-sec-deposit').style.display='fle
 
 function copyReferralLink(){const linkInput=document.getElementById('referral-link-input');linkInput.select();navigator.clipboard.writeText(linkInput.value);showPremiumToast('Link copied!','📋','cyan')}
 
-// ⚡ INSTANT deposit animation
 async function submitDeposit(){
     const amount=parseFloat(document.getElementById('dep-amount').value);
     const txid=document.getElementById('dep-txid').value.trim();
@@ -766,9 +758,9 @@ function showDepositAnimation(amount,txid){
                 <div style="position:absolute;inset:12px;border-radius:50%;border:2px dashed rgba(34,211,238,.5);animation:spinRing 5s linear infinite reverse"></div>
                 <div style="font-size:44px">🤖</div>
             </div>
-            <div style="background:rgba(0,255,135,.15);border:1px solid rgba(0,255,135,.5);color:#00ff87;font-size:10px;font-weight:800;padding:6px 14px;border-radius:20px;letter-spacing:1.5px;text-transform:uppercase">🔍 AI Scanning Active</div>
+            <div style="background:rgba(0,255,135,.15);border:1px solid rgba(0,255,135,.5);color:#00ff87;font-size:10px;font-weight:800;padding:6px 14px;border-radius:20px;letter-spacing:1.5px;text-transform:uppercase">🔍 AI Scanning</div>
             <h3 style="font-size:16px;font-weight:900;color:#fff;margin:0">Verifying Blockchain...</h3>
-            <p style="font-size:11px;color:#9ca3af;margin:0;line-height:1.5">Our AI is confirming your transaction. This may take up to 30 seconds.</p>
+            <p style="font-size:11px;color:#9ca3af;margin:0;line-height:1.5">Confirming your transaction. Please wait.</p>
             <div style="background:rgba(0,0,0,.6);padding:12px;border-radius:12px;width:100%;border:1px solid rgba(255,255,255,.06);text-align:left">
                 <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="font-size:10px;color:#9ca3af">Amount:</span><span style="font-size:11px;color:#00ff87;font-weight:800;font-family:monospace">$${amount.toFixed(2)}</span></div>
                 <div style="display:flex;justify-content:space-between"><span style="font-size:10px;color:#9ca3af">TxID:</span><span style="font-size:9px;color:#d1d5db;font-family:monospace">${txid.substring(0,20)}...</span></div>
@@ -776,7 +768,7 @@ function showDepositAnimation(amount,txid){
             <div style="width:100%;height:4px;background:rgba(0,0,0,.6);border-radius:2px;overflow:hidden;border:1px solid rgba(0,255,135,.3)">
                 <div id="dep-anim-bar" style="height:100%;background:linear-gradient(90deg,#00ff87,#22d3ee,#8b5cf6);border-radius:2px;width:5%;transition:width 30s linear"></div>
             </div>
-            <p style="font-size:10px;color:#00ff87;font-family:monospace;animation:pulseText 1.5s infinite">Processing — please wait...</p>
+            <p style="font-size:10px;color:#00ff87;font-family:monospace;animation:pulseText 1.5s infinite">Processing...</p>
         </div>`;
     document.body.appendChild(overlay);
     setTimeout(()=>{const b=document.getElementById('dep-anim-bar');if(b)b.style.width='100%'},100);
@@ -784,16 +776,15 @@ function showDepositAnimation(amount,txid){
         overlay.innerHTML=`
             <div style="max-width:360px;width:100%;text-align:center;display:flex;flex-direction:column;gap:16px;align-items:center">
                 <div style="width:100px;height:100px;border-radius:50%;background:rgba(251,191,36,.15);border:2px solid rgba(251,191,36,.6);display:flex;align-items:center;justify-content:center;font-size:44px">⏳</div>
-                <div style="background:rgba(251,191,36,.15);border:1px solid rgba(251,191,36,.5);color:#fbbf24;font-size:10px;font-weight:800;padding:6px 14px;border-radius:20px;letter-spacing:1.5px;text-transform:uppercase">✅ Blockchain Verified</div>
+                <div style="background:rgba(251,191,36,.15);border:1px solid rgba(251,191,36,.5);color:#fbbf24;font-size:10px;font-weight:800;padding:6px 14px;border-radius:20px;letter-spacing:1.5px;text-transform:uppercase">✅ Verified</div>
                 <h3 style="font-size:16px;font-weight:900;color:#fff;margin:0">Deposit Received</h3>
-                <p style="font-size:11px;color:#d1d5db;margin:0;line-height:1.5">Your deposit is being reviewed by admin. Balance will update after approval.</p>
+                <p style="font-size:11px;color:#d1d5db;margin:0;line-height:1.5">Reviewed by admin. Balance updates after approval.</p>
                 <button onclick="closeDepositAnimation()" style="width:100%;padding:14px;border-radius:14px;background:linear-gradient(135deg,#00ff87,#059669);color:#000;font-weight:900;font-size:12px;text-transform:uppercase;border:none">Back to Dashboard</button>
             </div>`;
     },30000);
 }
 function closeDepositAnimation(){const o=document.getElementById('dep-anim-overlay');if(o)o.remove();switchWallet('history');loadTransactions();}
 
-// ⚡ INSTANT withdraw animation
 async function submitWithdraw(){
     const address=document.getElementById('wd-address').value.trim();
     const amount=parseFloat(document.getElementById('wd-amount').value);
@@ -822,9 +813,9 @@ function showWithdrawAnimation(amount,network){
                 <div style="position:absolute;inset:0;border-radius:50%;border:2px dashed rgba(59,130,246,.6);animation:spinRing 3s linear infinite"></div>
                 <div style="font-size:44px">🔒</div>
             </div>
-            <div style="background:rgba(59,130,246,.15);border:1px solid rgba(59,130,246,.5);color:#60a5fa;font-size:10px;font-weight:800;padding:6px 14px;border-radius:20px;letter-spacing:1.5px;text-transform:uppercase">🔐 Securing Transaction</div>
-            <h3 style="font-size:16px;font-weight:900;color:#fff;margin:0">Processing Withdrawal...</h3>
-            <p style="font-size:11px;color:#9ca3af;margin:0;line-height:1.5">Your request is being secured on blockchain.</p>
+            <div style="background:rgba(59,130,246,.15);border:1px solid rgba(59,130,246,.5);color:#60a5fa;font-size:10px;font-weight:800;padding:6px 14px;border-radius:20px;letter-spacing:1.5px;text-transform:uppercase">🔐 Securing</div>
+            <h3 style="font-size:16px;font-weight:900;color:#fff;margin:0">Processing...</h3>
+            <p style="font-size:11px;color:#9ca3af;margin:0">Your request is being secured.</p>
             <div style="background:rgba(0,0,0,.6);padding:12px;border-radius:12px;width:100%;border:1px solid rgba(255,255,255,.06);text-align:left">
                 <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="font-size:10px;color:#9ca3af">Amount:</span><span style="font-size:11px;color:#fb923c;font-weight:800;font-family:monospace">$${amount.toFixed(2)}</span></div>
                 <div style="display:flex;justify-content:space-between"><span style="font-size:10px;color:#9ca3af">Network:</span><span style="font-size:10px;color:#d1d5db">${network}</span></div>
@@ -838,7 +829,7 @@ function showWithdrawAnimation(amount,network){
                 <div style="width:100px;height:100px;border-radius:50%;background:rgba(0,255,135,.15);border:2px solid rgba(0,255,135,.6);display:flex;align-items:center;justify-content:center;font-size:44px">✅</div>
                 <div style="background:rgba(0,255,135,.15);border:1px solid rgba(0,255,135,.5);color:#00ff87;font-size:10px;font-weight:800;padding:6px 14px;border-radius:20px;letter-spacing:1.5px;text-transform:uppercase">🎉 Queued</div>
                 <h3 style="font-size:16px;font-weight:900;color:#fff;margin:0">Withdrawal Queued!</h3>
-                <p style="font-size:11px;color:#d1d5db;margin:0;line-height:1.5">Your request is being processed. Funds will arrive automatically.</p>
+                <p style="font-size:11px;color:#d1d5db;margin:0">Processing. Funds arrive automatically.</p>
                 <button onclick="closeWithdrawAnimation()" style="width:100%;padding:14px;border-radius:14px;background:linear-gradient(135deg,#00ff87,#059669);color:#000;font-weight:900;font-size:12px;text-transform:uppercase;border:none">Back to Dashboard</button>
             </div>`;
     },10000);
