@@ -122,8 +122,6 @@ body{background:#030108;color:#fff;font-family:'Space Grotesk',sans-serif;min-he
 .lock-banner.unlocked{background:linear-gradient(135deg,rgba(0,255,135,.1),rgba(6,182,212,.1));border-color:rgba(0,255,135,.5)}
 .skeleton{background:linear-gradient(90deg,rgba(255,255,255,.06) 25%,rgba(139,92,246,.15) 50%,rgba(255,255,255,.06) 75%);background-size:200% 100%;animation:shimmer 1.5s infinite;border-radius:8px;color:transparent!important}
 @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
-
-/* ⭐ COMPACT PREMIUM TASK CARDS */
 .task-card{position:relative;background:linear-gradient(145deg,rgba(20,12,35,.95) 0%,rgba(10,6,20,.98) 100%);border-radius:14px;padding:12px;overflow:hidden;margin-bottom:8px;border:1px solid rgba(139,92,246,.25);transition:transform .15s ease}
 .task-card:active{transform:scale(.99)}
 .task-card.completed{opacity:.65}
@@ -236,6 +234,7 @@ body{background:#030108;color:#fff;font-family:'Space Grotesk',sans-serif;min-he
 <div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid rgba(139,92,246,.15)"><span style="font-size:10px;color:#6b7280">Duration</span><span id="nft-buy-days" style="font-size:10px;color:#fff;font-weight:800">-</span></div>
 <div style="display:flex;justify-content:space-between;padding:5px 0"><span style="font-size:10px;color:#6b7280">Speed</span><span id="nft-buy-speed" class="mono" style="font-size:10px;color:#22d3ee;font-weight:800">-</span></div>
 </div>
+<input type="hidden" id="nft-buy-amount" value="0">
 <div class="glass" style="padding:10px;margin-bottom:12px;background:rgba(251,191,36,.05);border-color:rgba(251,191,36,.3)">
 <p style="font-size:9px;color:#d1d5db;line-height:1.5">1. Deposit exact USDT<br>2. Submit TXID<br>3. Admin approves → NFT activates</p>
 </div>
@@ -503,6 +502,11 @@ const BRAND_SVGS = {
     generic: '<svg viewBox="0 0 24 24"><path d="M12 2L4 7v10l8 5 8-5V7l-8-5zm0 2.18L18 8v8l-6 3.82L6 16V8l6-3.82zM12 8a4 4 0 100 8 4 4 0 000-8zm0 6a2 2 0 110-4 2 2 0 010 4z"/></svg>'
 };
 
+function escapeHtml(s){
+    if(s===null||s===undefined) return '';
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+
 function detectPlatform(link){
     if(!link) return 'generic';
     const l = link.toLowerCase();
@@ -601,7 +605,24 @@ async function syncMiningFromServer(){if(!userTGID||isBannedServer||!isAppVisibl
 
 function updateMiningUI(){if(!userTGID||isBannedServer)return;const now=Date.now();const elapsed=(now-lastServerSync)/1000;const perSec=(activeNFT.speed||500)/86400;localUnclaimed=serverUnclaimed+(perSec*elapsed);if(localUnclaimed>maxUnclaimedSeen)maxUnclaimedSeen=localUnclaimed;const el=document.getElementById('unclaimed-counter');if(el)el.innerText=`${localUnclaimed.toFixed(4)} SFN`}
 
-async function claimMining(){if(!userTGID){alert("Please open from Telegram");return}if(localUnclaimed<0.1){showPremiumToast('Minimum claim: 0.1 SFN','⚠️','red');return}const claimedAmount=localUnclaimed;balance+=claimedAmount;serverUnclaimed=0;maxUnclaimedSeen=0;localUnclaimed=0;lastServerSync=Date.now();updateBalanceUI();saveCache();fireConfetti('emerald');showPremiumToast(`Claimed ${claimedAmount.toFixed(4)} SFN!`,'⛏️','emerald');const data=await apiCall('/claim_mining',{tg_id:userTGID});if(data.success){balance=data.new_balance;updateBalanceUI();saveCache()}}
+async function claimMining(){
+    if(!userTGID){alert("Please open from Telegram");return}
+    if(localUnclaimed<0.1){showPremiumToast('Minimum claim: 0.1 SFN','⚠️','red');return}
+    const claimBtn=document.querySelector('button[onclick="claimMining()"]');
+    if(claimBtn)claimBtn.disabled=true;
+    const data=await apiCall('/claim_mining',{tg_id:userTGID});
+    if(claimBtn)claimBtn.disabled=false;
+    if(data.success){
+        balance=data.new_balance;
+        serverUnclaimed=0;maxUnclaimedSeen=0;localUnclaimed=0;
+        lastServerSync=Date.now();
+        updateBalanceUI();saveCache();
+        fireConfetti('emerald');
+        showPremiumToast(`Claimed ${data.claimed.toFixed(4)} SFN!`,'⛏️','emerald');
+    } else {
+        showPremiumToast(data.error||'Claim failed','❌','red');
+    }
+}
 
 async function claimDailyCheckin(){if(!userTGID)return;const data=await apiCall('/daily_checkin',{tg_id:userTGID});if(data.success){balance=data.new_balance;serverLastCheckin=new Date().toISOString();updateBalanceUI();checkCooldowns();saveCache();fireConfetti('cyan');showPremiumToast('+20 SFN Daily Bonus!','📅','cyan')}else{if(data.remaining_seconds)showPremiumToast('Already claimed today','⚠️','red');else showPremiumToast(data.error||'Failed','❌','red')}}
 
@@ -613,7 +634,40 @@ let rotationDescription=0,isSpinning=false;
 
 function drawWheel(){if(!wheelCtx)return;const slices=rewards.length;const sliceAngle=(2*Math.PI)/slices;const cx=105,cy=105,r=100;for(let i=0;i<slices;i++){const angle=i*sliceAngle;wheelCtx.beginPath();wheelCtx.fillStyle=wheelColors[i];wheelCtx.moveTo(cx,cy);wheelCtx.arc(cx,cy,r,angle,angle+sliceAngle);wheelCtx.fill();wheelCtx.lineWidth=2;wheelCtx.strokeStyle=i%2===0?'#00ff87':'#8b5cf6';wheelCtx.stroke();wheelCtx.save();wheelCtx.translate(cx,cy);wheelCtx.rotate(angle+sliceAngle/2);wheelCtx.textAlign="right";wheelCtx.fillStyle=i%2===0?"#00ff87":"#a78bfa";wheelCtx.font="bold 11px 'JetBrains Mono', monospace";wheelCtx.fillText(rewards[i]+" SFN",r-10,4);wheelCtx.restore()}wheelCtx.beginPath();wheelCtx.arc(cx,cy,22,0,2*Math.PI);wheelCtx.fillStyle='#0a0514';wheelCtx.fill();wheelCtx.strokeStyle='#00ff87';wheelCtx.lineWidth=2.5;wheelCtx.stroke()}
 
-async function spinWheel(){if(isSpinning)return;if(!userTGID)return;isSpinning=true;const spinBtn=document.getElementById('spinBtn');if(spinBtn)spinBtn.disabled=true;const randomIndex=Math.floor(Math.random()*rewards.length);const sliceDeg=360/rewards.length;let targetDeg=(270-(randomIndex+.5)*sliceDeg)%360;if(targetDeg<0)targetDeg+=360;let currentMod=rotationDescription%360;let diff=targetDeg-currentMod;if(diff<0)diff+=360;rotationDescription+=1800+diff;if(wheelCanvas)wheelCanvas.style.transform=`rotate(${rotationDescription}deg)`;setTimeout(async()=>{const wonAmount=rewards[randomIndex];const data=await apiCall('/spin_wheel',{tg_id:userTGID,reward:wonAmount});if(data.success){balance=data.new_balance;extraSpins=data.extra_spins||0;if(extraSpins===0)serverLastSpin=new Date().toISOString();updateBalanceUI();saveCache();fireConfetti('violet');showPremiumToast(`You won ${wonAmount} SFN!`,'🎡','violet')}isSpinning=false;checkCooldowns()},5000)}
+async function spinWheel(){
+    if(isSpinning)return;
+    if(!userTGID)return;
+    isSpinning=true;
+    const spinBtn=document.getElementById('spinBtn');
+    if(spinBtn)spinBtn.disabled=true;
+    const data=await apiCall('/spin_wheel',{tg_id:userTGID});
+    if(!data.success){
+        showPremiumToast(data.error||'Spin failed','❌','red');
+        isSpinning=false;
+        checkCooldowns();
+        return;
+    }
+    const randomIndex=data.reward_index;
+    const sliceDeg=360/rewards.length;
+    let targetDeg=(270-(randomIndex+.5)*sliceDeg)%360;
+    if(targetDeg<0)targetDeg+=360;
+    let currentMod=rotationDescription%360;
+    let diff=targetDeg-currentMod;
+    if(diff<0)diff+=360;
+    rotationDescription+=1800+diff;
+    if(wheelCanvas)wheelCanvas.style.transform=`rotate(${rotationDescription}deg)`;
+    setTimeout(()=>{
+        balance=data.new_balance;
+        extraSpins=data.extra_spins||0;
+        if(extraSpins===0)serverLastSpin=new Date().toISOString();
+        updateBalanceUI();
+        saveCache();
+        fireConfetti('violet');
+        showPremiumToast(`You won ${data.reward} SFN!`,'🎡','violet');
+        isSpinning=false;
+        checkCooldowns();
+    },5000);
+}
 
 function checkCooldowns(){const now=Date.now();const dailyBtn=document.getElementById('claimDailyBtn'),spinBtn=document.getElementById('spinBtn');if(!dailyBtn||!spinBtn)return;
 if(serverLastCheckin){const last=new Date(serverLastCheckin.replace(' ','T')).getTime();const elapsed=now-last;const CD=24*60*60*1000;if(elapsed<CD){const rem=CD-elapsed;const h=Math.floor((rem%(1000*60*60*24))/(1000*60*60));const m=Math.floor((rem%(1000*60*60))/(1000*60));dailyBtn.innerText=`⏱ ${h}h ${m}m`;dailyBtn.disabled=true}else{dailyBtn.innerText="CLAIM +20";dailyBtn.disabled=false}}else{dailyBtn.innerText="CLAIM +20";dailyBtn.disabled=false}
@@ -640,6 +694,11 @@ async function loadSocialTasks(){
         const completed = t.completed;
         const brandName = getBrandName(platform);
         const autoText = t.is_telegram ? '⚡ Auto-verify on join' : '✓ Instant reward';
+        const safeTitle = escapeHtml(t.title);
+        const safeDesc = t.description ? escapeHtml(t.description) : '';
+        const safeLink = escapeHtml(t.link||'');
+        const safeBtnText = escapeHtml(t.button_text||'GO');
+        const safeReward = escapeHtml(t.reward);
         return `<div class="task-card${completed?' completed':''}">
             <div class="task-glow ${platform}"></div>
             <div style="position:relative;z-index:2;display:flex;align-items:center;gap:10px;margin-bottom:8px">
@@ -649,14 +708,14 @@ async function loadSocialTasks(){
                         <span style="font-size:8px;font-weight:900;color:#a78bfa;letter-spacing:1px;background:rgba(139,92,246,.12);border:1px solid rgba(139,92,246,.3);padding:1px 6px;border-radius:5px">${brandName}</span>
                         <span style="font-size:8px;color:${t.is_telegram?'#00ff87':'#fbbf24'};font-weight:700">${autoText}</span>
                     </div>
-                    <p style="font-size:12px;font-weight:800;color:#fff;line-height:1.3;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${t.title}</p>
+                    <p style="font-size:12px;font-weight:800;color:#fff;line-height:1.3;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${safeTitle}</p>
                 </div>
-                <div class="task-badge ${completed?'done':'reward'}">${completed?'✅ DONE':'+'+t.reward}</div>
+                <div class="task-badge ${completed?'done':'reward'}">${completed?'✅ DONE':'+'+safeReward}</div>
             </div>
-            ${t.description?`<p style="position:relative;z-index:2;font-size:10px;color:#9ca3af;line-height:1.4;margin-bottom:8px">${t.description}</p>`:''}
+            ${safeDesc?`<p style="position:relative;z-index:2;font-size:10px;color:#9ca3af;line-height:1.4;margin-bottom:8px">${safeDesc}</p>`:''}
             ${completed
                 ? `<button class="task-btn" disabled>✅ COMPLETED</button>`
-                : `<button onclick="doTask(${t.id},'${(t.link||'').replace(/'/g,"\\'")}',${t.is_telegram})" class="task-btn ${platform}">${t.button_text||'GO'} →</button>`
+                : `<button onclick="doTask(${parseInt(t.id)},'${safeLink.replace(/'/g,"\\'")}',${!!t.is_telegram})" class="task-btn ${platform}">${safeBtnText} →</button>`
             }
         </div>`;
     }).join('');
@@ -733,18 +792,20 @@ async function submitDeposit(){
     const net=networkData[currentDepNetwork];
     if(!amount||amount<0.5){showPremiumToast('Minimum: $0.50','⚠️','red');return}
     if(!txid){showPremiumToast('Enter TXID','⚠️','red');return}
+    const depBtn=document.querySelector('button[onclick="submitDeposit()"]');
+    if(depBtn)depBtn.disabled=true;
+    const data=await apiCall('/submit_deposit',{tg_id:userTGID,amount,network:net.name,txid});
+    if(depBtn)depBtn.disabled=false;
+    if(!data.success){
+        showPremiumToast(data.error||'Deposit failed','❌','red');
+        return;
+    }
     document.getElementById('dep-amount').value='';
     document.getElementById('dep-txid').value='';
     document.getElementById('dep-step-2').style.display='none';
     document.getElementById('dep-step-1').style.display='flex';
     fireConfetti('gold');
     showDepositAnimation(amount,txid);
-    apiCall('/submit_deposit',{tg_id:userTGID,amount,network:net.name,txid}).then(data=>{
-        if(!data.success){
-            const o=document.getElementById('dep-anim-overlay');if(o)o.remove();
-            showPremiumToast(data.error||'Deposit failed','❌','red');
-        }
-    });
 }
 
 function showDepositAnimation(amount,txid){
@@ -763,7 +824,7 @@ function showDepositAnimation(amount,txid){
             <p style="font-size:11px;color:#9ca3af;margin:0;line-height:1.5">Confirming your transaction. Please wait.</p>
             <div style="background:rgba(0,0,0,.6);padding:12px;border-radius:12px;width:100%;border:1px solid rgba(255,255,255,.06);text-align:left">
                 <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="font-size:10px;color:#9ca3af">Amount:</span><span style="font-size:11px;color:#00ff87;font-weight:800;font-family:monospace">$${amount.toFixed(2)}</span></div>
-                <div style="display:flex;justify-content:space-between"><span style="font-size:10px;color:#9ca3af">TxID:</span><span style="font-size:9px;color:#d1d5db;font-family:monospace">${txid.substring(0,20)}...</span></div>
+                <div style="display:flex;justify-content:space-between"><span style="font-size:10px;color:#9ca3af">TxID:</span><span style="font-size:9px;color:#d1d5db;font-family:monospace">${escapeHtml(txid.substring(0,20))}...</span></div>
             </div>
             <div style="width:100%;height:4px;background:rgba(0,0,0,.6);border-radius:2px;overflow:hidden;border:1px solid rgba(0,255,135,.3)">
                 <div id="dep-anim-bar" style="height:100%;background:linear-gradient(90deg,#00ff87,#22d3ee,#8b5cf6);border-radius:2px;width:5%;transition:width 30s linear"></div>
@@ -776,7 +837,7 @@ function showDepositAnimation(amount,txid){
         overlay.innerHTML=`
             <div style="max-width:360px;width:100%;text-align:center;display:flex;flex-direction:column;gap:16px;align-items:center">
                 <div style="width:100px;height:100px;border-radius:50%;background:rgba(251,191,36,.15);border:2px solid rgba(251,191,36,.6);display:flex;align-items:center;justify-content:center;font-size:44px">⏳</div>
-                <div style="background:rgba(251,191,36,.15);border:1px solid rgba(251,191,36,.5);color:#fbbf24;font-size:10px;font-weight:800;padding:6px 14px;border-radius:20px;letter-spacing:1.5px;text-transform:uppercase">✅ Verified</div>
+                <div style="background:rgba(251,191,36,.15);border:1px solid rgba(251,191,36,.5);color:#fbbf24;font-size:10px;font-weight:800;padding:6px 14px;border-radius:20px;letter-spacing:1.5px;text-transform:uppercase">✅ Submitted</div>
                 <h3 style="font-size:16px;font-weight:900;color:#fff;margin:0">Deposit Received</h3>
                 <p style="font-size:11px;color:#d1d5db;margin:0;line-height:1.5">Reviewed by admin. Balance updates after approval.</p>
                 <button onclick="closeDepositAnimation()" style="width:100%;padding:14px;border-radius:14px;background:linear-gradient(135deg,#00ff87,#059669);color:#000;font-weight:900;font-size:12px;text-transform:uppercase;border:none">Back to Dashboard</button>
@@ -790,17 +851,19 @@ async function submitWithdraw(){
     const amount=parseFloat(document.getElementById('wd-amount').value);
     if(!amount||amount<0.30){showPremiumToast('Minimum: $0.30','⚠️','red');return}
     if(!address){showPremiumToast('Enter address','⚠️','red');return}
+    const wdBtn=document.querySelector('button[onclick="submitWithdraw()"]');
+    if(wdBtn)wdBtn.disabled=true;
+    const data=await apiCall('/submit_withdraw',{tg_id:userTGID,amount,network:currentWdNetwork,address});
+    if(wdBtn)wdBtn.disabled=false;
+    if(!data.success){
+        showPremiumToast(data.error||'Withdraw failed','❌','red');
+        return;
+    }
     document.getElementById('wd-amount').value='';
     document.getElementById('wd-address').value='';
     fireConfetti('orange');
     showWithdrawAnimation(amount,currentWdNetwork);
     loadUserData();
-    apiCall('/submit_withdraw',{tg_id:userTGID,amount,network:currentWdNetwork,address}).then(data=>{
-        if(!data.success){
-            const o=document.getElementById('wd-anim-overlay');if(o)o.remove();
-            showPremiumToast(data.error||'Withdraw failed','❌','red');
-        }
-    });
 }
 
 function showWithdrawAnimation(amount,network){
@@ -818,7 +881,7 @@ function showWithdrawAnimation(amount,network){
             <p style="font-size:11px;color:#9ca3af;margin:0">Your request is being secured.</p>
             <div style="background:rgba(0,0,0,.6);padding:12px;border-radius:12px;width:100%;border:1px solid rgba(255,255,255,.06);text-align:left">
                 <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="font-size:10px;color:#9ca3af">Amount:</span><span style="font-size:11px;color:#fb923c;font-weight:800;font-family:monospace">$${amount.toFixed(2)}</span></div>
-                <div style="display:flex;justify-content:space-between"><span style="font-size:10px;color:#9ca3af">Network:</span><span style="font-size:10px;color:#d1d5db">${network}</span></div>
+                <div style="display:flex;justify-content:space-between"><span style="font-size:10px;color:#9ca3af">Network:</span><span style="font-size:10px;color:#d1d5db">${escapeHtml(network)}</span></div>
             </div>
             <p style="font-size:10px;color:#60a5fa;font-family:monospace;animation:pulseText 1.5s infinite">Please wait...</p>
         </div>`;
@@ -838,7 +901,7 @@ function closeWithdrawAnimation(){const o=document.getElementById('wd-anim-overl
 
 function renderHistoryUI(){const listEl=document.getElementById('transaction-history-list');if(!listEl)return;if(txHistory.length===0){listEl.innerHTML=`<p class="mono" style="text-align:center;font-size:9px;color:#6b7280;padding:18px">No transactions yet</p>`;return}
 let html='';txHistory.forEach(tx=>{const isDep=tx.type==='DEPOSIT';let sc='#fbbf24',sb='rgba(251,191,36,.15)';if(tx.status==='Success'){sc='#00ff87';sb='rgba(0,255,135,.15)'}if(tx.status==='Failed'||tx.status==='Rejected'){sc='#ef4444';sb='rgba(239,68,68,.15)'}if(tx.status==='Processing'){sc='#22d3ee';sb='rgba(34,211,238,.15)'}
-html+=`<div style="background:rgba(0,0,0,.5);padding:9px 11px;border-radius:11px;border:1px solid rgba(255,255,255,.06);display:flex;align-items:center;justify-content:space-between"><div><div style="display:flex;align-items:center;gap:6px;margin-bottom:2px"><span style="font-size:10px;font-weight:800;color:${isDep?'#00ff87':'#fb923c'}">${tx.type}</span><span class="mono" style="font-size:10px;color:#fff;font-weight:800">$${tx.amount}</span></div><p class="mono" style="font-size:7px;color:#6b7280">${tx.network||''} · ${(tx.date||'').substring(0,16)}</p></div><span class="mono" style="font-size:7px;padding:2px 7px;border-radius:5px;font-weight:800;color:${sc};background:${sb}">${tx.status}</span></div>`});listEl.innerHTML=html}
+html+=`<div style="background:rgba(0,0,0,.5);padding:9px 11px;border-radius:11px;border:1px solid rgba(255,255,255,.06);display:flex;align-items:center;justify-content:space-between"><div><div style="display:flex;align-items:center;gap:6px;margin-bottom:2px"><span style="font-size:10px;font-weight:800;color:${isDep?'#00ff87':'#fb923c'}">${escapeHtml(tx.type)}</span><span class="mono" style="font-size:10px;color:#fff;font-weight:800">$${escapeHtml(tx.amount)}</span></div><p class="mono" style="font-size:7px;color:#6b7280">${escapeHtml(tx.network||'')} · ${escapeHtml((tx.date||'').substring(0,16))}</p></div><span class="mono" style="font-size:7px;padding:2px 7px;border-radius:5px;font-weight:800;color:${sc};background:${sb}">${escapeHtml(tx.status)}</span></div>`});listEl.innerHTML=html}
 
 function buyNFT(name,price,days,speed){const modal=document.getElementById('nft-buy-modal');if(!modal)return;document.getElementById('nft-buy-name').innerText=name;document.getElementById('nft-buy-price').innerText='$'+price;document.getElementById('nft-buy-days').innerText=days+' Days';document.getElementById('nft-buy-speed').innerText=speed.toLocaleString()+' SFN/Day';document.getElementById('nft-buy-amount').value=price;modal.classList.add('show')}
 function closeNftBuyModal(){const modal=document.getElementById('nft-buy-modal');if(modal)modal.classList.remove('show')}
