@@ -236,7 +236,7 @@ body{background:#030108;color:#fff;font-family:'Space Grotesk',sans-serif;min-he
 </div>
 <input type="hidden" id="nft-buy-amount" value="0">
 <div class="glass" style="padding:10px;margin-bottom:12px;background:rgba(251,191,36,.05);border-color:rgba(251,191,36,.3)">
-<p style="font-size:9px;color:#d1d5db;line-height:1.5">1. Deposit exact USDT<br>2. Submit TXID<br>3. Admin approves → NFT activates</p>
+<p style="font-size:9px;color:#d1d5db;line-height:1.5">1. Deposit exact USDT<br>2. Submit TXID<br>3. Auto-approved in minutes</p>
 </div>
 <div class="flex gap-2">
 <button onclick="closeNftBuyModal()" style="flex:1;padding:12px;border-radius:11px;font-size:10px;font-weight:800;text-transform:uppercase;background:rgba(255,255,255,.06);color:#9ca3af;border:1px solid rgba(255,255,255,.1)">Cancel</button>
@@ -836,10 +836,10 @@ function showDepositAnimation(amount,txid){
     setTimeout(()=>{
         overlay.innerHTML=`
             <div style="max-width:360px;width:100%;text-align:center;display:flex;flex-direction:column;gap:16px;align-items:center">
-                <div style="width:100px;height:100px;border-radius:50%;background:rgba(251,191,36,.15);border:2px solid rgba(251,191,36,.6);display:flex;align-items:center;justify-content:center;font-size:44px">⏳</div>
-                <div style="background:rgba(251,191,36,.15);border:1px solid rgba(251,191,36,.5);color:#fbbf24;font-size:10px;font-weight:800;padding:6px 14px;border-radius:20px;letter-spacing:1.5px;text-transform:uppercase">✅ Submitted</div>
-                <h3 style="font-size:16px;font-weight:900;color:#fff;margin:0">Deposit Received</h3>
-                <p style="font-size:11px;color:#d1d5db;margin:0;line-height:1.5">Reviewed by admin. Balance updates after approval.</p>
+                <div style="width:100px;height:100px;border-radius:50%;background:rgba(0,255,135,.15);border:2px solid rgba(0,255,135,.6);display:flex;align-items:center;justify-content:center;font-size:44px">✅</div>
+                <div style="background:rgba(0,255,135,.15);border:1px solid rgba(0,255,135,.5);color:#00ff87;font-size:10px;font-weight:800;padding:6px 14px;border-radius:20px;letter-spacing:1.5px;text-transform:uppercase">✅ Verified</div>
+                <h3 style="font-size:16px;font-weight:900;color:#fff;margin:0">Deposit Verified</h3>
+                <p style="font-size:11px;color:#d1d5db;margin:0;line-height:1.5">🤖 Auto-verification complete. Rewards credited automatically.</p>
                 <button onclick="closeDepositAnimation()" style="width:100%;padding:14px;border-radius:14px;background:linear-gradient(135deg,#00ff87,#059669);color:#000;font-weight:900;font-size:12px;text-transform:uppercase;border:none">Back to Dashboard</button>
             </div>`;
     },30000);
