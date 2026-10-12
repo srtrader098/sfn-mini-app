@@ -29,13 +29,12 @@ body{background:#030108;color:#fff;font-family:'Space Grotesk',sans-serif;min-he
 @keyframes splashProgress{0%{width:0%}100%{width:100%}}
 @keyframes pulseText{0%,100%{opacity:.7}50%{opacity:1}}
 @keyframes spinRing{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
-@keyframes pulseBar{0%,100%{opacity:1}50%{opacity:.3}}
 #splash-screen{position:fixed;inset:0;background:#030108;z-index:200;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;transition:opacity .5s}
 #splash-screen.hidden{display:none}
 .splash-logo{width:140px;height:140px;object-fit:contain;mix-blend-mode:screen;filter:drop-shadow(0 0 25px rgba(0,255,135,.9)) drop-shadow(0 0 50px rgba(139,92,246,.5));margin-bottom:24px;animation:pulseText 2s ease-in-out infinite}
 .splash-status-text{font-size:13px;font-weight:700;color:#00ff87;text-align:center;letter-spacing:.5px;margin-bottom:8px;min-height:18px;text-shadow:0 0 10px rgba(0,255,135,.5)}
 .splash-sub-text{font-size:10px;color:#a78bfa;text-align:center;letter-spacing:1.2px;margin-bottom:20px;font-family:'JetBrains Mono',monospace;min-height:14px}
-.splash-progress-wrap{width:220px;height:5px;background:rgba(0,0,0,.6);border-radius:3px;overflow:hidden;border:1px solid rgba(0,255,135,.3);box-shadow:0 0 15px rgba(0,255,135,.2)}
+.splash-progress-wrap{width:220px;height:5px;background:rgba(0,0,0,.6);border-radius:3px;overflow:hidden;border:1px solid rgba(0,255,135,.3)}
 .splash-progress-bar{height:100%;background:linear-gradient(90deg,#00ff87,#22d3ee,#8b5cf6);border-radius:3px;transition:width .6s ease;box-shadow:0 0 15px rgba(0,255,135,.6)}
 .splash-percent{font-family:'JetBrains Mono',monospace;font-size:11px;color:#22d3ee;font-weight:800;margin-top:12px;letter-spacing:2px}
 @keyframes banPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
@@ -121,9 +120,49 @@ body{background:#030108;color:#fff;font-family:'Space Grotesk',sans-serif;min-he
 ::-webkit-scrollbar-thumb{background:rgba(139,92,246,.4);border-radius:2px}
 .lock-banner{background:linear-gradient(135deg,rgba(251,191,36,.08),rgba(217,119,6,.08));border:1px solid rgba(251,191,36,.4);border-radius:12px;padding:12px}
 .lock-banner.unlocked{background:linear-gradient(135deg,rgba(0,255,135,.1),rgba(6,182,212,.1));border-color:rgba(0,255,135,.5)}
-.task-card{background:linear-gradient(145deg,rgba(20,12,35,.9) 0%,rgba(10,6,20,.95) 100%);border:1px solid rgba(139,92,246,.35);border-radius:14px;padding:14px;margin-bottom:8px}
 .skeleton{background:linear-gradient(90deg,rgba(255,255,255,.06) 25%,rgba(139,92,246,.15) 50%,rgba(255,255,255,.06) 75%);background-size:200% 100%;animation:shimmer 1.5s infinite;border-radius:8px;color:transparent!important}
 @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+
+/* ⭐ PREMIUM TASK CARDS */
+.task-card{position:relative;background:linear-gradient(145deg,rgba(20,12,35,.95) 0%,rgba(10,6,20,.98) 100%);border-radius:18px;padding:16px;overflow:hidden;margin-bottom:12px;transition:transform .2s ease}
+.task-card:active{transform:scale(.99)}
+.task-card.completed{opacity:.7}
+.task-glow{position:absolute;top:-40%;right:-30%;width:180px;height:180px;border-radius:50%;filter:blur(60px);pointer-events:none;opacity:.4}
+.task-glow.telegram{background:radial-gradient(circle,#0088cc,#229ED9)}
+.task-glow.youtube{background:radial-gradient(circle,#ff0000,#cc0000)}
+.task-glow.twitter{background:radial-gradient(circle,#1da1f2,#000000)}
+.task-glow.facebook{background:radial-gradient(circle,#1877f2,#0a58ca)}
+.task-glow.instagram{background:radial-gradient(circle,#e1306c,#833ab4)}
+.task-glow.tiktok{background:radial-gradient(circle,#ff0050,#00f2ea)}
+.task-glow.discord{background:radial-gradient(circle,#5865f2,#404eed)}
+.task-glow.whatsapp{background:radial-gradient(circle,#25d366,#128c7e)}
+.task-glow.generic{background:radial-gradient(circle,#a855f7,#7c3aed)}
+.task-brand{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;position:relative;z-index:2;box-shadow:0 4px 15px rgba(0,0,0,.4)}
+.task-brand.telegram{background:linear-gradient(135deg,#229ED9,#0088cc)}
+.task-brand.youtube{background:linear-gradient(135deg,#ff0000,#cc0000)}
+.task-brand.twitter{background:linear-gradient(135deg,#000000,#1da1f2)}
+.task-brand.facebook{background:linear-gradient(135deg,#1877f2,#0a58ca)}
+.task-brand.instagram{background:linear-gradient(135deg,#feda75,#fa7e1e,#d62976,#962fbf,#4f5bd5)}
+.task-brand.tiktok{background:linear-gradient(135deg,#000000,#ff0050)}
+.task-brand.discord{background:linear-gradient(135deg,#5865f2,#404eed)}
+.task-brand.whatsapp{background:linear-gradient(135deg,#25d366,#128c7e)}
+.task-brand.generic{background:linear-gradient(135deg,#a855f7,#7c3aed)}
+.task-brand svg{width:28px;height:28px;fill:#fff}
+.task-badge{padding:4px 10px;border-radius:8px;font-size:10px;font-weight:800;white-space:nowrap;letter-spacing:.3px}
+.task-badge.reward{background:linear-gradient(135deg,rgba(251,191,36,.15),rgba(217,119,6,.15));color:#fbbf24;border:1px solid rgba(251,191,36,.4)}
+.task-badge.done{background:linear-gradient(135deg,rgba(0,255,135,.15),rgba(5,150,105,.15));color:#00ff87;border:1px solid rgba(0,255,135,.4)}
+.task-btn{width:100%;padding:12px;border-radius:12px;font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:.8px;border:none;transition:transform .12s ease;position:relative;z-index:2}
+.task-btn:active{transform:scale(.97)}
+.task-btn.telegram{background:linear-gradient(135deg,#229ED9,#0088cc);color:#fff;box-shadow:0 4px 16px rgba(34,158,217,.4)}
+.task-btn.youtube{background:linear-gradient(135deg,#ff0000,#cc0000);color:#fff;box-shadow:0 4px 16px rgba(255,0,0,.4)}
+.task-btn.twitter{background:linear-gradient(135deg,#000000,#1da1f2);color:#fff;box-shadow:0 4px 16px rgba(29,161,242,.4)}
+.task-btn.facebook{background:linear-gradient(135deg,#1877f2,#0a58ca);color:#fff;box-shadow:0 4px 16px rgba(24,119,242,.4)}
+.task-btn.instagram{background:linear-gradient(135deg,#feda75,#fa7e1e,#d62976,#962fbf,#4f5bd5);color:#fff;box-shadow:0 4px 16px rgba(214,41,118,.4)}
+.task-btn.tiktok{background:linear-gradient(135deg,#000000,#ff0050);color:#fff;box-shadow:0 4px 16px rgba(255,0,80,.4)}
+.task-btn.discord{background:linear-gradient(135deg,#5865f2,#404eed);color:#fff;box-shadow:0 4px 16px rgba(88,101,242,.4)}
+.task-btn.whatsapp{background:linear-gradient(135deg,#25d366,#128c7e);color:#fff;box-shadow:0 4px 16px rgba(37,211,102,.4)}
+.task-btn.generic{background:linear-gradient(135deg,#a855f7,#7c3aed);color:#fff;box-shadow:0 4px 16px rgba(168,85,247,.4)}
+.task-btn:disabled{background:rgba(255,255,255,.05);color:#6b7280;box-shadow:none;border:1px solid rgba(255,255,255,.08)}
 </style>
 </head>
 <body class="max-w-md mx-auto relative min-h-screen">
@@ -131,7 +170,6 @@ body{background:#030108;color:#fff;font-family:'Space Grotesk',sans-serif;min-he
 <canvas id="confetti-canvas"></canvas>
 <div id="particle-field"></div>
 
-<!-- BAN SCREEN -->
 <div id="ban-screen">
 <div style="position:relative;z-index:2;display:flex;flex-direction:column;align-items:center">
 <div style="position:relative;width:120px;height:120px;margin-bottom:20px;display:flex;align-items:center;justify-content:center">
@@ -148,7 +186,7 @@ body{background:#030108;color:#fff;font-family:'Space Grotesk',sans-serif;min-he
 <p class="mono" style="font-size:11px;color:#f87171;font-weight:800">#BANNED_403</p>
 </div>
 </div>
-<a href="https://t.me/SFN_Support24_7" target="_blank" style="margin-top:18px;background:linear-gradient(135deg,#ef4444 0%,#991b1b 100%);color:#fff;font-weight:900;padding:12px 24px;border-radius:12px;font-size:10px;text-transform:uppercase;letter-spacing:1.2px;text-decoration:none;box-shadow:0 0 25px rgba(239,68,68,.6);display:flex;align-items:center;gap:6px"><span style="font-size:13px">📩</span> Submit Appeal</a>
+<a href="https://t.me/SFN_Support24_7" target="_blank" style="margin-top:18px;background:linear-gradient(135deg,#ef4444 0%,#991b1b 100%);color:#fff;font-weight:900;padding:12px 24px;border-radius:12px;font-size:10px;text-transform:uppercase;text-decoration:none;box-shadow:0 0 25px rgba(239,68,68,.6);display:flex;align-items:center;gap:6px"><span style="font-size:13px">📩</span> Submit Appeal</a>
 </div>
 </div>
 
@@ -157,7 +195,6 @@ body{background:#030108;color:#fff;font-family:'Space Grotesk',sans-serif;min-he
 <span id="toast-message" style="font-size:11px">Claimed!</span>
 </div>
 
-<!-- SPLASH -->
 <div id="splash-screen">
 <img src="https://www.image2url.com/r2/default/images/1791043985369-a9e2b85f-86b0-4636-b90a-a46e632a1d32.png" alt="SFN" class="splash-logo">
 <h1 class="pixel-font glow-emerald" style="font-size:15px;margin-bottom:10px;letter-spacing:1.5px;text-align:center">START FARMING NOW</h1>
@@ -167,7 +204,6 @@ body{background:#030108;color:#fff;font-family:'Space Grotesk',sans-serif;min-he
 <div class="splash-percent" id="sync-percent">5%</div>
 </div>
 
-<!-- VERIFICATION GATE -->
 <div id="channel-gate" class="modal-overlay" style="align-items:center;padding:14px;display:none">
 <div class="glass glass-emerald" style="padding:22px;text-align:center;max-width:340px;width:100%">
 <div style="width:58px;height:58px;margin:0 auto 14px;background:linear-gradient(135deg,rgba(0,255,135,.15),rgba(6,182,212,.15));border:1px solid rgba(0,255,135,.5);border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:28px">🔒</div>
@@ -183,12 +219,11 @@ body{background:#030108;color:#fff;font-family:'Space Grotesk',sans-serif;min-he
 <span class="mono" style="font-size:8px;color:#00ff87;font-weight:800">JOIN ↗</span>
 </a>
 </div>
-<button id="verifyBtn" class="btn-premium" style="width:100%;padding:13px;border-radius:11px;font-size:10px;text-transform:uppercase;letter-spacing:1.2px" onclick="verifyAndUnlock()">✦ VERIFY & UNLOCK ✦</button>
+<button id="verifyBtn" class="btn-premium" style="width:100%;padding:13px;border-radius:11px;font-size:10px;text-transform:uppercase" onclick="verifyAndUnlock()">✦ VERIFY & UNLOCK ✦</button>
 <p id="verifyStatus" class="mono" style="font-size:9px;margin-top:8px;color:#a78bfa;min-height:12px"></p>
 </div>
 </div>
 
-<!-- NFT BUY MODAL -->
 <div id="nft-buy-modal" class="modal-overlay" style="align-items:center;padding:16px">
 <div class="glass glass-violet" style="padding:22px;max-width:360px;width:100%">
 <div style="text-align:center;margin-bottom:16px">
@@ -205,24 +240,22 @@ body{background:#030108;color:#fff;font-family:'Space Grotesk',sans-serif;min-he
 <p style="font-size:9px;color:#d1d5db;line-height:1.5">1. Deposit exact USDT<br>2. Submit TXID<br>3. Admin approves → NFT activates</p>
 </div>
 <div class="flex gap-2">
-<button onclick="closeNftBuyModal()" class="btn-gray" style="flex:1;padding:12px;border-radius:11px;font-size:10px;font-weight:800;text-transform:uppercase;background:rgba(255,255,255,.06);color:#9ca3af;border:1px solid rgba(255,255,255,.1)">Cancel</button>
+<button onclick="closeNftBuyModal()" style="flex:1;padding:12px;border-radius:11px;font-size:10px;font-weight:800;text-transform:uppercase;background:rgba(255,255,255,.06);color:#9ca3af;border:1px solid rgba(255,255,255,.1)">Cancel</button>
 <button onclick="proceedNftBuy()" class="btn-premium btn-gold" style="flex:2;padding:12px;border-radius:11px;font-size:10px;font-weight:900;text-transform:uppercase">💳 Proceed</button>
 </div>
 </div>
 </div>
 
-<!-- NETWORK MODAL -->
 <div id="network-modal" class="modal-overlay">
 <div class="modal-content">
 <div style="display:flex;align-items:center;justify-content:space-between;padding-bottom:12px;border-bottom:1px solid rgba(139,92,246,.2);margin-bottom:14px">
-<h3 class="mono" style="font-size:10px;font-weight:800;color:#a78bfa;letter-spacing:1.5px;text-transform:uppercase">SELECT NETWORK</h3>
+<h3 class="mono" style="font-size:10px;font-weight:800;color:#a78bfa;text-transform:uppercase">SELECT NETWORK</h3>
 <button onclick="closeNetworkModal()" style="background:rgba(255,255,255,.06);border:none;color:#9ca3af;width:28px;height:28px;border-radius:8px;font-size:14px;cursor:pointer">✕</button>
 </div>
 <div id="network-options-list" style="display:flex;flex-direction:column;gap:7px;max-height:380px;overflow-y:auto"></div>
 </div>
 </div>
 
-<!-- MAIN APP -->
 <div id="app-content" style="display:none;position:relative;z-index:5">
 
 <div class="glass" style="padding:10px 12px;display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
@@ -237,7 +270,7 @@ body{background:#030108;color:#fff;font-family:'Space Grotesk',sans-serif;min-he
 </div>
 </div>
 <div id="verify-badge-wrapper" class="badge-unverified" style="display:flex;align-items:center;gap:4px;padding:4px 9px;border-radius:14px">
-<span id="verify-badge" class="mono" style="font-size:7px;font-weight:800;letter-spacing:.8px">⚠️ UNVERIFIED</span>
+<span id="verify-badge" class="mono" style="font-size:7px;font-weight:800">⚠️ UNVERIFIED</span>
 </div>
 </div>
 
@@ -248,16 +281,15 @@ body{background:#030108;color:#fff;font-family:'Space Grotesk',sans-serif;min-he
 <h1 class="pixel-font glow-emerald" id="total-balance" style="font-size:16px">0.00</h1>
 <span class="mono" style="font-size:10px;color:#00ff87;font-weight:800">SFN</span>
 </div>
-<p class="mono" style="font-size:8px;color:#6b7280">≈ <span style="color:#22d3ee;font-weight:800" id="usd-val">$0.00 USD</span> <span style="color:#4b5563">· 10,000 SFN = $1</span></p>
+<p class="mono" style="font-size:8px;color:#6b7280">≈ <span style="color:#22d3ee;font-weight:800" id="usd-val">$0.00 USD</span></p>
 </div>
 
-<!-- MINING TAB -->
 <div id="tab-claim" class="tab-content" style="display:flex;flex-direction:column;gap:10px">
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px">
-<div class="glass" style="padding:9px;display:flex;align-items:center;gap:7px"><span style="font-size:16px">⚡</span><div><p class="mono" style="font-size:7px;color:#6b7280;text-transform:uppercase">HASH SPEED</p><p class="mono" style="font-size:10px;color:#00ff87;font-weight:800" id="daily-rate">500 SFN/D</p></div></div>
-<div class="glass" style="padding:9px;display:flex;align-items:center;gap:7px"><span style="font-size:16px">🛡️</span><div><p class="mono" style="font-size:7px;color:#6b7280;text-transform:uppercase">BOOST</p><p style="font-size:10px;color:#fff;font-weight:800" id="active-nft">Free Tier</p></div></div>
+<div class="glass" style="padding:9px;display:flex;align-items:center;gap:7px"><span style="font-size:16px">⚡</span><div><p class="mono" style="font-size:7px;color:#6b7280">HASH SPEED</p><p class="mono" style="font-size:10px;color:#00ff87;font-weight:800" id="daily-rate">500 SFN/D</p></div></div>
+<div class="glass" style="padding:9px;display:flex;align-items:center;gap:7px"><span style="font-size:16px">🛡️</span><div><p class="mono" style="font-size:7px;color:#6b7280">BOOST</p><p style="font-size:10px;color:#fff;font-weight:800" id="active-nft">Free Tier</p></div></div>
 </div>
-<div style="display:flex;flex-direction:column;align-items:center;padding:12px 0;position:relative">
+<div style="display:flex;flex-direction:column;align-items:center;padding:12px 0">
 <div style="position:relative;width:190px;height:190px;display:flex;align-items:center;justify-content:center">
 <div style="position:absolute;inset:6px;border:2px dashed rgba(0,255,135,.5);border-radius:50%" class="ring-layer-1"></div>
 <div style="position:absolute;inset:26px;border:2px dashed rgba(139,92,246,.5);border-radius:50%" class="ring-layer-2"></div>
@@ -278,9 +310,8 @@ body{background:#030108;color:#fff;font-family:'Space Grotesk',sans-serif;min-he
 <button onclick="claimMining()" class="btn-premium" style="width:100%;padding:13px;border-radius:14px;font-size:11px;text-transform:uppercase;display:flex;flex-direction:column;align-items:center;gap:2px"><span style="font-size:13px">⛏ CLAIM MINING REWARDS</span><span class="mono" style="font-size:7px;opacity:.75">Minimum: 0.1 SFN</span></button>
 </div>
 
-<!-- NFT TAB -->
 <div id="tab-nft" class="tab-content" style="display:none;flex-direction:column;gap:10px">
-<div class="glass glass-violet" style="padding:12px"><h3 class="pixel-font glow-violet" style="font-size:9px;letter-spacing:1px;margin-bottom:3px">⚡ NFT SPEED PASSES</h3><p style="font-size:9px;color:#9ca3af">Buy with USDT deposit</p></div>
+<div class="glass glass-violet" style="padding:12px"><h3 class="pixel-font glow-violet" style="font-size:9px;margin-bottom:3px">⚡ NFT SPEED PASSES</h3><p style="font-size:9px;color:#9ca3af">Buy with USDT deposit</p></div>
 <div class="nft-grid">
 <div class="nft-card border-common"><div class="nft-rarity rarity-common">COMMON</div><img src="https://i.ibb.co.com/1JRwPMBL/Picsart-26-10-04-23-27-29-716.png" class="nft-card-img" loading="lazy"><h4 class="nft-card-title">SFN FREE MINER</h4><div class="nft-divider"></div><div class="nft-detail-row"><span class="label">💰 Price</span><span class="value" style="color:#00ff87">FREE</span></div><div class="nft-detail-row"><span class="label">⚡ Speed</span><span class="value" style="color:#00ff87">500/D</span></div><button disabled class="nft-card-btn btn-premium" style="opacity:.6">✅ ACTIVE</button></div>
 <div class="nft-card border-rare"><div class="nft-rarity rarity-rare">RARE</div><img src="https://i.ibb.co.com/TBL0628c/Picsart-26-10-04-23-32-21-653.png" class="nft-card-img" loading="lazy"><h4 class="nft-card-title">SFN ELITE PASS</h4><div class="nft-divider"></div><div class="nft-detail-row"><span class="label">💰 Price</span><span class="value" style="color:#22d3ee">$3</span></div><div class="nft-detail-row"><span class="label">⚡ Speed</span><span class="value" style="color:#22d3ee">1,300/D</span></div><button onclick="buyNFT('SFN Elite Pass',3,7,1300)" class="nft-card-btn btn-premium btn-cyan">BUY $3</button></div>
@@ -293,7 +324,6 @@ body{background:#030108;color:#fff;font-family:'Space Grotesk',sans-serif;min-he
 </div>
 </div>
 
-<!-- SPIN TAB -->
 <div id="tab-spin" class="tab-content" style="display:none;flex-direction:column;gap:10px">
 <div class="glass" style="padding:3px;display:flex;gap:3px"><button id="s-btn-spin" class="sub-tab active" onclick="switchSpin('spin')">🎡 SPIN</button><button id="s-btn-tasks" class="sub-tab" onclick="switchSpin('tasks')">🎯 TASKS</button></div>
 <div id="s-sec-spin" style="display:flex;flex-direction:column;gap:10px">
@@ -307,22 +337,21 @@ body{background:#030108;color:#fff;font-family:'Space Grotesk',sans-serif;min-he
 </div>
 <div id="s-sec-tasks" style="display:none;flex-direction:column;gap:10px">
 <div class="glass glass-violet" style="padding:12px">
-<h3 class="pixel-font glow-violet" style="font-size:9px;letter-spacing:1px;margin-bottom:3px">🎯 SOCIAL TASKS</h3>
+<h3 class="pixel-font glow-violet" style="font-size:9px;margin-bottom:3px">🎯 SOCIAL TASKS</h3>
 <p style="font-size:9px;color:#9ca3af">Complete tasks to earn bonus SFN</p>
 </div>
-<div id="tasks-container" style="display:flex;flex-direction:column;gap:8px"></div>
+<div id="tasks-container" style="display:flex;flex-direction:column;gap:10px"></div>
 </div>
 </div>
 
-<!-- REFER TAB -->
 <div id="tab-refer" class="tab-content" style="display:none;flex-direction:column;gap:10px">
 <div class="glass glass-cyan" style="padding:14px"><h3 class="pixel-font glow-cyan" style="font-size:10px;margin-bottom:6px">👥 INVITE & EARN</h3><p style="font-size:10px;color:#d1d5db;line-height:1.5">Earn <span style="color:#00ff87;font-weight:800">500 SFN</span> + <span style="color:#00ff87;font-weight:800">1 Free Spin</span> per referral!</p></div>
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-<div class="glass" style="padding:11px;text-align:center"><p class="mono" style="font-size:7px;color:#6b7280;text-transform:uppercase;margin-bottom:4px">TOTAL REFERS</p><p class="pixel-font glow-emerald" id="ref-count" style="font-size:13px">0</p></div>
-<div class="glass" style="padding:11px;text-align:center"><p class="mono" style="font-size:7px;color:#6b7280;text-transform:uppercase;margin-bottom:4px">EARNINGS</p><p class="pixel-font glow-cyan" id="ref-earnings" style="font-size:12px">0</p></div>
+<div class="glass" style="padding:11px;text-align:center"><p class="mono" style="font-size:7px;color:#6b7280">TOTAL REFERS</p><p class="pixel-font glow-emerald" id="ref-count" style="font-size:13px">0</p></div>
+<div class="glass" style="padding:11px;text-align:center"><p class="mono" style="font-size:7px;color:#6b7280">EARNINGS</p><p class="pixel-font glow-cyan" id="ref-earnings" style="font-size:12px">0</p></div>
 </div>
 <div class="glass glass-violet" style="padding:13px">
-<h4 class="mono" style="font-size:9px;color:#a78bfa;font-weight:800;letter-spacing:1.5px;margin-bottom:10px">🔓 WITHDRAW UNLOCK TIERS</h4>
+<h4 class="mono" style="font-size:9px;color:#a78bfa;font-weight:800;margin-bottom:10px">🔓 WITHDRAW UNLOCK TIERS</h4>
 <div style="display:flex;flex-direction:column;gap:6px">
 <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 10px;background:rgba(0,0,0,.4);border-radius:9px;border:1px solid rgba(251,191,36,.3)"><div style="display:flex;align-items:center;gap:7px"><span style="font-size:13px">⏱️</span><span style="font-size:9px;color:#d1d5db;font-weight:700">5 Referrals</span></div><span class="mono" style="font-size:8px;color:#fbbf24;font-weight:800">7 DAYS</span></div>
 <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 10px;background:rgba(0,0,0,.4);border-radius:9px;border:1px solid rgba(6,182,212,.3)"><div style="display:flex;align-items:center;gap:7px"><span style="font-size:13px">⏱️</span><span style="font-size:9px;color:#d1d5db;font-weight:700">10 Referrals</span></div><span class="mono" style="font-size:8px;color:#22d3ee;font-weight:800">3 DAYS</span></div>
@@ -333,7 +362,6 @@ body{background:#030108;color:#fff;font-family:'Space Grotesk',sans-serif;min-he
 <div class="glass" style="padding:11px"><label class="mono" style="font-size:8px;color:#a78bfa;font-weight:700;text-transform:uppercase;display:block;margin-bottom:6px">🔗 REFERRAL LINK</label><div style="display:flex;gap:5px"><input type="text" id="referral-link-input" readonly class="input-premium" style="font-size:9px;padding:9px"><button onclick="copyReferralLink()" class="btn-premium" style="padding:0 12px;border-radius:11px;font-size:9px;text-transform:uppercase;white-space:nowrap">COPY</button></div></div>
 </div>
 
-<!-- WALLET TAB -->
 <div id="tab-wallet" class="tab-content" style="display:none;flex-direction:column;gap:10px">
 <div class="glass" style="padding:3px;display:flex;gap:3px"><button id="w-btn-deposit" class="sub-tab active" onclick="switchWallet('deposit')">💳 DEPOSIT</button><button id="w-btn-withdraw" class="sub-tab" onclick="switchWallet('withdraw')">💸 WITHDRAW</button><button id="w-btn-history" class="sub-tab" onclick="switchWallet('history')">📜 HISTORY</button></div>
 
@@ -398,10 +426,9 @@ body{background:#030108;color:#fff;font-family:'Space Grotesk',sans-serif;min-he
 <div class="glass" style="padding:10px;background:rgba(139,92,246,.05)"><p class="mono" style="font-size:8px;color:#a78bfa;font-weight:800;margin-bottom:4px">🔒 PAYOUT RULES</p><p style="font-size:9px;color:#d1d5db;line-height:1.4">Min: $0.30. Unlock: 5 ref = 7d · 10 ref = 3d · 20 ref = instant.</p></div>
 <button onclick="submitWithdraw()" class="btn-premium btn-violet" style="width:100%;padding:12px;border-radius:12px;font-size:10px;text-transform:uppercase">✦ REQUEST WITHDRAWAL ✦</button>
 </div>
-<div id="w-sec-history" style="display:none"><div class="glass" style="padding:12px"><h4 class="mono" style="font-size:9px;color:#a78bfa;font-weight:800;letter-spacing:1.5px;margin-bottom:10px">📜 TRANSACTION HISTORY</h4><div id="transaction-history-list" style="display:flex;flex-direction:column;gap:5px;max-height:340px;overflow-y:auto"></div></div></div>
+<div id="w-sec-history" style="display:none"><div class="glass" style="padding:12px"><h4 class="mono" style="font-size:9px;color:#a78bfa;font-weight:800;margin-bottom:10px">📜 TRANSACTION HISTORY</h4><div id="transaction-history-list" style="display:flex;flex-direction:column;gap:5px;max-height:340px;overflow-y:auto"></div></div></div>
 </div>
 
-<!-- SUPPORT TAB -->
 <div id="tab-support" class="tab-content" style="display:none">
 <div class="glass glass-emerald" style="padding:14px">
 <h3 class="pixel-font glow-emerald" style="font-size:10px;margin-bottom:5px">💬 24/7 HELP DESK</h3>
@@ -411,7 +438,6 @@ body{background:#030108;color:#fff;font-family:'Space Grotesk',sans-serif;min-he
 </div>
 </div>
 
-<!-- BOTTOM NAV -->
 <div id="bottom-nav" style="position:fixed;bottom:0;left:0;right:0;max-width:448px;margin:0 auto;background:rgba(10,5,20,.96);border-top:1px solid rgba(139,92,246,.3);backdrop-filter:blur(12px);padding:6px 0 max(6px,env(safe-area-inset-bottom));display:flex;justify-content:space-between;align-items:center;z-index:100">
 <button onclick="navSwitch('claim')" id="nav-claim" class="nav-btn nav-active"><span class="nav-icon">⛏️</span> Mining</button>
 <button onclick="navSwitch('nft')" id="nav-nft" class="nav-btn"><span class="nav-icon">⚡</span> NFT</button>
@@ -465,6 +491,38 @@ SOL:{name:'Solana (SOL)',address:'5oyoF1SQq6fYgZUTaaHit457hpW2CJwcjH1e76Nhs1Jp'}
 TON:{name:'TON Network',address:'UQDO-DM0d14Uh-q1D_ze3SqRDj2AbBlI1YL2UQMlp2N16Tf5'}};
 const networksList=["BNB Smart Chain (BEP20)","Solana (SOL)","Polygon (POL)","TON Network","TRON (TRC20)","Ethereum (ERC20)"];
 
+// ⭐ Brand SVGs
+const BRAND_SVGS = {
+    telegram: '<svg viewBox="0 0 24 24"><path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z"/></svg>',
+    youtube: '<svg viewBox="0 0 24 24"><path d="M23.5 6.19a3.02 3.02 0 0 0-2.12-2.14C19.5 3.55 12 3.55 12 3.55s-7.5 0-9.38.5A3.02 3.02 0 0 0 .5 6.19C0 8.07 0 12 0 12s0 3.93.5 5.81a3.02 3.02 0 0 0 2.12 2.14c1.88.5 9.38.5 9.38.5s7.5 0 9.38-.5a3.02 3.02 0 0 0 2.12-2.14C24 15.93 24 12 24 12s0-3.93-.5-5.81zM9.55 15.57V8.43L15.82 12l-6.27 3.57z"/></svg>',
+    twitter: '<svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>',
+    facebook: '<svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>',
+    instagram: '<svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>',
+    tiktok: '<svg viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>',
+    discord: '<svg viewBox="0 0 24 24"><path d="M20.317 4.37a19.79 19.79 0 00-4.885-1.515.074.074 0 00-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 00-5.487 0 12.64 12.64 0 00-.617-1.25.077.077 0 00-.079-.037A19.736 19.736 0 003.677 4.37a.07.07 0 00-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 00.031.057 19.9 19.9 0 005.993 3.03.078.078 0 00.084-.028 14.09 14.09 0 001.226-1.994.076.076 0 00-.041-.106 13.107 13.107 0 01-1.872-.892.077.077 0 01-.008-.128 10.2 10.2 0 00.372-.292.074.074 0 01.077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 01.078.01c.12.098.246.198.373.292a.077.077 0 01-.006.127 12.299 12.299 0 01-1.873.892.077.077 0 00-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 00.084.028 19.839 19.839 0 006.002-3.03.077.077 0 00.032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 00-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>',
+    whatsapp: '<svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>',
+    generic: '<svg viewBox="0 0 24 24"><path d="M12 2L4 7v10l8 5 8-5V7l-8-5zm0 2.18L18 8v8l-6 3.82L6 16V8l6-3.82zM12 8a4 4 0 100 8 4 4 0 000-8zm0 6a2 2 0 110-4 2 2 0 010 4z"/></svg>'
+};
+
+function detectPlatform(link){
+    if(!link) return 'generic';
+    const l = link.toLowerCase();
+    if(l.includes('t.me')||l.includes('telegram')||l.includes('telegram.me')) return 'telegram';
+    if(l.includes('youtube')||l.includes('youtu.be')) return 'youtube';
+    if(l.includes('twitter')||l.includes('x.com')) return 'twitter';
+    if(l.includes('facebook')||l.includes('fb.com')) return 'facebook';
+    if(l.includes('instagram')||l.includes('ig.me')) return 'instagram';
+    if(l.includes('tiktok')) return 'tiktok';
+    if(l.includes('discord')) return 'discord';
+    if(l.includes('whatsapp')||l.includes('wa.me')) return 'whatsapp';
+    return 'generic';
+}
+
+function getBrandName(platform){
+    const names = {telegram:'TELEGRAM',youtube:'YOUTUBE',twitter:'TWITTER',facebook:'FACEBOOK',instagram:'INSTAGRAM',tiktok:'TIKTOK',discord:'DISCORD',whatsapp:'WHATSAPP',generic:'TASK'};
+    return names[platform]||'TASK';
+}
+
 function updateSplash(status,sub,percent){
   const s=document.getElementById('sync-status'),ss=document.getElementById('sync-sub'),p=document.getElementById('sync-progress'),pc=document.getElementById('sync-percent');
   if(s)s.innerText=status;
@@ -475,11 +533,7 @@ function updateSplash(status,sub,percent){
 
 function saveCache(){try{localStorage.setItem('sfn_cache',JSON.stringify({balance,referCount,referEarnings,extraSpins,serverUnclaimed,lastSyncTime:Date.now()}))}catch(e){}}
 
-document.addEventListener('visibilitychange',()=>{
-isAppVisible=!document.hidden;
-const st=isAppVisible?'running':'paused';
-document.querySelectorAll('.fire-spark,.scan-line,.ring-layer-1,.ring-layer-2,.miner-float,.bg-particle').forEach(el=>{el.style.animationPlayState=st});
-});
+document.addEventListener('visibilitychange',()=>{isAppVisible=!document.hidden;const st=isAppVisible?'running':'paused';document.querySelectorAll('.fire-spark,.scan-line,.ring-layer-1,.ring-layer-2,.miner-float,.bg-particle').forEach(el=>{el.style.animationPlayState=st});});
 
 function initParticles(){const f=document.getElementById('particle-field');if(!f)return;const colors=['#00ff87','#22d3ee','#a78bfa'];for(let i=0;i<6;i++){const p=document.createElement('div');p.className='bg-particle';p.style.left=Math.random()*100+'%';p.style.bottom='-10px';p.style.animationDuration=(14+Math.random()*10)+'s';p.style.animationDelay=(Math.random()*10)+'s';const c=colors[Math.floor(Math.random()*3)];p.style.background=c;p.style.boxShadow=`0 0 8px ${c}`;f.appendChild(p)}}
 
@@ -568,55 +622,60 @@ if(extraSpins>0){spinBtn.innerText=`🎡 SPIN (${extraSpins})`;spinBtn.disabled=
 
 function switchSpin(type){document.getElementById('s-sec-spin').style.display='none';document.getElementById('s-sec-tasks').style.display='none';document.getElementById('s-btn-spin').classList.remove('active');document.getElementById('s-btn-tasks').classList.remove('active');if(type==='spin'){document.getElementById('s-sec-spin').style.display='flex';document.getElementById('s-btn-spin').classList.add('active')}else{document.getElementById('s-sec-tasks').style.display='flex';document.getElementById('s-btn-tasks').classList.add('active');loadSocialTasks()}}
 
-// ⭐ SOCIAL TASKS with Telegram verification
+// ⭐ PREMIUM TASK CARDS
 async function loadSocialTasks(){
     const container=document.getElementById('tasks-container');
     if(!container)return;
-    container.innerHTML='<div class="skeleton" style="height:100px"></div><div class="skeleton" style="height:100px"></div>';
+    container.innerHTML='<div class="skeleton" style="height:140px;margin-bottom:10px"></div><div class="skeleton" style="height:140px"></div>';
     if(!userTGID){container.innerHTML='<p class="mono" style="text-align:center;font-size:10px;color:#6b7280;padding:20px">Please open from Telegram</p>';return}
     const r=await apiCall('/get_social_tasks',{tg_id:userTGID});
     if(!r.success||!r.tasks||r.tasks.length===0){
-        container.innerHTML=`<div class="glass" style="padding:24px;text-align:center">
-            <div style="font-size:40px;margin-bottom:10px">📭</div>
-            <p style="font-size:11px;color:#9ca3af;margin-bottom:4px">No tasks available</p>
-            <p style="font-size:9px;color:#6b7280">New tasks will appear soon</p>
+        container.innerHTML=`<div class="glass" style="padding:28px 20px;text-align:center">
+            <div style="font-size:44px;margin-bottom:12px;opacity:.6">📭</div>
+            <p style="font-size:12px;color:#9ca3af;margin-bottom:4px;font-weight:700">No tasks available</p>
+            <p style="font-size:10px;color:#6b7280">New tasks will appear soon</p>
         </div>`;
         return;
     }
     container.innerHTML=r.tasks.map(t=>{
-        const completed=t.completed;
-        const isTg=t.is_telegram;
-        const icon=isTg?'📢':(t.link&&t.link.includes('youtube')?'▶️':(t.link&&t.link.includes('twitter')?'🐦':(t.link&&t.link.includes('facebook')?'📘':'🎯')));
-        return `<div class="task-card" style="${completed?'opacity:.55':''}">
-            <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px">
-                <div style="flex:1;min-width:0;display:flex;gap:10px">
-                    <div style="font-size:24px;flex-shrink:0">${icon}</div>
-                    <div style="flex:1;min-width:0">
-                        <p style="font-size:12px;font-weight:800;color:#fff;margin-bottom:3px">${t.title}</p>
-                        <p style="font-size:10px;color:#9ca3af;line-height:1.4">${t.description||''}</p>
-                        ${isTg?'<p class="mono" style="font-size:8px;color:#00ff87;margin-top:4px">✓ Auto-verify on join</p>':'<p class="mono" style="font-size:8px;color:#fbbf24;margin-top:4px">⚡ Instant reward</p>'}
-                    </div>
+        const platform = t.is_telegram ? 'telegram' : detectPlatform(t.link);
+        const completed = t.completed;
+        const brandName = getBrandName(platform);
+        const autoText = t.is_telegram ? '⚡ Auto-verify on join' : '✓ Instant reward on click';
+        const btnLabel = (t.button_text||'GO') + ' →';
+        return `<div class="task-card${completed?' completed':''}">
+            <div class="task-glow ${platform}"></div>
+            <div style="position:relative;z-index:2;display:flex;align-items:flex-start;gap:12px;margin-bottom:12px">
+                <div class="task-brand ${platform}">
+                    ${BRAND_SVGS[platform]||BRAND_SVGS.generic}
                 </div>
-                <span style="padding:4px 8px;border-radius:8px;font-size:9px;font-weight:800;white-space:nowrap;margin-left:6px;${completed?'background:rgba(0,255,135,.15);color:#00ff87;border:1px solid rgba(0,255,135,.4)':'background:rgba(251,191,36,.15);color:#fbbf24;border:1px solid rgba(251,191,36,.4)'}">${completed?'✅ DONE':'+'+t.reward}</span>
+                <div style="flex:1;min-width:0">
+                    <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px">
+                        <span style="font-size:8px;font-weight:900;color:#a78bfa;letter-spacing:1.5px;background:rgba(139,92,246,.12);border:1px solid rgba(139,92,246,.3);padding:2px 7px;border-radius:6px">${brandName}</span>
+                    </div>
+                    <p style="font-size:13px;font-weight:800;color:#fff;line-height:1.3;margin-bottom:4px">${t.title}</p>
+                    <p style="font-size:10px;color:#9ca3af;line-height:1.4">${t.description||''}</p>
+                </div>
+                <div class="task-badge ${completed?'done':'reward'}">${completed?'✅ DONE':'+'+t.reward+' SFN'}</div>
+            </div>
+            <div style="position:relative;z-index:2;background:rgba(0,0,0,.3);padding:7px 10px;border-radius:8px;margin-bottom:10px">
+                <p class="mono" style="font-size:9px;color:${t.is_telegram?'#00ff87':'#fbbf24'};font-weight:700">${autoText}</p>
             </div>
             ${completed
-                ? `<button disabled style="width:100%;padding:11px;border-radius:11px;background:rgba(0,255,135,.12);border:1px solid rgba(0,255,135,.3);color:#00ff87;font-size:11px;font-weight:800;text-transform:uppercase">✅ Completed</button>`
-                : `<button onclick="doTask(${t.id},'${(t.link||'').replace(/'/g,"\\'")}',${isTg})" style="width:100%;padding:11px;border-radius:11px;background:linear-gradient(135deg,#a855f7,#7c3aed);color:#fff;font-size:11px;font-weight:800;text-transform:uppercase;border:none">${t.button_text||'GO'} →</button>`
+                ? `<button class="task-btn" disabled style="width:100%">✅ COMPLETED</button>`
+                : `<button onclick="doTask(${t.id},'${(t.link||'').replace(/'/g,"\\'")}',${t.is_telegram})" class="task-btn ${platform}">${btnLabel}</button>`
             }
         </div>`;
     }).join('');
 }
 
 async function doTask(taskId,link,isTelegram){
-    // Open the link
     if(link){
         try{if(tg&&tg.openLink)tg.openLink(link);else window.open(link,'_blank')}catch(e){window.open(link,'_blank')}
     }
-    // Different behavior for Telegram vs others
     if(isTelegram){
-        // Wait for user to join, then verify
+        showPremiumToast('⏳ Verifying membership...','🔍','cyan');
         setTimeout(async()=>{
-            showPremiumToast('🔍 Verifying membership...','⏳','cyan');
             const r=await apiCall('/complete_task',{tg_id:userTGID,task_id:taskId});
             if(r.success){
                 balance=r.new_balance;
@@ -635,7 +694,6 @@ async function doTask(taskId,link,isTelegram){
             }
         },6000);
     }else{
-        // Non-Telegram → instant reward after 3 seconds
         setTimeout(async()=>{
             const r=await apiCall('/complete_task',{tg_id:userTGID,task_id:taskId});
             if(r.success){
@@ -676,22 +734,25 @@ if(type==='deposit'){document.getElementById('w-sec-deposit').style.display='fle
 
 function copyReferralLink(){const linkInput=document.getElementById('referral-link-input');linkInput.select();navigator.clipboard.writeText(linkInput.value);showPremiumToast('Link copied!','📋','cyan')}
 
-// ⭐ DEPOSIT with animation
+// ⚡ INSTANT deposit animation
 async function submitDeposit(){
     const amount=parseFloat(document.getElementById('dep-amount').value);
     const txid=document.getElementById('dep-txid').value.trim();
     const net=networkData[currentDepNetwork];
     if(!amount||amount<0.5){showPremiumToast('Minimum: $0.50','⚠️','red');return}
     if(!txid){showPremiumToast('Enter TXID','⚠️','red');return}
-    const data=await apiCall('/submit_deposit',{tg_id:userTGID,amount,network:net.name,txid});
-    if(data.success){
-        document.getElementById('dep-amount').value='';
-        document.getElementById('dep-txid').value='';
-        document.getElementById('dep-step-2').style.display='none';
-        document.getElementById('dep-step-1').style.display='flex';
-        fireConfetti('gold');
-        showDepositAnimation(amount,txid);
-    }else{showPremiumToast(data.error||'Failed','❌','red')}
+    document.getElementById('dep-amount').value='';
+    document.getElementById('dep-txid').value='';
+    document.getElementById('dep-step-2').style.display='none';
+    document.getElementById('dep-step-1').style.display='flex';
+    fireConfetti('gold');
+    showDepositAnimation(amount,txid);
+    apiCall('/submit_deposit',{tg_id:userTGID,amount,network:net.name,txid}).then(data=>{
+        if(!data.success){
+            const o=document.getElementById('dep-anim-overlay');if(o)o.remove();
+            showPremiumToast(data.error||'Deposit failed','❌','red');
+        }
+    });
 }
 
 function showDepositAnimation(amount,txid){
@@ -715,7 +776,7 @@ function showDepositAnimation(amount,txid){
             <div style="width:100%;height:4px;background:rgba(0,0,0,.6);border-radius:2px;overflow:hidden;border:1px solid rgba(0,255,135,.3)">
                 <div id="dep-anim-bar" style="height:100%;background:linear-gradient(90deg,#00ff87,#22d3ee,#8b5cf6);border-radius:2px;width:5%;transition:width 30s linear"></div>
             </div>
-            <p style="font-size:10px;color:#00ff87;font-family:monospace;animation:pulseBar 1.5s infinite">Processing — please wait...</p>
+            <p style="font-size:10px;color:#00ff87;font-family:monospace;animation:pulseText 1.5s infinite">Processing — please wait...</p>
         </div>`;
     document.body.appendChild(overlay);
     setTimeout(()=>{const b=document.getElementById('dep-anim-bar');if(b)b.style.width='100%'},100);
@@ -730,28 +791,25 @@ function showDepositAnimation(amount,txid){
             </div>`;
     },30000);
 }
+function closeDepositAnimation(){const o=document.getElementById('dep-anim-overlay');if(o)o.remove();switchWallet('history');loadTransactions();}
 
-function closeDepositAnimation(){
-    const o=document.getElementById('dep-anim-overlay');
-    if(o)o.remove();
-    switchWallet('history');
-    loadTransactions();
-}
-
-// ⭐ WITHDRAW with animation
+// ⚡ INSTANT withdraw animation
 async function submitWithdraw(){
     const address=document.getElementById('wd-address').value.trim();
     const amount=parseFloat(document.getElementById('wd-amount').value);
     if(!amount||amount<0.30){showPremiumToast('Minimum: $0.30','⚠️','red');return}
     if(!address){showPremiumToast('Enter address','⚠️','red');return}
-    const data=await apiCall('/submit_withdraw',{tg_id:userTGID,amount,network:currentWdNetwork,address});
-    if(data.success){
-        document.getElementById('wd-amount').value='';
-        document.getElementById('wd-address').value='';
-        fireConfetti('orange');
-        showWithdrawAnimation(amount,currentWdNetwork);
-        loadUserData();
-    }else{showPremiumToast(data.error||'Failed','❌','red')}
+    document.getElementById('wd-amount').value='';
+    document.getElementById('wd-address').value='';
+    fireConfetti('orange');
+    showWithdrawAnimation(amount,currentWdNetwork);
+    loadUserData();
+    apiCall('/submit_withdraw',{tg_id:userTGID,amount,network:currentWdNetwork,address}).then(data=>{
+        if(!data.success){
+            const o=document.getElementById('wd-anim-overlay');if(o)o.remove();
+            showPremiumToast(data.error||'Withdraw failed','❌','red');
+        }
+    });
 }
 
 function showWithdrawAnimation(amount,network){
@@ -771,7 +829,7 @@ function showWithdrawAnimation(amount,network){
                 <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="font-size:10px;color:#9ca3af">Amount:</span><span style="font-size:11px;color:#fb923c;font-weight:800;font-family:monospace">$${amount.toFixed(2)}</span></div>
                 <div style="display:flex;justify-content:space-between"><span style="font-size:10px;color:#9ca3af">Network:</span><span style="font-size:10px;color:#d1d5db">${network}</span></div>
             </div>
-            <p style="font-size:10px;color:#60a5fa;font-family:monospace;animation:pulseBar 1.5s infinite">Please wait...</p>
+            <p style="font-size:10px;color:#60a5fa;font-family:monospace;animation:pulseText 1.5s infinite">Please wait...</p>
         </div>`;
     document.body.appendChild(overlay);
     setTimeout(()=>{
@@ -785,13 +843,7 @@ function showWithdrawAnimation(amount,network){
             </div>`;
     },10000);
 }
-
-function closeWithdrawAnimation(){
-    const o=document.getElementById('wd-anim-overlay');
-    if(o)o.remove();
-    switchWallet('history');
-    loadTransactions();
-}
+function closeWithdrawAnimation(){const o=document.getElementById('wd-anim-overlay');if(o)o.remove();switchWallet('history');loadTransactions();}
 
 function renderHistoryUI(){const listEl=document.getElementById('transaction-history-list');if(!listEl)return;if(txHistory.length===0){listEl.innerHTML=`<p class="mono" style="text-align:center;font-size:9px;color:#6b7280;padding:18px">No transactions yet</p>`;return}
 let html='';txHistory.forEach(tx=>{const isDep=tx.type==='DEPOSIT';let sc='#fbbf24',sb='rgba(251,191,36,.15)';if(tx.status==='Success'){sc='#00ff87';sb='rgba(0,255,135,.15)'}if(tx.status==='Failed'||tx.status==='Rejected'){sc='#ef4444';sb='rgba(239,68,68,.15)'}if(tx.status==='Processing'){sc='#22d3ee';sb='rgba(34,211,238,.15)'}
@@ -801,36 +853,26 @@ function buyNFT(name,price,days,speed){const modal=document.getElementById('nft-
 function closeNftBuyModal(){const modal=document.getElementById('nft-buy-modal');if(modal)modal.classList.remove('show')}
 function proceedNftBuy(){const name=document.getElementById('nft-buy-name').innerText;const price=parseFloat(document.getElementById('nft-buy-amount').value);if(!price||price<0.5){showPremiumToast('Invalid amount','⚠️','red');return}closeNftBuyModal();navSwitch('wallet');switchWallet('deposit');setTimeout(()=>{const a=document.getElementById('dep-amount'),t=document.getElementById('dep-txid');if(a)a.value=price;if(t){t.placeholder='Paste TXID for '+name;t.focus()}showPremiumToast('Deposit $'+price+' then submit TXID','💳','gold')},400)}
 
-// STARTUP
 window.addEventListener('DOMContentLoaded',async()=>{
-    initParticles();
-    drawWheel();
+    initParticles();drawWheel();
     updateSplash('⚡ Connecting to server...','Initializing mining engine',10);
-    try {
+    try{
         await syncUser();
         updateSplash('🔐 Verifying your account...','Checking security protocols',30);
-        const data = await apiCall('/get_user_data',{tg_id:userTGID});
-        if(data.banned){showBanScreen();return;}
+        const data=await apiCall('/get_user_data',{tg_id:userTGID});
+        if(data.banned){showBanScreen();return}
         updateSplash('💰 Loading your balance...','Fetching wallet data',55);
-        if(!data.success && data.error === "User not found"){
-            await syncUser();
-            await loadUserData();
-        } else if(data.success){
-            await loadUserData();
-        } else {
-            const g=document.getElementById('channel-gate'),a=document.getElementById('app-content');
-            if(g){g.classList.add('show');g.style.display='flex'}
-            if(a)a.style.display='none';
-        }
+        if(!data.success && data.error==="User not found"){await syncUser();await loadUserData();}
+        else if(data.success){await loadUserData();}
+        else{const g=document.getElementById('channel-gate'),a=document.getElementById('app-content');if(g){g.classList.add('show');g.style.display='flex'}if(a)a.style.display='none';}
         updateSplash('📊 Loading transactions...','Fetching your history',75);
         await loadTransactions();
         updateSplash('⛏️ Starting mining engine...','Almost ready!',90);
-        checkCooldowns();
-        saveCache();
+        checkCooldowns();saveCache();
         updateSplash('✅ Ready!','Welcome to SFN Mining',100);
         await new Promise(r=>setTimeout(r,300));
-    } catch(e){
-        console.error('Startup error:', e);
+    }catch(e){
+        console.error('Startup error:',e);
         updateSplash('⚠️ Retrying...','Please wait',50);
         await new Promise(r=>setTimeout(r,800));
         const g=document.getElementById('channel-gate'),a=document.getElementById('app-content');
